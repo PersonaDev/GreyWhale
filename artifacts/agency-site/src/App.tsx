@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Home from "@/pages/Home";
 import Portfolio from "@/pages/Portfolio";
 import About from "@/pages/About";
-import Pricing from "@/pages/Pricing";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -14,7 +13,6 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/about" component={About} />
-      <Route path="/pricing" component={Pricing} />
       <Route component={NotFound} />
     </Switch>
   );
