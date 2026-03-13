@@ -169,10 +169,14 @@ export default function Portfolio() {
           {(() => {
             const cardW = 320;
             const step = 44;
-            const totalW = cardW + (filtered.length - 1) * step;
+            const n = filtered.length;
+            const totalW = cardW + (n - 1) * step;
             return (
-              <div className="hidden md:flex items-center justify-center" style={{ height: 300 }}>
-                <div className="relative" style={{ width: totalW }}>
+              <div className="hidden md:block" style={{ height: 260 }}>
+                <div
+                  className="relative"
+                  style={{ width: totalW, height: 240, margin: "0 auto" }}
+                >
                   {filtered.map((project, i) => {
                     const offset = i - activeIndex;
                     const isActive = i === activeIndex;
@@ -183,11 +187,15 @@ export default function Portfolio() {
                         onClick={() => setActiveIndex(i)}
                         onMouseEnter={() => setHoveredIndex(i)}
                         onMouseLeave={() => setHoveredIndex(null)}
-                        className="absolute top-0 cursor-pointer transition-all duration-250"
+                        className="absolute top-0 cursor-pointer transition-all duration-200"
                         style={{
                           left: `${i * step}px`,
-                          zIndex: isHovered ? filtered.length + 20 : isActive ? filtered.length + 10 : filtered.length - Math.abs(offset),
-                          transform: `translateX(${isActive ? 10 : 0}px) scale(${isActive ? 1.02 : 0.97})`,
+                          zIndex: isHovered
+                            ? n + 20
+                            : isActive
+                            ? n + 10
+                            : n - Math.abs(offset),
+                          transform: `translateX(${isActive ? 8 : 0}px) scale(${isActive ? 1.02 : 0.97})`,
                           width: cardW,
                         }}
                       >
