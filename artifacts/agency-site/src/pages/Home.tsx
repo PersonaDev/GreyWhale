@@ -66,18 +66,24 @@ function SlideUpModal({ onClose, children }: { onClose: () => void; children: Re
 }
 
 /* ─── Plan picker modal ─── */
-function PlanModal({ value, onChange, onClose }: {
+function PlanModal({ value, onChange, onClose, excludeEssential }: {
   value: string;
   onChange: (v: string) => void;
   onClose: () => void;
+  excludeEssential?: boolean;
 }) {
   return (
     <SlideUpModal onClose={onClose}>
       <div className="p-6 pb-10">
         <div className="w-10 h-1 rounded bg-gray-200 mx-auto mb-6 md:hidden" />
         <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-5">Choose your plan</p>
+        {excludeEssential && (
+          <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2 mb-4">
+            E-commerce and booking sites require Growth or Premium.
+          </p>
+        )}
         <div className="space-y-3">
-          {plans.map((plan) => {
+          {plans.filter((p) => !(excludeEssential && p.dark)).map((plan) => {
             if (plan.bordered) {
               return (
                 <div key={plan.name} className="animated-border-wrapper">
@@ -308,11 +314,12 @@ function DesktopDropdown({ options, value, onChange, onClose }: {
 }
 
 /* ─── Inline dropdown trigger ─── */
-function InlineDropdown({ options, value, onChange, isPlan }: {
+function InlineDropdown({ options, value, onChange, isPlan, excludeEssential }: {
   options: Option[];
   value: string;
   onChange: (v: string) => void;
   isPlan?: boolean;
+  excludeEssential?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
@@ -369,7 +376,7 @@ function InlineDropdown({ options, value, onChange, isPlan }: {
 
       {/* Plan modal — slides up on all screen sizes */}
       {open && isPlan && (
-        <PlanModal value={value} onChange={onChange} onClose={close} />
+        <PlanModal value={value} onChange={onChange} onClose={close} excludeEssential={excludeEssential} />
       )}
     </>
   );
@@ -377,30 +384,44 @@ function InlineDropdown({ options, value, onChange, isPlan }: {
 
 /* ─── Options ─── */
 const roleOptions: Option[] = [
+  { label: "business owner", value: "business owner" },
+  { label: "restaurant owner", value: "restaurant owner" },
+  { label: "salon owner", value: "salon owner" },
   { label: "retailer", value: "retailer" },
   { label: "dentist", value: "dentist" },
-  { label: "tattoo shop", value: "tattoo shop" },
-  { label: "restaurant", value: "restaurant" },
-  { label: "salon", value: "salon" },
-  { label: "gym", value: "gym" },
   { label: "realtor", value: "realtor" },
+  { label: "tattoo artist", value: "tattoo artist" },
+  { label: "contractor", value: "contractor" },
+  { label: "fitness studio", value: "fitness studio" },
+  { label: "med spa", value: "med spa" },
+  { label: "law firm", value: "law firm" },
+  { label: "food truck", value: "food truck" },
 ];
 
 const siteOptions: Option[] = [
   { label: "website", value: "website" },
+  { label: "brand identity", value: "branding" },
   { label: "e-commerce store", value: "ecommerce" },
   { label: "booking site", value: "booking" },
-  { label: "portfolio", value: "portfolio" },
+  { label: "social media presence", value: "social" },
   { label: "landing page", value: "landing" },
+  { label: "logo & print materials", value: "print" },
+  { label: "email campaign", value: "email" },
+  { label: "content strategy", value: "content" },
 ];
 
 const locationOptions: Option[] = [
   { label: "Sacramento", value: "sacramento" },
-  { label: "San Francisco", value: "san-francisco" },
-  { label: "Los Angeles", value: "los-angeles" },
-  { label: "New York", value: "new-york" },
-  { label: "London", value: "london" },
-  { label: "anywhere", value: "anywhere" },
+  { label: "Elk Grove", value: "elk-grove" },
+  { label: "Folsom", value: "folsom" },
+  { label: "Roseville", value: "roseville" },
+  { label: "Rancho Cordova", value: "rancho-cordova" },
+  { label: "Davis", value: "davis" },
+  { label: "Citrus Heights", value: "citrus-heights" },
+  { label: "Rocklin", value: "rocklin" },
+  { label: "West Sacramento", value: "west-sacramento" },
+  { label: "Lincoln", value: "lincoln" },
+  { label: "Woodland", value: "woodland" },
 ];
 
 const planOptions: Option[] = [
@@ -409,11 +430,22 @@ const planOptions: Option[] = [
   { label: "Premium", value: "premium" },
 ];
 
+const COMPLEX_SITES = ["ecommerce", "booking"];
+
 export default function Home() {
-  const [role, setRole] = useState("retailer");
+  const [role, setRole] = useState("business owner");
   const [site, setSite] = useState("website");
   const [location, setLocation] = useState("sacramento");
   const [plan, setPlan] = useState("essential");
+
+  function handleSiteChange(v: string) {
+    setSite(v);
+    if (COMPLEX_SITES.includes(v) && plan === "essential") {
+      setPlan("growth");
+    }
+  }
+
+  const excludeEssential = COMPLEX_SITES.includes(site);
 
   return (
     <Layout>
@@ -426,12 +458,12 @@ export default function Home() {
           <InlineDropdown options={roleOptions} value={role} onChange={setRole} />
           {" looking for a new"}
           <br />
-          <InlineDropdown options={siteOptions} value={site} onChange={setSite} />
+          <InlineDropdown options={siteOptions} value={site} onChange={handleSiteChange} />
           {" located in "}
           <InlineDropdown options={locationOptions} value={location} onChange={setLocation} />
           <br />
           {"interested in a "}
-          <InlineDropdown options={planOptions} value={plan} onChange={setPlan} isPlan />
+          <InlineDropdown options={planOptions} value={plan} onChange={setPlan} isPlan excludeEssential={excludeEssential} />
           {" plan."}
         </p>
 
