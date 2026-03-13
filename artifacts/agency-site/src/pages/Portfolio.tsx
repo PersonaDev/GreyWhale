@@ -172,10 +172,10 @@ export default function Portfolio() {
             const n = filtered.length;
             const totalW = cardW + (n - 1) * step;
             return (
-              <div className="hidden md:block" style={{ height: 260 }}>
+              <div className="hidden md:block" style={{ height: 300 }}>
                 <div
                   className="relative"
-                  style={{ width: totalW, height: 240, margin: "0 auto" }}
+                  style={{ width: totalW, height: 240, margin: "40px auto 0" }}
                 >
                   {filtered.map((project, i) => {
                     const offset = i - activeIndex;

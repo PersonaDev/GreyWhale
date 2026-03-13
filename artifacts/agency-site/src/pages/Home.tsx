@@ -386,16 +386,10 @@ function InlineDropdown({ options, value, onChange, isPlan, excludeEssential }: 
 const roleOptions: Option[] = [
   { label: "business owner", value: "business owner" },
   { label: "restaurant owner", value: "restaurant owner" },
-  { label: "salon owner", value: "salon owner" },
-  { label: "retailer", value: "retailer" },
   { label: "dentist", value: "dentist" },
+  { label: "salon owner", value: "salon owner" },
   { label: "realtor", value: "realtor" },
-  { label: "tattoo artist", value: "tattoo artist" },
   { label: "contractor", value: "contractor" },
-  { label: "fitness studio", value: "fitness studio" },
-  { label: "med spa", value: "med spa" },
-  { label: "law firm", value: "law firm" },
-  { label: "food truck", value: "food truck" },
 ];
 
 const siteOptions: Option[] = [
@@ -404,10 +398,6 @@ const siteOptions: Option[] = [
   { label: "e-commerce store", value: "ecommerce" },
   { label: "booking site", value: "booking" },
   { label: "social media presence", value: "social" },
-  { label: "landing page", value: "landing" },
-  { label: "logo & print materials", value: "print" },
-  { label: "email campaign", value: "email" },
-  { label: "content strategy", value: "content" },
 ];
 
 const locationOptions: Option[] = [
@@ -415,13 +405,8 @@ const locationOptions: Option[] = [
   { label: "Elk Grove", value: "elk-grove" },
   { label: "Folsom", value: "folsom" },
   { label: "Roseville", value: "roseville" },
-  { label: "Rancho Cordova", value: "rancho-cordova" },
   { label: "Davis", value: "davis" },
-  { label: "Citrus Heights", value: "citrus-heights" },
   { label: "Rocklin", value: "rocklin" },
-  { label: "West Sacramento", value: "west-sacramento" },
-  { label: "Lincoln", value: "lincoln" },
-  { label: "Woodland", value: "woodland" },
 ];
 
 const planOptions: Option[] = [
