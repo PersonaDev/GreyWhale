@@ -225,6 +225,30 @@
   }
 }
 
+@keyframes spin-border {
+  to { transform: rotate(360deg); }
+}
+
+.animated-border-wrapper {
+  position: relative;
+  padding: 2px;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.animated-border-spinner {
+  position: absolute;
+  inset: -60px;
+  background: conic-gradient(from 0deg, black 0deg, black 25deg, transparent 25deg, transparent 360deg);
+  animation: spin-border 2.5s linear infinite;
+}
+
+.animated-border-inner {
+  position: relative;
+  background: white;
+  border-radius: calc(1rem - 2px);
+}
+
 /**
  * Using the elevate system.
  * Automatic contrast adjustment.

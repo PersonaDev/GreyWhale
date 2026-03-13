@@ -68,11 +68,15 @@ const projects: Project[] = [
 
 const categories = ["All", "Healthcare", "Service", "Food & Drink", "E-commerce"];
 
-function BrowserCard({ project, active }: { project: Project; active: boolean }) {
+function BrowserCard({ project, active, hovered }: { project: Project; active: boolean; hovered?: boolean }) {
   return (
     <div
-      className={`shrink-0 w-[85vw] md:w-80 rounded-xl overflow-hidden border shadow-md bg-white transition-all duration-300 ${
-        active ? "border-gray-300 shadow-xl" : "border-gray-200 opacity-60"
+      className={`shrink-0 w-[85vw] md:w-80 rounded-xl overflow-hidden border bg-white transition-all duration-200 ${
+        hovered
+          ? "border-gray-400 shadow-2xl scale-[1.03] -translate-y-1"
+          : active
+          ? "border-gray-300 shadow-xl"
+          : "border-gray-200 opacity-60"
       }`}
     >
       {/* Browser chrome */}
@@ -104,6 +108,7 @@ function BrowserCard({ project, active }: { project: Project; active: boolean })
 export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const filtered = activeCategory === "All"
     ? projects
@@ -161,29 +166,39 @@ export default function Portfolio() {
         {/* Horizontal file-stack carousel */}
         <div className="relative">
           {/* Desktop: overlapping stack with click-to-advance */}
-          <div className="hidden md:flex items-center justify-center" style={{ height: 300 }}>
-            <div className="relative" style={{ width: 340 * Math.min(filtered.length, 3) + 80 }}>
-              {filtered.map((project, i) => {
-                const offset = i - activeIndex;
-                const isActive = i === activeIndex;
-                return (
-                  <div
-                    key={project.name}
-                    onClick={() => setActiveIndex(i)}
-                    className="absolute top-0 cursor-pointer transition-all duration-300"
-                    style={{
-                      left: `${i * 40}px`,
-                      zIndex: isActive ? filtered.length + 10 : filtered.length - Math.abs(offset),
-                      transform: `translateX(${isActive ? 20 : 0}px) scale(${isActive ? 1.02 : 0.97})`,
-                      width: 320,
-                    }}
-                  >
-                    <BrowserCard project={project} active={isActive} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          {(() => {
+            const cardW = 320;
+            const step = 44;
+            const totalW = cardW + (filtered.length - 1) * step;
+            return (
+              <div className="hidden md:flex items-center justify-center" style={{ height: 300 }}>
+                <div className="relative" style={{ width: totalW }}>
+                  {filtered.map((project, i) => {
+                    const offset = i - activeIndex;
+                    const isActive = i === activeIndex;
+                    const isHovered = hoveredIndex === i;
+                    return (
+                      <div
+                        key={project.name}
+                        onClick={() => setActiveIndex(i)}
+                        onMouseEnter={() => setHoveredIndex(i)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                        className="absolute top-0 cursor-pointer transition-all duration-250"
+                        style={{
+                          left: `${i * step}px`,
+                          zIndex: isHovered ? filtered.length + 20 : isActive ? filtered.length + 10 : filtered.length - Math.abs(offset),
+                          transform: `translateX(${isActive ? 10 : 0}px) scale(${isActive ? 1.02 : 0.97})`,
+                          width: cardW,
+                        }}
+                      >
+                        <BrowserCard project={project} active={isActive} hovered={isHovered} />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Mobile: scroll-snap horizontal carousel */}
           <div className="md:hidden">

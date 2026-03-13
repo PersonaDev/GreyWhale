@@ -77,49 +77,74 @@ function PlanModal({ value, onChange, onClose }: {
         <div className="w-10 h-1 rounded bg-gray-200 mx-auto mb-6 md:hidden" />
         <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-5">Choose your plan</p>
         <div className="space-y-3">
-          {plans.map((plan) => (
-            <button
-              key={plan.name}
-              onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
-              className={`w-full text-left rounded-2xl p-4 relative transition-all duration-150 ${
-                plan.dark ? "bg-black text-white" : plan.bordered ? "bg-white border-2 border-dashed border-gray-300" : "bg-white border border-gray-200"
-              }`}
-            >
-              {plan.recommended && (
-                <span className="absolute -top-3 right-4 bg-black text-white text-xs font-semibold px-3 py-1 rounded-full">
-                  RECOMMENDED
-                </span>
-              )}
-              <div className="flex items-start justify-between mb-2">
-                <div>
-                  <p className={`font-bold text-lg ${plan.dark ? "text-white" : "text-black"}`}>{plan.name}</p>
-                  <p className={`text-xs mt-0.5 ${plan.dark ? "text-gray-400" : "text-gray-400"}`}>
-                    {plan.price} + {plan.monthly}
-                  </p>
+          {plans.map((plan) => {
+            if (plan.bordered) {
+              return (
+                <div key={plan.name} className="animated-border-wrapper">
+                  <div className="animated-border-spinner" />
+                  <button
+                    onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
+                    className="animated-border-inner w-full text-left p-4"
+                  >
+                    <p className="font-bold text-lg text-black">{plan.name}</p>
+                    <p className="text-xs mt-0.5 text-gray-400">{plan.price} + {plan.monthly}</p>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 my-3">
+                      {plan.features.map((f) => (
+                        <span key={f} className="text-xs flex items-center gap-1 text-gray-500">
+                          <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                          {f}
+                        </span>
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-400">Best for: {plan.bestFor}</p>
+                  </button>
                 </div>
-                {plan.dark && (
-                  <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0">
-                    <svg className="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                )}
-              </div>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
-                {plan.features.map((f) => (
-                  <span key={f} className={`text-xs flex items-center gap-1 ${plan.dark ? "text-gray-300" : "text-gray-500"}`}>
-                    <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    {f}
+              );
+            }
+            return (
+              <button
+                key={plan.name}
+                onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
+                className={`w-full text-left rounded-2xl p-4 relative transition-all duration-150 ${
+                  plan.dark ? "bg-black text-white" : "bg-white border border-gray-200"
+                }`}
+              >
+                {plan.recommended && (
+                  <span className="absolute -top-3 right-4 bg-black text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    RECOMMENDED
                   </span>
-                ))}
-              </div>
-              <p className={`text-xs ${plan.dark ? "text-gray-500" : "text-gray-400"}`}>
-                Best for: {plan.bestFor}
-              </p>
-            </button>
-          ))}
+                )}
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <p className={`font-bold text-lg ${plan.dark ? "text-white" : "text-black"}`}>{plan.name}</p>
+                    <p className="text-xs mt-0.5 text-gray-400">{plan.price} + {plan.monthly}</p>
+                  </div>
+                  {plan.dark && (
+                    <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0">
+                      <svg className="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
+                  {plan.features.map((f) => (
+                    <span key={f} className={`text-xs flex items-center gap-1 ${plan.dark ? "text-gray-300" : "text-gray-500"}`}>
+                      <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      {f}
+                    </span>
+                  ))}
+                </div>
+                <p className={`text-xs ${plan.dark ? "text-gray-500" : "text-gray-400"}`}>
+                  Best for: {plan.bestFor}
+                </p>
+              </button>
+            );
+          })}
         </div>
         <p className="text-center text-xs text-gray-400 mt-6">
           Need something more tailored?{" "}
@@ -138,6 +163,14 @@ function OptionSheet({ options, value, onChange, onClose }: {
   onChange: (v: string) => void;
   onClose: () => void;
 }) {
+  const [customMode, setCustomMode] = useState(false);
+  const [customText, setCustomText] = useState("");
+
+  function submitCustom() {
+    const trimmed = customText.trim();
+    if (trimmed) { onChange(trimmed); onClose(); }
+  }
+
   return (
     <SlideUpModal onClose={onClose}>
       <div className="pb-8">
@@ -161,12 +194,34 @@ function OptionSheet({ options, value, onChange, onClose }: {
             </button>
           );
         })}
-        <button className="w-full text-left px-5 py-4 text-base text-gray-400 flex items-center gap-2">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-          </svg>
-          Other...
-        </button>
+        {customMode ? (
+          <div className="px-5 py-3 flex items-center gap-2">
+            <input
+              autoFocus
+              value={customText}
+              onChange={(e) => setCustomText(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") submitCustom(); if (e.key === "Escape") { setCustomMode(false); setCustomText(""); } }}
+              placeholder="Type your own…"
+              className="flex-1 border-b border-gray-300 focus:border-black outline-none py-1 text-base text-gray-900 bg-transparent"
+            />
+            <button
+              onClick={submitCustom}
+              className="text-sm font-semibold text-black px-3 py-1.5 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors"
+            >
+              Done
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => setCustomMode(true)}
+            className="w-full text-left px-5 py-4 text-base text-gray-400 flex items-center gap-2 hover:bg-gray-50 transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+            Other...
+          </button>
+        )}
       </div>
     </SlideUpModal>
   );
@@ -180,10 +235,17 @@ function DesktopDropdown({ options, value, onChange, onClose }: {
   onClose: () => void;
 }) {
   const [visible, setVisible] = useState(false);
+  const [customMode, setCustomMode] = useState(false);
+  const [customText, setCustomText] = useState("");
 
   useEffect(() => {
     requestAnimationFrame(() => setVisible(true));
   }, []);
+
+  function submitCustom() {
+    const trimmed = customText.trim();
+    if (trimmed) { onChange(trimmed); onClose(); }
+  }
 
   return (
     <span
@@ -213,6 +275,35 @@ function DesktopDropdown({ options, value, onChange, onClose }: {
           </button>
         );
       })}
+      {/* Other... / custom input */}
+      {customMode ? (
+        <div className="px-4 py-2.5 flex items-center gap-2 border-t border-gray-50">
+          <input
+            autoFocus
+            value={customText}
+            onChange={(e) => setCustomText(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") submitCustom(); if (e.key === "Escape") { setCustomMode(false); setCustomText(""); } }}
+            placeholder="Type your own…"
+            className="flex-1 text-sm outline-none border-b border-gray-200 focus:border-black py-0.5 bg-transparent text-gray-900"
+          />
+          <button
+            onClick={submitCustom}
+            className="text-xs font-semibold bg-black text-white px-2.5 py-1.5 rounded-lg hover:bg-gray-800 transition-colors"
+          >
+            ↵
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={() => setCustomMode(true)}
+          className="w-full text-left px-5 py-3 text-sm text-gray-400 flex items-center gap-1.5 hover:bg-gray-50 border-t border-gray-50 transition-colors"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          Other...
+        </button>
+      )}
     </span>
   );
 }

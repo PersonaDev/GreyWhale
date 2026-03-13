@@ -1,6 +1,47 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 
+function MobileMenu({ onClose }: { onClose: () => void }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => setVisible(true));
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  function close() {
+    setVisible(false);
+    setTimeout(onClose, 280);
+  }
+
+  return (
+    <div className="fixed inset-0 z-40 md:hidden flex flex-col justify-end">
+      <div
+        className="absolute inset-0 bg-black/15 transition-opacity duration-300"
+        style={{ opacity: visible ? 1 : 0 }}
+        onClick={close}
+      />
+      <div
+        className="relative bg-white rounded-t-3xl shadow-2xl pb-10 transition-transform duration-300 ease-out"
+        style={{ transform: visible ? "translateY(0)" : "translateY(100%)" }}
+      >
+        <div className="w-10 h-1 rounded bg-gray-200 mx-auto mt-3 mb-2" />
+        <Link href="/portfolio">
+          <button onClick={close} className="w-full text-left px-6 py-5 text-lg font-medium text-gray-900 hover:bg-gray-50 transition-colors">
+            Portfolio
+          </button>
+        </Link>
+        <Link href="/about">
+          <button onClick={close} className="w-full text-left px-6 py-5 text-lg font-medium text-gray-900 hover:bg-gray-50 transition-colors">
+            About
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -8,11 +49,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setMenuOpen(false);
   }, [location]);
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [menuOpen]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans">
@@ -36,43 +72,39 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Link>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile hamburger — animated morphing lines */}
         <button
-          className="md:hidden flex flex-col gap-1.5 p-1 cursor-pointer"
+          className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-0 cursor-pointer"
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
         >
-          {menuOpen ? (
-            <svg className="w-5 h-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg className="w-5 h-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          )}
+          <span
+            className="block h-0.5 bg-black origin-center transition-all duration-300 ease-in-out"
+            style={{
+              width: 20,
+              transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none",
+            }}
+          />
+          <span
+            className="block h-0.5 bg-black transition-all duration-300 ease-in-out mt-[5px]"
+            style={{
+              width: 20,
+              opacity: menuOpen ? 0 : 1,
+              transform: menuOpen ? "scaleX(0)" : "scaleX(1)",
+            }}
+          />
+          <span
+            className="block h-0.5 bg-black origin-center transition-all duration-300 ease-in-out mt-[5px]"
+            style={{
+              width: 20,
+              transform: menuOpen ? "translateY(-11px) rotate(-45deg)" : "none",
+            }}
+          />
         </button>
       </nav>
 
       {/* Mobile menu bottom sheet */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-40 md:hidden flex flex-col justify-end">
-          <div className="absolute inset-0 bg-black/10" onClick={() => setMenuOpen(false)} />
-          <div className="relative bg-white rounded-t-3xl shadow-2xl pb-10">
-            <div className="w-10 h-1 rounded bg-gray-200 mx-auto mt-3 mb-2" />
-            <Link href="/portfolio">
-              <button className="w-full text-left px-6 py-5 text-lg font-medium text-gray-900 hover:bg-gray-50 transition-colors">
-                Portfolio
-              </button>
-            </Link>
-            <Link href="/about">
-              <button className="w-full text-left px-6 py-5 text-lg font-medium text-gray-900 hover:bg-gray-50 transition-colors">
-                About
-              </button>
-            </Link>
-          </div>
-        </div>
-      )}
+      {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} />}
 
       <main className="flex-1 pt-[57px]">
         {children}
