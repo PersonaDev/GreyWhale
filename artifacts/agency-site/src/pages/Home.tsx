@@ -81,7 +81,6 @@ function PlanModal({ value, onChange, onClose }: {
             if (plan.bordered) {
               return (
                 <div key={plan.name} className="animated-border-wrapper">
-                  <div className="animated-border-spinner" />
                   <button
                     onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
                     className="animated-border-inner w-full text-left p-4"
