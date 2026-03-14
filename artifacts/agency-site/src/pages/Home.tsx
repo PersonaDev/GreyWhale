@@ -31,6 +31,7 @@ const plans = [
 
 function SlideUpModal({ onClose, children, className }: { onClose: () => void; children: React.ReactNode; className?: string }) {
   const [visible, setVisible] = useState(false);
+  const isMd = typeof window !== "undefined" && window.innerWidth >= 768;
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -51,8 +52,11 @@ function SlideUpModal({ onClose, children, className }: { onClose: () => void; c
         onClick={close}
       />
       <div
-        className={`relative bg-white rounded-t-3xl md:rounded-3xl w-full ${className || "md:max-w-lg"} shadow-2xl max-h-[90vh] overflow-y-auto transition-transform duration-300 ease-out`}
-        style={{ transform: visible ? "translateY(0)" : "translateY(100%)" }}
+        className={`relative bg-white rounded-t-3xl md:rounded-3xl w-full ${className || "md:max-w-lg"} shadow-2xl max-h-[90vh] overflow-y-auto transition-[transform,opacity] duration-300 ease-out`}
+        style={{
+          transform: visible ? "translateY(0)" : isMd ? "translateY(12px)" : "translateY(100%)",
+          opacity: visible ? 1 : isMd ? 0 : 1,
+        }}
       >
         {children}
       </div>
