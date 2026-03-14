@@ -118,7 +118,7 @@ function ProcessTerminal() {
     { text: "$ Your site is live.", className: "text-gray-400" },
   ];
 
-  const { currentLine, currentChar, done } = useTypingAnimation(lines, inView, 20, 150);
+  const { currentLine, currentChar, done } = useTypingAnimation(lines, inView, 10, 75);
 
   const renderLine = (idx: number) => {
     const line = lines[idx];
@@ -225,7 +225,7 @@ function ChangelogTerminal() {
     className: "",
   }));
 
-  const { currentLine, currentChar, done } = useTypingAnimation(lines, inView, 15, 250);
+  const { currentLine, currentChar, done } = useTypingAnimation(lines, inView, 8, 125);
 
   return (
     <div ref={ref} className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm text-left">
