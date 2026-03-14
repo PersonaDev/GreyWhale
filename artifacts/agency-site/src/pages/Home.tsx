@@ -8,24 +8,21 @@ type Option = { label: string; value: string };
 const plans = [
   {
     name: "Essential",
-    price: "$299",
-    monthly: "$99/month",
+    monthly: "$149/month",
     features: ["Up to 5 pages", "Custom design", "Mobile responsive", "Basic SEO", "CMS access", "Hosting & SSL"],
     bestFor: "Barbershops, cafes, food trucks, solo shops",
     dark: true,
   },
   {
     name: "Growth",
-    price: "$799",
-    monthly: "$149/month",
+    monthly: "$249/month",
     features: ["Up to 10 pages", "Everything in Essential", "Contact forms", "Google Analytics", "Priority support"],
     bestFor: "Tattoo shops, dental, auto shops, studios",
     recommended: true,
   },
   {
     name: "Premium",
-    price: "$1,999",
-    monthly: "$249/month",
+    monthly: "$349/month",
     features: ["Up to 20 pages", "Everything in Growth", "E-commerce", "Custom integrations", "Advanced SEO"],
     bestFor: "Med spas, multi-location, dealerships",
     bordered: true,
@@ -89,7 +86,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
                     className="animated-border-inner w-full text-left p-4"
                   >
                     <p className="font-semibold text-lg text-black tracking-wide">{plan.name}</p>
-                    <p className="text-xs mt-0.5 text-gray-400">{plan.price} + {plan.monthly}</p>
+                    <p className="text-xs mt-0.5 text-gray-400">{plan.monthly}</p>
                     <div className="flex flex-wrap gap-x-4 gap-y-1 my-3">
                       {plan.features.map((f) => (
                         <span key={f} className="text-xs flex items-center gap-1 text-gray-500">
@@ -121,7 +118,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
                 <div className="flex items-start justify-between mb-2">
                   <div>
                     <p className={`font-semibold text-lg tracking-wide ${plan.dark ? "text-white" : "text-black"}`}>{plan.name}</p>
-                    <p className="text-xs mt-0.5 text-gray-400">{plan.price} + {plan.monthly}</p>
+                    <p className="text-xs mt-0.5 text-gray-400">{plan.monthly}</p>
                   </div>
                   {plan.dark && (
                     <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0">
