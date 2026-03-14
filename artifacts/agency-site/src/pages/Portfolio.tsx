@@ -129,6 +129,81 @@ function ProjectCard({ project, active }: { project: Project; active: boolean })
   );
 }
 
+function HoverGallery({
+  filtered,
+  hoveredIndex,
+  setHoveredIndex,
+}: {
+  filtered: Project[];
+  hoveredIndex: number | null;
+  setHoveredIndex: (i: number | null) => void;
+}) {
+  const count = filtered.length;
+  const baseFlexValue = 1;
+  const expandedFlexValue = count > 1 ? 3 : 1;
+
+  return (
+    <div className="max-w-7xl mx-auto px-5">
+      <div
+        className="flex gap-3"
+        style={{ height: 280 }}
+        onMouseLeave={() => setHoveredIndex(null)}
+      >
+        {filtered.map((project, i) => {
+          const isHovered = hoveredIndex === i;
+          const isDark = project.imgBg === "#1a1a1a";
+          const flexVal = hoveredIndex === null
+            ? baseFlexValue
+            : isHovered
+              ? expandedFlexValue
+              : 0.5;
+
+          return (
+            <motion.div
+              key={project.name}
+              className="rounded-2xl overflow-hidden flex flex-col cursor-pointer relative"
+              style={{ minWidth: 0 }}
+              animate={{ flex: flexVal }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              onMouseEnter={() => setHoveredIndex(i)}
+              onClick={() => {
+                window.open(`https://${project.url}`, "_blank", "noopener,noreferrer");
+              }}
+            >
+              {(isHovered || hoveredIndex === null) && (
+                <BrowserChrome url={project.url} isDark={isDark} />
+              )}
+              <div className={`flex-1 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
+                {(isHovered || hoveredIndex === null) && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6 gap-3">
+                    <div className={`w-3/5 h-2.5 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"}`} />
+                    <div className={`w-2/5 h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"}`} />
+                    <div className="flex gap-2 mt-2">
+                      <div className={`w-16 h-7 rounded-lg ${isDark ? "bg-white/15" : "bg-black/10"}`} />
+                      <div className={`w-12 h-7 rounded-lg ${isDark ? "bg-white/8" : "bg-black/6"}`} />
+                    </div>
+                    <div className={`w-full mt-2 h-px ${isDark ? "bg-white/8" : "bg-black/6"}`} />
+                    <div className="flex items-start gap-3 w-full">
+                      <div className={`w-8 h-8 rounded-lg shrink-0 ${isDark ? "bg-white/10" : "bg-black/8"}`} />
+                      <div className="flex-1 space-y-1.5">
+                        <div className={`h-2 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"} w-full`} />
+                        <div className={`h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"} w-4/5`} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              {!isHovered && hoveredIndex !== null && (
+                <div className="absolute inset-0 bg-black/5 rounded-2xl" />
+              )}
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 const CARD_GAP = 16;
 const CARD_H = 240;
 
@@ -300,12 +375,14 @@ function PeekCarousel({
 export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const filtered = activeCategory === "All"
     ? projects
     : projects.filter((p) => p.category === activeCategory);
 
-  const activeProject = filtered[activeIndex] || filtered[0];
+  const desktopActiveProject = hoveredIndex !== null ? filtered[hoveredIndex] : null;
+  const mobileActiveProject = filtered[activeIndex] || filtered[0];
 
   const categoryCounts: Record<string, number> = { All: projects.length };
   categories.slice(1).forEach((c) => {
@@ -315,6 +392,7 @@ export default function Portfolio() {
   function handleCategoryChange(cat: string) {
     setActiveCategory(cat);
     setActiveIndex(0);
+    setHoveredIndex(null);
   }
 
   return (
@@ -332,7 +410,7 @@ export default function Portfolio() {
         <div className="flex items-start justify-between mb-4">
           <h1 className="font-bold text-black text-4xl tracking-tight">Selected Work</h1>
           <p className="text-xs text-gray-400 text-right hidden md:block leading-relaxed tracking-wide">
-            5 sample sites for local businesses.<br />Click or swipe to explore.
+            5 sample sites for local businesses.<br />Hover to explore.
           </p>
         </div>
 
@@ -354,14 +432,24 @@ export default function Portfolio() {
         </div>
       </div>
 
-      <PeekCarousel
-        filtered={filtered}
-        activeIndex={activeIndex}
-        setActiveIndex={setActiveIndex}
-      />
+      <div className="hidden md:block">
+        <HoverGallery
+          filtered={filtered}
+          hoveredIndex={hoveredIndex}
+          setHoveredIndex={setHoveredIndex}
+        />
+      </div>
+
+      <div className="md:hidden">
+        <PeekCarousel
+          filtered={filtered}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+        />
+      </div>
 
       <div className="max-w-7xl mx-auto px-5 pb-24">
-        <div className="flex items-center justify-center gap-2 mt-6">
+        <div className="flex items-center justify-center gap-2 mt-6 md:hidden">
           {filtered.map((_, i) => (
             <button
               key={i}
@@ -373,15 +461,35 @@ export default function Portfolio() {
           ))}
         </div>
 
-        <div className="flex flex-col items-center mt-6 text-center min-h-[80px]">
-          {activeProject ? (
+        <div className="hidden md:flex flex-col items-center mt-6 text-center min-h-[80px]">
+          {desktopActiveProject ? (
             <>
-              <h3 className="font-bold text-black text-xl tracking-tight">{activeProject.name}</h3>
+              <h3 className="font-bold text-black text-xl tracking-tight">{desktopActiveProject.name}</h3>
               <p className="text-gray-400 text-sm mt-1 tracking-wide">
-                {activeProject.category} · {activeProject.location} · {activeProject.year}
+                {desktopActiveProject.category} · {desktopActiveProject.location} · {desktopActiveProject.year}
               </p>
               <div className="flex items-center gap-2 mt-2">
-                {activeProject.tags.map((tag) => (
+                {desktopActiveProject.tags.map((tag) => (
+                  <span key={tag} className="text-xs px-2 py-0.5 rounded border border-gray-200 text-gray-500 tracking-wide">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="text-gray-300 text-sm tracking-wide">Hover to explore projects</p>
+          )}
+        </div>
+
+        <div className="md:hidden flex flex-col items-center mt-6 text-center min-h-[80px]">
+          {mobileActiveProject ? (
+            <>
+              <h3 className="font-bold text-black text-xl tracking-tight">{mobileActiveProject.name}</h3>
+              <p className="text-gray-400 text-sm mt-1 tracking-wide">
+                {mobileActiveProject.category} · {mobileActiveProject.location} · {mobileActiveProject.year}
+              </p>
+              <div className="flex items-center gap-2 mt-2">
+                {mobileActiveProject.tags.map((tag) => (
                   <span key={tag} className="text-xs px-2 py-0.5 rounded border border-gray-200 text-gray-500 tracking-wide">
                     {tag}
                   </span>
