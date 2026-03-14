@@ -7,16 +7,10 @@ import { sendLeadNotification } from "../lib/email";
 
 const router = Router();
 
-const PLAN_SETUP: Record<string, number> = {
-  essential: 29900,
-  growth: 79900,
-  premium: 199900,
-};
-
 const PLAN_MONTHLY: Record<string, number> = {
-  essential: 9900,
-  growth: 14900,
-  premium: 24900,
+  essential: 14900,
+  growth: 24900,
+  premium: 34900,
 };
 
 const PLAN_NAMES: Record<string, string> = {
@@ -44,9 +38,8 @@ router.post("/stripe/checkout", async (req, res) => {
       return;
     }
 
-    const setupAmount = PLAN_SETUP[plan];
     const monthlyAmount = PLAN_MONTHLY[plan];
-    if (!setupAmount || !monthlyAmount) {
+    if (!monthlyAmount) {
       res.status(400).json({ error: `Invalid plan: ${plan}` });
       return;
     }
@@ -54,27 +47,17 @@ router.post("/stripe/checkout", async (req, res) => {
     const planLabel = PLAN_NAMES[plan] || plan;
 
     const session = await stripe.checkout.sessions.create({
-      mode: "payment",
+      mode: "subscription",
       line_items: [
         {
           price_data: {
             currency: "usd",
             product_data: {
-              name: `${planLabel} — Setup & Design`,
-              description: "One-time design & development fee",
-            },
-            unit_amount: setupAmount,
-          },
-          quantity: 1,
-        },
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: `${planLabel} — First Month Retainer`,
-              description: `Ongoing hosting, support & maintenance ($${(monthlyAmount / 100).toFixed(0)}/mo after)`,
+              name: planLabel,
+              description: `Monthly subscription — hosting, support & maintenance`,
             },
             unit_amount: monthlyAmount,
+            recurring: { interval: "month" },
           },
           quantity: 1,
         },
@@ -139,7 +122,6 @@ router.post("/stripe/webhook", async (req, res) => {
           .returning();
 
         if (lead) {
-          const setupAmount = PLAN_SETUP[lead.plan] ?? 0;
           const monthlyAmount = PLAN_MONTHLY[lead.plan] ?? 0;
 
           const paymentIntentId = typeof session.payment_intent === "string"
@@ -152,7 +134,7 @@ router.post("/stripe/webhook", async (req, res) => {
           await db.insert(paymentsTable).values({
             leadId,
             plan: lead.plan,
-            amountCents: setupAmount,
+            amountCents: monthlyAmount,
             monthlyAmountCents: monthlyAmount,
             stripeSessionId: session.id,
             stripePaymentIntentId: paymentIntentId,

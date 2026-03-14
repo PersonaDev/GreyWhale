@@ -3,26 +3,20 @@ import { useLocation, useSearch } from "wouter";
 import Layout from "@/components/Layout";
 import { apiPost, apiPatch } from "@/lib/api";
 
-const PLAN_INFO: Record<string, { name: string; setup: string; monthly: string; todayTotal: string; features: string[] }> = {
+const PLAN_INFO: Record<string, { name: string; monthly: string; features: string[] }> = {
   essential: {
     name: "Essential",
-    setup: "$299",
-    monthly: "$99/mo",
-    todayTotal: "$398",
+    monthly: "$149/mo",
     features: ["Up to 5 pages", "Custom design", "Mobile responsive", "Basic SEO", "CMS access", "Hosting & SSL"],
   },
   growth: {
     name: "Growth",
-    setup: "$799",
-    monthly: "$149/mo",
-    todayTotal: "$948",
+    monthly: "$249/mo",
     features: ["Up to 10 pages", "Everything in Essential", "Contact forms", "Google Analytics", "Priority support"],
   },
   premium: {
     name: "Premium",
-    setup: "$1,999",
-    monthly: "$249/mo",
-    todayTotal: "$2,248",
+    monthly: "$349/mo",
     features: ["Up to 20 pages", "Everything in Growth", "E-commerce ready", "Custom integrations", "Advanced SEO", "Dedicated support"],
   },
 };
@@ -121,19 +115,11 @@ export default function Checkout() {
               <div className="mb-5">
                 <h2 className="text-lg font-semibold text-black tracking-wide mb-3">{info.name} Plan</h2>
                 <div className="space-y-1.5 text-sm">
-                  <div className="flex justify-between text-gray-600">
-                    <span>Setup & design</span>
-                    <span className="font-medium text-black">{info.setup}</span>
+                  <div className="flex justify-between">
+                    <span className="font-semibold text-black">Monthly subscription</span>
+                    <span className="font-semibold text-black">{info.monthly}</span>
                   </div>
-                  <div className="flex justify-between text-gray-600">
-                    <span>First month retainer</span>
-                    <span className="font-medium text-black">{info.monthly.replace("/mo", "")}</span>
-                  </div>
-                  <div className="flex justify-between pt-2 border-t border-gray-200 mt-2">
-                    <span className="font-semibold text-black">Due today</span>
-                    <span className="font-semibold text-black">{info.todayTotal}</span>
-                  </div>
-                  <p className="text-xs text-gray-400 pt-1">then {info.monthly} ongoing</p>
+                  <p className="text-xs text-gray-400 pt-1">No setup fee — cancel anytime</p>
                 </div>
               </div>
 
@@ -246,7 +232,7 @@ export default function Checkout() {
                     </>
                   ) : (
                     <>
-                      Pay {info.todayTotal} today with Stripe
+                      Subscribe for {info.monthly} with Stripe
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
