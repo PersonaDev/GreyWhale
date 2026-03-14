@@ -15,6 +15,7 @@ export default function Contact() {
   const location_ = params.get("location") || "";
 
   const [name, setName] = useState("");
+  const [businessName, setBusinessName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
@@ -45,6 +46,7 @@ export default function Contact() {
       await apiPost("/contact", {
         leadId: parseInt(currentLeadId!, 10),
         name: name.trim(),
+        businessName: businessName.trim() || undefined,
         email: email.trim(),
         phone: phone.trim() || undefined,
         message: message.trim() || undefined,
@@ -115,6 +117,17 @@ export default function Contact() {
                 required
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-900 focus:outline-none focus:border-black transition-colors"
                 placeholder="Your name"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Business Name</label>
+              <input
+                type="text"
+                value={businessName}
+                onChange={(e) => setBusinessName(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-900 focus:outline-none focus:border-black transition-colors"
+                placeholder="Your business name"
               />
             </div>
 

@@ -147,12 +147,16 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
               </button>
             );
           })}
+
+          <button
+            onClick={() => { onChange("bespoke"); onClose(); }}
+            className="w-full text-left rounded-2xl p-4 border border-dashed border-gray-300 hover:border-gray-400 transition-colors"
+          >
+            <p className="font-semibold text-lg text-black tracking-wide">Bespoke</p>
+            <p className="text-xs mt-0.5 text-gray-400">Custom quote</p>
+            <p className="text-xs text-gray-400 mt-2">Need something more tailored? Let's talk about your project.</p>
+          </button>
         </div>
-        <p className="text-center text-xs text-gray-400 mt-6 tracking-wide">
-          Need something more tailored?{" "}
-          <span className="text-black font-medium underline cursor-pointer">Contact us</span>
-          {" "}for a custom quote.
-        </p>
       </div>
     </SlideUpModal>
   );
@@ -408,6 +412,7 @@ const planOptions: Option[] = [
   { label: "Essential", value: "essential" },
   { label: "Growth", value: "growth" },
   { label: "Premium", value: "premium" },
+  { label: "Bespoke", value: "bespoke" },
 ];
 
 const COMPLEX_SITES = ["ecommerce", "booking"];
@@ -433,7 +438,12 @@ export default function Home() {
     setStarting(true);
     try {
       const { id } = await apiPost("/leads", { role, service: site, location, plan });
-      navigate(`/checkout?lead=${id}&plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`);
+      const params = `lead=${id}&plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`;
+      if (plan === "bespoke") {
+        navigate(`/contact?${params}`);
+      } else {
+        navigate(`/checkout?${params}`);
+      }
     } catch {
       navigate(`/contact?plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`);
     } finally {

@@ -8,18 +8,23 @@ const router = Router();
 
 router.post("/contact", async (req, res) => {
   try {
-    const { leadId, name, email, phone, message } = req.body;
+    const { leadId, name, businessName, email, phone, message } = req.body;
     if (!leadId || !name || !email) {
       res.status(400).json({ error: "Missing required fields: leadId, name, email" });
       return;
     }
+
+    const msgParts = [];
+    if (businessName) msgParts.push(`Business: ${businessName}`);
+    if (message) msgParts.push(message);
+    const fullMessage = msgParts.join("\n") || null;
 
     const [lead] = await db.update(leadsTable)
       .set({
         name,
         email,
         phone: phone || null,
-        message: message || null,
+        message: fullMessage,
         status: "submitted",
         updatedAt: new Date(),
       })

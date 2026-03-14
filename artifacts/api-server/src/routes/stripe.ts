@@ -84,21 +84,28 @@ router.post("/stripe/webhook", async (req, res) => {
       return;
     }
 
-    let event: Stripe.Event;
     const sig = req.headers["stripe-signature"];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-    if (webhookSecret && sig) {
-      try {
-        const rawBody = (req as any).rawBody;
-        event = stripe.webhooks.constructEvent(rawBody || JSON.stringify(req.body), sig as string, webhookSecret);
-      } catch (err) {
-        console.error("[stripe] Webhook signature verification failed:", err);
-        res.status(400).json({ error: "Webhook signature verification failed" });
-        return;
-      }
-    } else {
-      event = req.body as Stripe.Event;
+    if (!webhookSecret) {
+      console.error("[stripe] STRIPE_WEBHOOK_SECRET not set — rejecting webhook for security");
+      res.status(503).json({ error: "Webhook secret not configured" });
+      return;
+    }
+
+    if (!sig) {
+      res.status(400).json({ error: "Missing stripe-signature header" });
+      return;
+    }
+
+    let event: Stripe.Event;
+    try {
+      const rawBody = (req as any).rawBody;
+      event = stripe.webhooks.constructEvent(rawBody || JSON.stringify(req.body), sig as string, webhookSecret);
+    } catch (err) {
+      console.error("[stripe] Webhook signature verification failed:", err);
+      res.status(400).json({ error: "Webhook signature verification failed" });
+      return;
     }
 
     if (event.type === "checkout.session.completed") {
