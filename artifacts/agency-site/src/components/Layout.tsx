@@ -106,20 +106,49 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
 
-      <footer className="border-t border-gray-100 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className="font-bold text-sm text-black tracking-wide">GreyWhale</span>
-          <span className="text-gray-300 hidden sm:inline">|</span>
-          <span className="text-sm text-gray-400 hidden sm:inline tracking-wide">Sacramento</span>
+      <footer className="border-t border-gray-100">
+        <div className="max-w-6xl mx-auto px-6 py-12 md:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
+            <div className="space-y-4">
+              <span className="font-bold text-lg text-black tracking-wide" style={{ letterSpacing: "0.04em" }}>GreyWhale</span>
+              <p className="text-sm text-gray-500 leading-relaxed tracking-wide max-w-xs">
+                Strategy-led creative for brands that want to stand out. We blend design, storytelling, and digital craft.
+              </p>
+              <p className="text-sm font-medium text-black tracking-wide pt-2">Serving the Greater Sacramento Area</p>
+            </div>
+
+            <div className="space-y-4">
+              <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Navigation</span>
+              <div className="flex flex-col gap-3">
+                <Link href="/portfolio">
+                  <span className="text-sm text-gray-500 hover:text-black cursor-pointer transition-colors tracking-wide">Portfolio</span>
+                </Link>
+                <Link href="/about">
+                  <span className="text-sm text-gray-500 hover:text-black cursor-pointer transition-colors tracking-wide">About</span>
+                </Link>
+                <Link href="/about">
+                  <span className="text-sm text-gray-500 hover:text-black cursor-pointer transition-colors tracking-wide">Contact</span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Get in Touch</span>
+              <div className="flex flex-col gap-3">
+                <a href="mailto:hello@greywhale.co" className="text-sm text-gray-500 hover:text-black transition-colors tracking-wide">hello@greywhale.co</a>
+                <span className="text-sm text-gray-500 tracking-wide">Sacramento, CA</span>
+              </div>
+              <Link href="/about">
+                <span className="inline-block mt-2 text-sm font-medium text-black border border-gray-200 rounded-full px-5 py-2 hover:bg-gray-50 cursor-pointer transition-colors tracking-wide">Start a Project →</span>
+              </Link>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-4 md:gap-6">
-          <Link href="/portfolio">
-            <span className="text-sm text-gray-400 hover:text-black cursor-pointer transition-colors hidden md:inline tracking-wide">Portfolio</span>
-          </Link>
-          <Link href="/about">
-            <span className="text-sm text-gray-400 hover:text-black cursor-pointer transition-colors hidden md:inline tracking-wide">About</span>
-          </Link>
-          <span className="text-xs text-gray-300 tracking-wider">© 2026</span>
+        <div className="border-t border-gray-100 px-6 py-4">
+          <div className="max-w-6xl mx-auto flex items-center justify-between">
+            <span className="text-xs text-gray-300 tracking-wider">© 2026 GreyWhale. All rights reserved.</span>
+            <span className="text-xs text-gray-300 tracking-wider hidden sm:inline">Design & Creative Agency</span>
+          </div>
         </div>
       </footer>
     </div>
