@@ -445,9 +445,24 @@ export default function Home() {
         return;
       }
 
-      navigate(`/checkout?${contactParams}`);
+      const base = window.location.origin + import.meta.env.BASE_URL.replace(/\/$/, "");
+      const successUrl = `${base}/checkout/success?lead=${id}`;
+      const cancelUrl = window.location.href;
+
+      const { url } = await apiPost("/stripe/checkout", {
+        leadId: id,
+        plan,
+        successUrl,
+        cancelUrl,
+      }) as { url: string };
+
+      if (url) {
+        window.location.href = url;
+      } else {
+        navigate(`/checkout?${contactParams}`);
+      }
     } catch {
-      navigate(`/contact?plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`);
+      navigate(`/checkout?plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`);
     } finally {
       setStarting(false);
     }
