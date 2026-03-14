@@ -475,42 +475,22 @@ export default function Home() {
   return (
     <Layout>
       <section className="min-h-[calc(100vh-57px)] flex flex-col items-start justify-center px-5 md:items-center md:text-center">
-        {/* Mobile: one continuous flowing sentence */}
         <div
-          className="md:hidden text-left leading-relaxed"
-          style={{ fontSize: "clamp(1.9rem, 6vw, 2.4rem)", color: "#c0c0c0", lineHeight: 1.45 }}
+          className="text-left md:text-center w-full"
+          style={{ fontSize: "clamp(1.9rem, 3vw, 2.5rem)", color: "#c0c0c0", lineHeight: 1.5, letterSpacing: "0.005em" }}
         >
           {"I'm a "}
           <InlineDropdown options={roleOptions} value={role} onChange={setRole} />
-          {" looking for a new "}
+          {" looking for a new"}
+          <span className="hidden md:inline"><br /></span>
+          {" "}
           <InlineDropdown options={siteOptions} value={site} onChange={handleSiteChange} />
           {" located in "}
           <InlineDropdown options={locationOptions} value={location} onChange={setLocation} />
+          <span className="hidden md:inline"><br /></span>
           {" interested in a "}
           <InlineDropdown options={planOptions} value={plan} onChange={setPlan} isPlan excludeEssential={excludeEssential} />
           {" plan."}
-        </div>
-
-        {/* Desktop: exactly 3 lines */}
-        <div
-          className="hidden md:block text-center"
-          style={{ fontSize: "clamp(2rem, 2.8vw, 2.5rem)", color: "#c0c0c0", lineHeight: 1.5, letterSpacing: "0.005em" }}
-        >
-          <div>
-            {"I'm a "}
-            <InlineDropdown options={roleOptions} value={role} onChange={setRole} />
-            {" looking for a new"}
-          </div>
-          <div>
-            <InlineDropdown options={siteOptions} value={site} onChange={handleSiteChange} />
-            {" located in "}
-            <InlineDropdown options={locationOptions} value={location} onChange={setLocation} />
-          </div>
-          <div>
-            {"interested in a "}
-            <InlineDropdown options={planOptions} value={plan} onChange={setPlan} isPlan excludeEssential={excludeEssential} />
-            {" plan."}
-          </div>
         </div>
 
         <div className="mt-10">
