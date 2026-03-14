@@ -70,12 +70,12 @@ export default function About() {
 
       {/* Principles — asymmetric: numbered list offset left with descriptions right */}
       <section className="border-t border-gray-100 px-5 md:px-12 py-16">
-        <div className="max-w-5xl mx-auto md:grid md:grid-cols-[1fr_1.5fr] md:gap-16 md:items-start">
-          <div className="mb-8 md:mb-0">
+        <div className="max-w-5xl mx-auto md:grid md:grid-cols-[1.5fr_1fr] md:gap-16 md:items-start">
+          <div className="mb-8 md:mb-0 md:order-2">
             <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-3" style={{ letterSpacing: "0.12em" }}>Principles</p>
             <h2 className="font-semibold text-black text-3xl" style={{ letterSpacing: "-0.01em" }}>What we believe</h2>
           </div>
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-gray-100 md:order-1">
             {[
               { n: "01", title: "Craft Over Templates", desc: "Hand-built, every time." },
               { n: "02", title: "Local First", desc: "We know Sacramento." },
@@ -136,14 +136,14 @@ export default function About() {
           <div className="mb-8 md:mb-0">
             <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-5" style={{ letterSpacing: "0.12em" }}>Ready?</p>
             <h2 className="font-semibold leading-tight" style={{ fontSize: "clamp(1.8rem, 4.5vw, 3.5rem)", letterSpacing: "-0.02em" }}>
-              <span className="text-black">Be one of our</span>
+              <span className="text-black">Let's build</span>
               <br />
-              <span className="text-gray-300">first clients.</span>
+              <span className="text-gray-300">something great.</span>
             </h2>
           </div>
           <div>
             <p className="text-gray-400 text-sm max-w-xs leading-relaxed mb-8 tracking-wide">
-              Early clients get our full attention, best pricing, and a team that's genuinely excited to earn your trust.
+              Every project gets our full attention, transparent pricing, and a team that's genuinely invested in your success.
             </p>
             <div className="flex flex-col sm:flex-row items-start gap-3">
               <Link href="/">
