@@ -17,8 +17,8 @@ const tiers = [
       { text: "Hosting & SSL included" },
       { text: "Contact form" },
       { text: "Edit your own text and images anytime" },
-      { text: "1 round of revisions per month" },
-      { text: "48-hour support response time" },
+      { text: "1 revision per month" },
+      { text: "48-hour support response" },
     ] as Feature[],
     nudge: { text: "Want analytics and booking?", link: "See Professional", target: "professional" },
     popular: false,
@@ -36,8 +36,8 @@ const tiers = [
       { text: "Booking or scheduling integration", highlight: true },
       { text: "Contact forms with lead notifications", highlight: true },
       { text: "Advanced SEO (local schema, FAQ markup, structured data)", highlight: true },
-      { text: "2 rounds of revisions per month", highlight: true },
-      { text: "24-hour priority support response", highlight: true },
+      { text: "2 revisions per month", highlight: true },
+      { text: "24-hour priority support", highlight: true },
     ] as Feature[],
     nudge: { text: "Need e-commerce?", link: "See Business", target: "business" },
     popular: true,
@@ -51,7 +51,7 @@ const tiers = [
       { text: "Everything in Professional" },
       { text: "Up to 20 pages", highlight: true },
       { text: "E-commerce (product pages, cart, checkout)", highlight: true },
-      { text: "Custom integrations (API connections, third-party tools)", highlight: true },
+      { text: "Custom integrations", highlight: true },
       { text: "Blog setup and management", highlight: true },
       { text: "Monthly performance report", highlight: true },
       { text: "Unlimited revisions", highlight: true },
@@ -204,18 +204,18 @@ export default function Pricing() {
               </ul>
 
               {tier.nudge && (
-                <p className="text-xs text-gray-400 mt-5">
+                <p className="text-xs text-gray-400 mt-4 mb-6">
                   {tier.nudge.text}{" "}
-                  <button
+                  <span
                     onClick={() => scrollTo(tier.nudge!.target)}
-                    className="underline text-gray-500 hover:text-black transition-colors cursor-pointer"
+                    className="underline cursor-pointer hover:text-black transition-colors"
                   >
-                    {tier.nudge.link} →
-                  </button>
+                    {tier.nudge.link}
+                  </span>
                 </p>
               )}
 
-              <div className="mt-6">
+              <div className={tier.nudge ? "" : "mt-6"}>
                 {tier.popular ? (
                   <Link href="/" className="block w-full bg-black text-white text-sm font-medium py-3 rounded-full hover:opacity-80 transition-opacity text-center">
                     <span className="inline-flex items-center gap-2">Get Started <Arrow /></span>
