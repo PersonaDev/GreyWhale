@@ -10,8 +10,8 @@ type Project = {
   year: number;
   tags: string[];
   url: string;
-  bgClass: string;
   imgBg: string;
+  gradient: string;
 };
 
 const projects: Project[] = [
@@ -22,8 +22,8 @@ const projects: Project[] = [
     year: 2025,
     tags: ["Web Design", "Forms", "SEO"],
     url: "blueoakdental.com",
-    bgClass: "bg-stone-100",
-    imgBg: "#e8e0d8",
+    imgBg: "#e8e2d9",
+    gradient: "from-stone-200 via-stone-100 to-amber-50",
   },
   {
     name: "Maison Caldo",
@@ -32,8 +32,8 @@ const projects: Project[] = [
     year: 2025,
     tags: ["E-commerce", "Shopify", "Branding"],
     url: "maisoncaldo.com",
-    bgClass: "bg-neutral-800",
-    imgBg: "#2a2a2a",
+    imgBg: "#1a1a1a",
+    gradient: "from-neutral-900 via-neutral-800 to-zinc-900",
   },
   {
     name: "Valley Roots Cafe",
@@ -42,8 +42,8 @@ const projects: Project[] = [
     year: 2025,
     tags: ["Web Design", "Menu", "SEO"],
     url: "valleyrootscafe.com",
-    bgClass: "bg-amber-50",
-    imgBg: "#fef3c7",
+    imgBg: "#f5ede0",
+    gradient: "from-amber-100 via-orange-50 to-yellow-50",
   },
   {
     name: "Peak Performance PT",
@@ -52,8 +52,8 @@ const projects: Project[] = [
     year: 2025,
     tags: ["Booking", "Forms", "Web Design"],
     url: "peakperformancept.com",
-    bgClass: "bg-blue-50",
-    imgBg: "#e0eaff",
+    imgBg: "#dce8f5",
+    gradient: "from-blue-100 via-sky-50 to-indigo-50",
   },
   {
     name: "Sunrise Plumbing",
@@ -62,56 +62,85 @@ const projects: Project[] = [
     year: 2025,
     tags: ["Web Design", "SEO", "GMB"],
     url: "sunriseplumbing.com",
-    bgClass: "bg-orange-50",
-    imgBg: "#fff0e0",
+    imgBg: "#fde8d8",
+    gradient: "from-orange-100 via-amber-50 to-yellow-50",
   },
 ];
 
 const categories = ["All", "Healthcare", "Service", "Food & Drink", "E-commerce"];
 
+function BrowserChrome({ url, isDark }: { url: string; isDark: boolean }) {
+  return (
+    <div
+      className={`flex items-center gap-3 px-4 py-3 rounded-t-2xl ${isDark ? "bg-zinc-800/80" : "bg-white/70"} backdrop-blur-sm`}
+    >
+      <div className="flex items-center gap-1.5 shrink-0">
+        <div className="w-3 h-3 rounded-full bg-red-400" />
+        <div className="w-3 h-3 rounded-full bg-amber-400" />
+        <div className="w-3 h-3 rounded-full bg-green-400" />
+      </div>
+      <div
+        className={`flex-1 flex items-center justify-center gap-1.5 text-xs rounded-md px-3 py-1.5 ${isDark ? "bg-zinc-700/60 text-zinc-400" : "bg-black/6 text-black/40"}`}
+      >
+        <svg className="w-3 h-3 shrink-0 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+        <span className="tracking-wide">{url}</span>
+      </div>
+    </div>
+  );
+}
+
+function CardContent({ project, isDark }: { project: Project; isDark: boolean }) {
+  return (
+    <div className={`flex-1 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 gap-3">
+        <div className={`w-3/5 h-2.5 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"}`} />
+        <div className={`w-2/5 h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"}`} />
+        <div className="flex gap-2 mt-2">
+          <div className={`w-16 h-7 rounded-lg ${isDark ? "bg-white/15" : "bg-black/10"}`} />
+          <div className={`w-12 h-7 rounded-lg ${isDark ? "bg-white/8" : "bg-black/6"}`} />
+        </div>
+        <div className={`w-full mt-2 h-px ${isDark ? "bg-white/8" : "bg-black/6"}`} />
+        <div className="flex items-start gap-3 w-full">
+          <div className={`w-8 h-8 rounded-lg shrink-0 ${isDark ? "bg-white/10" : "bg-black/8"}`} />
+          <div className="flex-1 space-y-1.5">
+            <div className={`h-2 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"} w-full`} />
+            <div className={`h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"} w-4/5`} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ProjectCard({ project, active, hovered }: { project: Project; active: boolean; hovered?: boolean }) {
-  const isDark = project.imgBg === "#2a2a2a";
+  const isDark = project.imgBg === "#1a1a1a";
   return (
     <a
       href={`https://${project.url}`}
       target="_blank"
       rel="noopener noreferrer"
-      className={`block shrink-0 w-[85vw] md:w-80 rounded-2xl overflow-hidden transition-all duration-200 ${
-        hovered
-          ? "shadow-2xl scale-[1.03] -translate-y-1"
-          : active
-          ? "shadow-xl"
-          : "opacity-50"
+      className={`block shrink-0 rounded-2xl overflow-hidden transition-all duration-200 flex flex-col ${
+        hovered ? "shadow-2xl" : active ? "shadow-xl" : "opacity-55"
       }`}
-      style={{ backgroundColor: project.imgBg, textDecoration: "none" }}
+      style={{ textDecoration: "none", height: "100%" }}
+      onClick={(e) => e.stopPropagation()}
     >
-      <div className="h-48 flex items-end p-5">
-        <div className="w-full">
-          <div className={`w-2/3 h-1.5 rounded-full ${isDark ? "bg-white/20" : "bg-black/10"} mb-2`} />
-          <div className={`w-1/2 h-1.5 rounded-full ${isDark ? "bg-white/10" : "bg-black/7"} mb-5`} />
-          <div className="flex gap-2">
-            <div className={`w-16 h-7 rounded-full ${isDark ? "bg-white/15" : "bg-black/10"}`} />
-            <div className={`w-12 h-7 rounded-full ${isDark ? "bg-white/8" : "bg-black/5"}`} />
-          </div>
-        </div>
-      </div>
-      <div className="px-5 pb-4 pt-3 flex items-end justify-between">
-        <div>
-          <p className={`text-sm font-semibold tracking-tight ${isDark ? "text-white" : "text-black"}`}>{project.name}</p>
-          <p className={`text-xs mt-0.5 ${isDark ? "text-white/40" : "text-black/35"}`}>{project.category} · {project.location}</p>
-        </div>
-        <p className={`text-[10px] font-mono tracking-wider ${isDark ? "text-white/30" : "text-black/25"}`}>{project.url}</p>
-      </div>
+      <BrowserChrome url={project.url} isDark={isDark} />
+      <CardContent project={project} isDark={isDark} />
     </a>
   );
 }
 
+const CARD_W = 320;
+const CARD_H = 220;
 const CARD_GAP = 12;
 
 function getScaleForDistance(distance: number): number {
   if (distance === 0) return 1.0;
-  if (Math.abs(distance) <= 1) return 0.78;
-  return 0.62;
+  if (Math.abs(distance) === 1) return 0.82;
+  return 0.65;
 }
 
 function MobileDockCarousel({
@@ -130,7 +159,7 @@ function MobileDockCarousel({
   useEffect(() => {
     function measure() {
       const vw = window.innerWidth;
-      setCardPx(vw * 0.85);
+      setCardPx(Math.round(vw * 0.82));
     }
     measure();
     window.addEventListener("resize", measure);
@@ -176,28 +205,28 @@ function MobileDockCarousel({
   }, [x, getActiveFromX, setActiveIndex]);
 
   const minX = -(filtered.length - 1) * stepSize;
+  const pad = cardPx > 0 ? `calc((100vw - ${cardPx}px) / 2)` : "9vw";
 
   return (
     <div className="md:hidden overflow-hidden">
       <motion.div
-        className="flex pb-4"
+        className="flex"
         style={{
           x,
           gap: `${CARD_GAP}px`,
-          paddingLeft: `calc((100vw - ${cardPx}px) / 2)`,
-          paddingRight: `calc((100vw - ${cardPx}px) / 2)`,
+          paddingLeft: pad,
+          paddingRight: pad,
         }}
         drag="x"
         dragConstraints={{ left: minX, right: 0 }}
-        dragElastic={0.15}
-        onDragStart={() => {
-          isDragging.current = true;
-        }}
+        dragElastic={0.12}
+        dragMomentum={false}
+        onDragStart={() => { isDragging.current = true; }}
         onDragEnd={(_, info) => {
           isDragging.current = false;
           const velocity = info.velocity.x;
           const currentX = x.get();
-          let projected = currentX + velocity * 0.3;
+          const projected = currentX + velocity * 0.25;
           let idx = Math.round(-projected / stepSize);
           idx = Math.max(0, Math.min(idx, filtered.length - 1));
           setActiveIndex(idx);
@@ -207,7 +236,6 @@ function MobileDockCarousel({
             damping: 30,
           });
         }}
-        dragMomentum={false}
       >
         {filtered.map((project, i) => {
           const distance = i - activeIndex;
@@ -216,7 +244,7 @@ function MobileDockCarousel({
             <motion.div
               key={project.name}
               className="shrink-0"
-              style={{ width: `85vw` }}
+              style={{ width: cardPx > 0 ? cardPx : "82vw", height: 220 }}
               animate={{ scale }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
               onClick={() => {
@@ -273,7 +301,7 @@ export default function Portfolio() {
         </Link>
 
         <div className="flex items-start justify-between mb-4">
-          <h1 className="font-semibold text-black text-4xl tracking-tight">Selected Work</h1>
+          <h1 className="font-bold text-black text-4xl tracking-tight">Selected Work</h1>
           <p className="text-xs text-gray-400 text-right hidden md:block leading-relaxed tracking-wide">
             5 sample sites for local businesses.<br />Hover to explore.
           </p>
@@ -296,56 +324,50 @@ export default function Portfolio() {
           ))}
         </div>
 
-        <div className="relative">
-          {(() => {
-            const cardW = 320;
-            const step = 44;
-            const n = filtered.length;
-            const totalW = cardW + (n - 1) * step;
-            return (
-              <div className="hidden md:flex justify-center" style={{ height: 300, paddingTop: 40 }}>
-                <div
-                  className="relative"
-                  style={{ width: totalW, height: 260 }}
-                >
-                  {filtered.map((project, i) => {
-                    const offset = i - activeIndex;
-                    const isActive = i === activeIndex;
-                    const isHovered = hoveredIndex === i;
-                    return (
-                      <div
-                        key={project.name}
-                        onClick={() => setActiveIndex(i)}
-                        onMouseEnter={() => setHoveredIndex(i)}
-                        onMouseLeave={() => setHoveredIndex(null)}
-                        className="absolute top-0 cursor-pointer transition-all duration-200"
-                        style={{
-                          left: `${i * step}px`,
-                          zIndex: isHovered
-                            ? n + 20
-                            : isActive
-                            ? n + 10
-                            : n - Math.abs(offset),
-                          transform: `translateX(${isActive ? 8 : 0}px) scale(${isActive ? 1.02 : 0.97})`,
-                          width: cardW,
-                        }}
-                      >
-                        <ProjectCard project={project} active={isActive} hovered={isHovered} />
-                      </div>
-                    );
-                  })}
-                </div>
+        {/* Desktop stacked fan */}
+        {(() => {
+          const step = 44;
+          const n = filtered.length;
+          const totalW = CARD_W + (n - 1) * step;
+          return (
+            <div className="hidden md:flex justify-center" style={{ height: CARD_H + 60, paddingTop: 40 }}>
+              <div className="relative" style={{ width: totalW, height: CARD_H }}>
+                {filtered.map((project, i) => {
+                  const offset = i - activeIndex;
+                  const isActive = i === activeIndex;
+                  const isHovered = hoveredIndex === i;
+                  return (
+                    <div
+                      key={project.name}
+                      onClick={() => setActiveIndex(i)}
+                      onMouseEnter={() => setHoveredIndex(i)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                      className="absolute top-0 cursor-pointer transition-all duration-200"
+                      style={{
+                        left: `${i * step}px`,
+                        zIndex: isHovered ? n + 20 : isActive ? n + 10 : n - Math.abs(offset),
+                        transform: `translateX(${isActive ? 8 : 0}px) scale(${isHovered ? 1.04 : isActive ? 1.02 : 0.97})`,
+                        width: CARD_W,
+                        height: CARD_H,
+                      }}
+                    >
+                      <ProjectCard project={project} active={isActive} hovered={isHovered} />
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })()}
+            </div>
+          );
+        })()}
 
-          <MobileDockCarousel
-            filtered={filtered}
-            activeIndex={activeIndex}
-            setActiveIndex={setActiveIndex}
-          />
-        </div>
+        {/* Mobile dock carousel */}
+        <MobileDockCarousel
+          filtered={filtered}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+        />
 
+        {/* Dots */}
         <div className="flex items-center justify-center gap-2 mt-6">
           {filtered.map((_, i) => (
             <button
@@ -358,10 +380,11 @@ export default function Portfolio() {
           ))}
         </div>
 
+        {/* Project info */}
         <div className="flex flex-col items-center mt-6 text-center min-h-[80px]">
           {activeProject ? (
             <>
-              <h3 className="font-semibold text-black text-xl tracking-tight">{activeProject.name}</h3>
+              <h3 className="font-bold text-black text-xl tracking-tight">{activeProject.name}</h3>
               <p className="text-gray-400 text-sm mt-1 tracking-wide">
                 {activeProject.category} · {activeProject.location} · {activeProject.year}
               </p>
@@ -377,6 +400,7 @@ export default function Portfolio() {
             <p className="text-gray-300 text-sm tracking-wide">Hover to explore projects</p>
           )}
         </div>
+
       </div>
     </Layout>
   );
