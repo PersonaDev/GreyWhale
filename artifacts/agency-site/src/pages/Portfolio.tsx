@@ -125,7 +125,7 @@ export default function Portfolio() {
 
   return (
     <Layout>
-      <div className="px-5 pt-10 pb-24">
+      <div className="max-w-7xl mx-auto px-5 pt-10 pb-24">
         <Link href="/">
           <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-black transition-colors cursor-pointer mb-8 tracking-wide">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -166,10 +166,10 @@ export default function Portfolio() {
             const n = filtered.length;
             const totalW = cardW + (n - 1) * step;
             return (
-              <div className="hidden md:block" style={{ height: 300 }}>
+              <div className="hidden md:flex justify-center" style={{ height: 300, paddingTop: 40 }}>
                 <div
                   className="relative"
-                  style={{ width: totalW, height: 260, margin: "40px auto 0" }}
+                  style={{ width: totalW, height: 260 }}
                 >
                   {filtered.map((project, i) => {
                     const offset = i - activeIndex;

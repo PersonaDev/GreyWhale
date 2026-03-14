@@ -52,52 +52,54 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans">
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white border-b border-gray-100">
-        <Link href="/">
-          <span className="font-bold text-base text-black tracking-wide cursor-pointer" style={{ letterSpacing: "0.04em" }}>GreyWhale</span>
-        </Link>
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+          <Link href="/">
+            <span className="font-bold text-base text-black tracking-wide cursor-pointer" style={{ letterSpacing: "0.04em" }}>GreyWhale</span>
+          </Link>
 
-        <div className="hidden md:flex items-center gap-8">
-          <Link href="/portfolio">
-            <span className={`text-sm cursor-pointer transition-colors tracking-wide ${location === "/portfolio" ? "text-black font-medium" : "text-gray-500 hover:text-black"}`}>
-              Portfolio
-            </span>
-          </Link>
-          <Link href="/about">
-            <span className={`text-sm cursor-pointer transition-colors tracking-wide ${location === "/about" ? "text-black font-medium" : "text-gray-500 hover:text-black"}`}>
-              About
-            </span>
-          </Link>
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/portfolio">
+              <span className={`text-sm cursor-pointer transition-colors tracking-wide ${location === "/portfolio" ? "text-black font-medium" : "text-gray-500 hover:text-black"}`}>
+                Portfolio
+              </span>
+            </Link>
+            <Link href="/about">
+              <span className={`text-sm cursor-pointer transition-colors tracking-wide ${location === "/about" ? "text-black font-medium" : "text-gray-500 hover:text-black"}`}>
+                About
+              </span>
+            </Link>
+          </div>
+
+          <button
+            className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-0 cursor-pointer"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label="Toggle menu"
+          >
+            <span
+              className="block h-0.5 bg-black origin-center transition-all duration-300 ease-in-out"
+              style={{
+                width: 20,
+                transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none",
+              }}
+            />
+            <span
+              className="block h-0.5 bg-black transition-all duration-300 ease-in-out mt-[5px]"
+              style={{
+                width: 20,
+                opacity: menuOpen ? 0 : 1,
+                transform: menuOpen ? "scaleX(0)" : "scaleX(1)",
+              }}
+            />
+            <span
+              className="block h-0.5 bg-black origin-center transition-all duration-300 ease-in-out mt-[5px]"
+              style={{
+                width: 20,
+                transform: menuOpen ? "translateY(-11px) rotate(-45deg)" : "none",
+              }}
+            />
+          </button>
         </div>
-
-        <button
-          className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-0 cursor-pointer"
-          onClick={() => setMenuOpen((o) => !o)}
-          aria-label="Toggle menu"
-        >
-          <span
-            className="block h-0.5 bg-black origin-center transition-all duration-300 ease-in-out"
-            style={{
-              width: 20,
-              transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none",
-            }}
-          />
-          <span
-            className="block h-0.5 bg-black transition-all duration-300 ease-in-out mt-[5px]"
-            style={{
-              width: 20,
-              opacity: menuOpen ? 0 : 1,
-              transform: menuOpen ? "scaleX(0)" : "scaleX(1)",
-            }}
-          />
-          <span
-            className="block h-0.5 bg-black origin-center transition-all duration-300 ease-in-out mt-[5px]"
-            style={{
-              width: 20,
-              transform: menuOpen ? "translateY(-11px) rotate(-45deg)" : "none",
-            }}
-          />
-        </button>
       </nav>
 
       {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} />}
