@@ -59,15 +59,17 @@ export default function Checkout() {
       if (currentLeadId) {
         await apiPatch(`/leads/${currentLeadId}`, { name: name.trim(), email: email.trim(), phone: phone.trim() || undefined });
       } else {
-        const res = await apiPost("/leads", {
-          role,
-          service,
-          location: location_,
+        const leadPayload: Record<string, string> = {
           plan,
           name: name.trim(),
           email: email.trim(),
-          phone: phone.trim() || undefined,
-        }) as { id: number };
+        };
+        if (role) leadPayload.role = role;
+        if (service) leadPayload.service = service;
+        if (location_) leadPayload.location = location_;
+        if (phone.trim()) leadPayload.phone = phone.trim();
+
+        const res = await apiPost("/leads", leadPayload) as { id: number };
         currentLeadId = String(res.id);
         resolvedLeadId.current = currentLeadId;
       }

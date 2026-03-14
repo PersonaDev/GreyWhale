@@ -4,9 +4,9 @@ import { z } from "zod/v4";
 
 export const leadsTable = pgTable("leads", {
   id: serial("id").primaryKey(),
-  role: text("role").notNull(),
-  service: text("service").notNull(),
-  location: text("location").notNull(),
+  role: text("role"),
+  service: text("service"),
+  location: text("location"),
   plan: text("plan").notNull(),
   name: text("name"),
   email: text("email"),
