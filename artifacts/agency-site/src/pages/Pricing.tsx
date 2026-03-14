@@ -3,8 +3,8 @@ import Layout from "@/components/Layout";
 const plans = [
   {
     name: "Essential",
-    price: "$299",
-    monthly: "$99/month",
+    price: "$149",
+    monthly: "/mo",
     features: [
       "Up to 5 pages",
       "Custom design",
@@ -18,8 +18,8 @@ const plans = [
   },
   {
     name: "Growth",
-    price: "$799",
-    monthly: "$149/month",
+    price: "$249",
+    monthly: "/mo",
     features: [
       "Up to 10 pages",
       "Everything in Essential",
@@ -33,8 +33,8 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "$1,999",
-    monthly: "$249/month",
+    price: "$349",
+    monthly: "/mo",
     features: [
       "Up to 20 pages",
       "Everything in Growth",
@@ -73,12 +73,12 @@ export default function Pricing() {
                   <h3 className={`font-bold text-lg mb-2 ${plan.dark ? "text-white" : "text-black"}`}>
                     {plan.name}
                   </h3>
-                  <div className="flex items-baseline gap-2">
+                  <div className="flex items-baseline gap-1">
                     <span className={`font-bold text-3xl ${plan.dark ? "text-white" : "text-black"}`}>
                       {plan.price}
                     </span>
                     <span className={`text-sm ${plan.dark ? "text-gray-400" : "text-gray-400"}`}>
-                      + {plan.monthly}
+                      {plan.monthly}
                     </span>
                   </div>
                 </div>
