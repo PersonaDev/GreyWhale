@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 
 function MobileMenu({ onClose }: { onClose: () => void }) {
   const [visible, setVisible] = useState(false);
+  const [location] = useLocation();
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -28,12 +29,12 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
       >
         <div className="w-10 h-1 rounded bg-gray-200 mx-auto mt-3 mb-2" />
         <Link href="/portfolio">
-          <button onClick={close} className="w-full text-left px-6 py-5 text-lg text-gray-900 mx-2 rounded-xl hover:bg-gray-50 transition-colors" style={{ width: "calc(100% - 16px)" }}>
+          <button onClick={close} className={`w-full text-left px-6 py-5 text-lg font-normal mx-2 rounded-xl hover:text-gray-600 hover:bg-gray-50 transition-colors ${location === "/portfolio" ? "text-gray-600" : "text-black"}`} style={{ width: "calc(100% - 16px)" }}>
             Portfolio
           </button>
         </Link>
         <Link href="/about">
-          <button onClick={close} className="w-full text-left px-6 py-5 text-lg text-gray-900 mx-2 rounded-xl hover:bg-gray-50 transition-colors" style={{ width: "calc(100% - 16px)" }}>
+          <button onClick={close} className={`w-full text-left px-6 py-5 text-lg font-normal mx-2 rounded-xl hover:text-gray-600 hover:bg-gray-50 transition-colors ${location === "/about" ? "text-gray-600" : "text-black"}`} style={{ width: "calc(100% - 16px)" }}>
             About
           </button>
         </Link>
@@ -60,12 +61,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <div className="hidden md:flex items-center gap-8">
             <Link href="/portfolio">
-              <span className={`text-sm cursor-pointer transition-colors tracking-wide ${location === "/portfolio" ? "text-black" : "text-gray-500 hover:text-black"}`}>
+              <span className={`text-sm font-normal cursor-pointer transition-colors tracking-wide ${location === "/portfolio" ? "text-gray-600" : "text-black hover:text-gray-600"}`}>
                 Portfolio
               </span>
             </Link>
             <Link href="/about">
-              <span className={`text-sm cursor-pointer transition-colors tracking-wide ${location === "/about" ? "text-black" : "text-gray-500 hover:text-black"}`}>
+              <span className={`text-sm font-normal cursor-pointer transition-colors tracking-wide ${location === "/about" ? "text-gray-600" : "text-black hover:text-gray-600"}`}>
                 About
               </span>
             </Link>
