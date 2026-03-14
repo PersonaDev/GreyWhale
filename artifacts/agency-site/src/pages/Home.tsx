@@ -438,12 +438,33 @@ export default function Home() {
     setStarting(true);
     try {
       const { id } = await apiPost("/leads", { role, service: site, location, plan });
-      const params = `lead=${id}&plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`;
+      const contactParams = `lead=${id}&plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`;
+
       if (plan === "bespoke") {
-        navigate(`/contact?${params}`);
-      } else {
-        navigate(`/checkout?${params}`);
+        navigate(`/contact?${contactParams}`);
+        return;
       }
+
+      const base = window.location.origin + import.meta.env.BASE_URL.replace(/\/$/, "");
+      const successUrl = `${base}/checkout/success?lead=${id}`;
+      const cancelUrl = window.location.href;
+
+      try {
+        const { url } = await apiPost("/stripe/checkout", {
+          leadId: id,
+          plan,
+          successUrl,
+          cancelUrl,
+        });
+        if (url) {
+          window.location.href = url;
+          return;
+        }
+      } catch {
+        // Stripe not configured — fall through to checkout page
+      }
+
+      navigate(`/checkout?${contactParams}`);
     } catch {
       navigate(`/contact?plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`);
     } finally {

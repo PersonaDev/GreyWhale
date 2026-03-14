@@ -1,7 +1,7 @@
 import { Router } from "express";
 import Stripe from "stripe";
 import { db } from "@workspace/db";
-import { leadsTable } from "@workspace/db/schema";
+import { leadsTable, paymentsTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import { sendLeadNotification } from "../lib/email";
 
@@ -119,6 +119,20 @@ router.post("/stripe/webhook", async (req, res) => {
           .returning();
 
         if (lead) {
+          const amountCents = session.amount_total ?? PLAN_PRICES[lead.plan] ?? 0;
+          const paymentIntentId = typeof session.payment_intent === "string"
+            ? session.payment_intent
+            : null;
+
+          await db.insert(paymentsTable).values({
+            leadId,
+            plan: lead.plan,
+            amountCents,
+            stripeSessionId: session.id,
+            stripePaymentIntentId: paymentIntentId,
+            customerEmail: session.customer_details?.email ?? lead.email ?? null,
+          });
+
           await sendLeadNotification(lead);
         }
       }
