@@ -174,7 +174,7 @@ export default function Pricing() {
               id={tier.id}
               className={`relative rounded-2xl p-7 flex flex-col ${
                 tier.popular
-                  ? "border-2 border-black order-first md:order-none md:-mt-4"
+                  ? "border-2 border-black order-first md:order-none -mt-4 md:-mt-6"
                   : "border border-gray-200"
               }`}
             >
