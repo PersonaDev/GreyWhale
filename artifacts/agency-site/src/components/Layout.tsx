@@ -33,6 +33,11 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
             Portfolio
           </button>
         </Link>
+        <Link href="/pricing">
+          <button onClick={close} className={`w-full text-left px-6 py-5 text-lg font-normal mx-2 rounded-xl hover:text-gray-600 hover:bg-gray-50 transition-colors ${location === "/pricing" ? "text-gray-600" : "text-black"}`} style={{ width: "calc(100% - 16px)" }}>
+            Pricing
+          </button>
+        </Link>
         <Link href="/about">
           <button onClick={close} className={`w-full text-left px-6 py-5 text-lg font-normal mx-2 rounded-xl hover:text-gray-600 hover:bg-gray-50 transition-colors ${location === "/about" ? "text-gray-600" : "text-black"}`} style={{ width: "calc(100% - 16px)" }}>
             About
@@ -63,6 +68,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/portfolio">
               <span className={`text-sm font-normal cursor-pointer transition-colors tracking-wide ${location === "/portfolio" ? "text-gray-600" : "text-black hover:text-gray-600"}`}>
                 Portfolio
+              </span>
+            </Link>
+            <Link href="/pricing">
+              <span className={`text-sm font-normal cursor-pointer transition-colors tracking-wide ${location === "/pricing" ? "text-gray-600" : "text-black hover:text-gray-600"}`}>
+                Pricing
               </span>
             </Link>
             <Link href="/about">
