@@ -1,0 +1,25 @@
+# Portfolio Deck Polish — Follow-up Prompt
+
+The stacked card deck on /portfolio is close but needs adjustments. Desktop only — don't touch mobile.
+
+## Issues to Fix
+
+1. **Cards behind the front card need more visible spread.** Right now you can only see tiny slivers of the background cards — they look like dark stripes, not recognizable cards. Increase the horizontal offset between stacked cards so you can clearly see at least 40-60px of each background card on either side. The user should be able to tell there are multiple projects and be tempted to click the edges to navigate.
+
+2. **Front card is too tall.** Reduce the height of the browser mockup card — it's taking up too much vertical space for placeholder content. Aim for roughly 380-420px tall instead of the current height. The card should feel like a preview, not a full-page takeover.
+
+3. **Background cards need their own browser chrome visible.** Each background card peeking out should show enough of its browser top bar (dots + URL) that it reads as a separate project, not just a colored edge. This is what makes it feel like a deck of cards — you see the tops/edges of the other cards and want to explore them.
+
+4. **Add slight rotation to background cards.** Give the background cards a very subtle rotation (1-2 degrees) alternating left and right to make the deck feel more organic and physical, like cards spread on a table. The front/active card should always be straight (0 degrees).
+
+5. **Hover effect on background card edges.** When you hover over the visible edge of a background card, it should shift outward slightly (10-15px) and the cursor should change to pointer — signaling it's clickable. This invites exploration.
+
+6. **Smooth transitions between cards.** When clicking a background card or a navigation dot, the transition should feel smooth and weighted — cards sliding and repositioning over 400ms with ease-out timing. No snapping or jumping.
+
+7. **Card shadows need more depth.** Add a layered shadow to the front card to make it pop forward: something like `box-shadow: 0 4px 6px rgba(0,0,0,0.04), 0 12px 30px rgba(0,0,0,0.08)`. Background cards should have a lighter shadow.
+
+## Do Not Change
+- The project info display below the deck (name, category, location, tags) — that looks good
+- The navigation dots — those are fine
+- The filter tabs — keep as is
+- Mobile layout — leave completely untouched
