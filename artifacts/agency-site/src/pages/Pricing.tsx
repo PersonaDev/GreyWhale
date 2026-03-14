@@ -121,7 +121,7 @@ export default function Pricing() {
 
       <section className="px-6 pb-20">
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="relative border border-gray-200 rounded-2xl p-7 flex flex-col">
+          <div className="relative border-2 border-black rounded-2xl p-7 flex flex-col">
             <div className="absolute -top-3 left-6">
               <span className="px-3 py-1 rounded-full bg-black text-white text-xs font-semibold tracking-wide">
                 Most popular
@@ -141,13 +141,13 @@ export default function Pricing() {
                 </li>
               ))}
             </ul>
-            <Link href="/">
-              <button className="w-full bg-black text-white text-sm font-medium py-3 rounded-full hover:opacity-80 transition-opacity flex items-center justify-center gap-2 cursor-pointer">
+            <Link href="/" className="block w-full bg-black text-white text-sm font-medium py-3 rounded-full hover:opacity-80 transition-opacity text-center">
+              <span className="inline-flex items-center gap-2">
                 Get Started
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </button>
+              </span>
             </Link>
           </div>
 
@@ -166,13 +166,13 @@ export default function Pricing() {
                 </li>
               ))}
             </ul>
-            <Link href="/">
-              <button className="w-full bg-black text-white text-sm font-medium py-3 rounded-full hover:opacity-80 transition-opacity flex items-center justify-center gap-2 cursor-pointer">
+            <Link href="/" className="block w-full bg-black text-white text-sm font-medium py-3 rounded-full hover:opacity-80 transition-opacity text-center">
+              <span className="inline-flex items-center gap-2">
                 Get Started
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </button>
+              </span>
             </Link>
           </div>
         </div>
@@ -247,13 +247,11 @@ export default function Pricing() {
           <p className="mt-3 text-gray-400 text-sm md:text-base mb-8">
             No upfront cost. Live in 14 days. Cancel anytime.
           </p>
-          <Link href="/">
-            <button className="bg-black text-white text-sm font-medium px-8 py-3 rounded-full hover:opacity-80 transition-opacity inline-flex items-center gap-2 cursor-pointer">
-              Get Started
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </button>
+          <Link href="/" className="bg-black text-white text-sm font-medium px-8 py-3 rounded-full hover:opacity-80 transition-opacity inline-flex items-center gap-2">
+            Get Started
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
           </Link>
         </div>
       </section>

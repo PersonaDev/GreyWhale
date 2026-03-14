@@ -1,0 +1,73 @@
+# Fix Desktop Portfolio Layout — Replit Prompt
+
+The desktop version of the /portfolio "Selected Work" section needs a complete visual overhaul. The mobile version is good — keep that unchanged. This is desktop only.
+
+## The Problem
+
+The current desktop layout shows 5 browser mockup cards in a flat horizontal row, all the same size, with colored placeholder pages (beige, dark gray, green-tinted, light blue, pale yellow) filled with gray wireframe-style rectangles pretending to be content. It looks like a developer placeholder, not a finished portfolio. See the attached screenshot (left image) for what needs to change.
+
+## The Goal
+
+Make it look like the reference screenshot (right image): a stacked deck of overlapping browser mockup cards, centered on the page, where one card is in focus and the others peek out behind it. It should feel like flipping through a collection — premium, physical, tactile.
+
+## Exact Desktop Behavior
+
+### Default State
+- All 5 cards are stacked on top of each other in the center of the page, slightly offset horizontally so you can see the left and right edges of the cards behind the front one
+- The front/active card is fully visible and centered
+- Cards behind fan out slightly to the left and right, each offset by about 20-30px and slightly scaled down (like a deck of cards spread on a table)
+- Subtle box-shadow on each card to create depth and layering
+
+### Hover/Click Interaction  
+- Hovering or clicking on a visible edge of a background card brings that card to the front
+- The transition is smooth (400ms ease-out) — cards slide and reorder gently
+- The previously front card moves to where the newly selected card was
+- Alternatively: left/right arrow buttons or subtle navigation dots below the deck to cycle through projects
+
+### Card Design
+- Each card is a browser window mockup: light gray top bar with three dots (red, yellow, green) on the left, URL text centered in the address bar
+- The card body should contain a real screenshot or, if not available yet, a clean solid color or subtle gradient with the business name in large centered text — NOT gray wireframe rectangles
+- Remove all the colored placeholder pages with fake wireframe content (the beige, gray, blue, yellow pages). They look unfinished.
+- Card dimensions: roughly 600-700px wide, 400-450px tall on desktop
+- Border-radius: 12px on outer card
+- Background: white
+- Shadow: subtle multi-layer shadow for depth (e.g. 0 4px 6px rgba(0,0,0,0.05), 0 10px 30px rgba(0,0,0,0.08))
+
+### Project Info Display
+- Below the card deck, show the current/front card's project details:
+  - Project name — large, bold, black
+  - Category · Location · Year — muted gray, smaller
+  - Tags as small pill badges
+- This info updates smoothly when switching between cards (fade transition, 200ms)
+
+### Navigation Dots
+- Small dots below the project info (like a carousel indicator)
+- The active dot is filled/dark, inactive dots are light gray
+- Clicking a dot switches to that project
+
+## Project Data
+
+1. Blue Oak Dental — blueoakdental.com — Healthcare · Folsom, CA · 2025 — Web Design, Forms, SEO
+2. Maison Caldo — maisoncaldo.com — E-commerce · Sacramento, CA · 2025 — Web Design, E-commerce, Branding
+3. Valley Roots Cafe — valleyrootscafe.com — Food & Drink · Davis, CA · 2025 — Web Design, Menu, SEO
+4. Peak Performance Concept — peakperformanceconcept.com — Service · Roseville, CA · 2026 — Web Design, Booking, SEO
+5. Sunrise Plumbing — sunriseplumbing.com — Service · Sacramento, CA · 2026 — Web Design, Forms, Local SEO
+
+## Placeholder Content for Card Bodies (until real screenshots exist)
+
+Instead of the wireframe gray boxes, use these for each card body:
+
+1. Blue Oak Dental — white background, project name centered in elegant serif font
+2. Maison Caldo — dark charcoal/black background, project name in white
+3. Valley Roots Cafe — warm off-white/cream background, project name in dark green
+4. Peak Performance Concept — light cool gray background, project name in black
+5. Sunrise Plumbing — white background, project name in dark navy
+
+This way even the placeholders look intentional and designed, not broken.
+
+## Important
+
+- DO NOT touch the mobile layout — it already works well with the sliding/swiping behavior
+- Only apply these changes at desktop breakpoints (768px and above)
+- Match all typography, spacing, and color to the existing greywhale.dev design system
+- Keep the filter tabs (All, Healthcare, Service, Food & Drink, E-commerce) — they should filter which cards appear in the deck
