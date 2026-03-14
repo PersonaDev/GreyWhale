@@ -1,28 +1,67 @@
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
 
-const standardFeatures = [
-  "Custom design — no templates",
-  "Up to 10 pages",
-  "Mobile responsive",
-  "SEO setup (meta tags, schema, sitemap)",
-  "CMS access for self-service edits",
-  "Hosting & SSL included",
-  "Contact forms",
-  "Google Analytics",
-  "Ongoing support",
+type Feature = { text: string; highlight?: boolean };
+
+const tiers = [
+  {
+    id: "starter",
+    name: "Starter",
+    price: "$149",
+    label: "Get online",
+    features: [
+      { text: "Custom designed website" },
+      { text: "Up to 5 pages" },
+      { text: "Mobile responsive" },
+      { text: "Basic SEO (meta tags, sitemap)" },
+      { text: "Hosting & SSL included" },
+      { text: "Contact form" },
+      { text: "Edit your own text and images anytime" },
+      { text: "1 round of revisions per month" },
+      { text: "48-hour support response time" },
+    ] as Feature[],
+    nudge: { text: "Want analytics and booking?", link: "See Professional", target: "professional" },
+    popular: false,
+  },
+  {
+    id: "professional",
+    name: "Professional",
+    price: "$249",
+    label: "Grow your business",
+    features: [
+      { text: "Everything in Starter" },
+      { text: "Up to 10 pages", highlight: true },
+      { text: "Google Analytics setup", highlight: true },
+      { text: "Google Business Profile optimization", highlight: true },
+      { text: "Booking or scheduling integration", highlight: true },
+      { text: "Contact forms with lead notifications", highlight: true },
+      { text: "Advanced SEO (local schema, FAQ markup, structured data)", highlight: true },
+      { text: "2 rounds of revisions per month", highlight: true },
+      { text: "24-hour priority support response", highlight: true },
+    ] as Feature[],
+    nudge: { text: "Need e-commerce?", link: "See Business", target: "business" },
+    popular: true,
+  },
+  {
+    id: "business",
+    name: "Business",
+    price: "$349",
+    label: "Scale & sell",
+    features: [
+      { text: "Everything in Professional" },
+      { text: "Up to 20 pages", highlight: true },
+      { text: "E-commerce (product pages, cart, checkout)", highlight: true },
+      { text: "Custom integrations (API connections, third-party tools)", highlight: true },
+      { text: "Blog setup and management", highlight: true },
+      { text: "Monthly performance report", highlight: true },
+      { text: "Unlimited revisions", highlight: true },
+      { text: "Same-day priority support", highlight: true },
+    ] as Feature[],
+    popular: false,
+  },
 ];
 
-const businessFeatures = [
-  "Everything in Standard",
-  "Up to 20 pages",
-  "E-commerce functionality",
-  "Custom integrations",
-  "Advanced SEO (local schema, FAQ markup, structured data)",
-  "Priority support",
-];
-
-const comparisonRows: { label: string; diy: string; freelancer: string; agency: string; gw: string; type?: "check" | "x" | "text" }[] = [
+const comparisonRows: { label: string; diy: string; freelancer: string; agency: string; gw: string }[] = [
   { label: "Upfront cost", diy: "$0", freelancer: "$1,500–$5,000", agency: "$4,000–$10,000", gw: "$0" },
   { label: "Monthly cost", diy: "$16–$39", freelancer: "$0–$100", agency: "$200–$2,000", gw: "$149" },
   { label: "Year 1 total", diy: "$192–$468", freelancer: "$1,500–$6,200", agency: "$6,400–$34,000", gw: "$1,788" },
@@ -57,28 +96,24 @@ const vsCards = [
 
 const faqs = [
   {
-    q: "What's included in the monthly price?",
-    a: "Everything — design, development, hosting, SSL, CMS access, SEO setup, ongoing support, and maintenance. There are no hidden fees.",
+    q: "Which plan is right for me?",
+    a: "Starter is perfect if you just need a clean, professional website to establish your online presence. Professional is our most popular plan — it adds analytics, booking integration, and advanced SEO so your site actually brings in new customers. Business is for companies that need e-commerce, custom integrations, or a larger web presence.",
+  },
+  {
+    q: "Can I upgrade later?",
+    a: "Yes. You can move up to a higher plan anytime. We'll add the new features to your existing site — no rebuild required.",
   },
   {
     q: "Is there a contract?",
-    a: "No. Cancel anytime. We don't lock you in because we'd rather earn your business every month.",
+    a: "No. All plans are month-to-month. Cancel anytime.",
   },
   {
-    q: "How long does it take to build my site?",
-    a: "Most sites go live within 14 days of our first conversation.",
-  },
-  {
-    q: "Can I edit my own site?",
-    a: "Yes. Every plan includes CMS access so you can update text, images, and basic content yourself. For bigger changes, we handle it.",
-  },
-  {
-    q: "What if I need e-commerce or custom features?",
-    a: "Our Business plan at $249/month includes e-commerce, custom integrations, and advanced functionality.",
+    q: "What does 'rounds of revisions' mean?",
+    a: "A revision is any change you want us to make that goes beyond basic text and image edits — things like layout changes, new sections, adding a page, or design tweaks. Starter includes 1 per month, Professional includes 2, and Business includes unlimited.",
   },
   {
     q: "Do I own my website?",
-    a: "Yes. Your site is built on code we deliver to you. If you ever leave, you take your site with you.",
+    a: "Yes. Your site is built on code we deliver to you. If you ever leave, you take everything with you.",
   },
 ];
 
@@ -105,7 +140,19 @@ function CellValue({ value, bold }: { value: string; bold?: boolean }) {
   return <span className={bold ? "font-semibold text-black" : "text-gray-600"}>{value}</span>;
 }
 
+function Arrow() {
+  return (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+    </svg>
+  );
+}
+
 export default function Pricing() {
+  function scrollTo(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
   return (
     <Layout>
       <section className="px-6 pt-20 pb-16 md:pt-28 md:pb-20">
@@ -120,61 +167,67 @@ export default function Pricing() {
       </section>
 
       <section className="px-6 pb-20">
-        <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="relative border-2 border-black rounded-2xl p-7 flex flex-col">
-            <div className="absolute -top-3 left-6">
-              <span className="px-3 py-1 rounded-full bg-black text-white text-xs font-semibold tracking-wide">
-                Most popular
-              </span>
-            </div>
-            <p className="text-xs text-gray-400 tracking-wide uppercase mb-3 mt-1">Most businesses</p>
-            <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-4xl font-bold text-black">$149</span>
-              <span className="text-base text-gray-400">/month</span>
-            </div>
-            <p className="text-sm text-gray-400 mb-6">No upfront cost</p>
-            <ul className="space-y-3 flex-1 mb-8">
-              {standardFeatures.map((f) => (
-                <li key={f} className="flex items-start gap-2.5">
-                  <Check className="text-gray-400 mt-0.5" />
-                  <span className="text-sm text-gray-600">{f}</span>
-                </li>
-              ))}
-            </ul>
-            <Link href="/" className="block w-full bg-black text-white text-sm font-medium py-3 rounded-full hover:opacity-80 transition-opacity text-center">
-              <span className="inline-flex items-center gap-2">
-                Get Started
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </span>
-            </Link>
-          </div>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+          {tiers.map((tier) => (
+            <div
+              key={tier.id}
+              id={tier.id}
+              className={`relative rounded-2xl p-7 flex flex-col ${
+                tier.popular
+                  ? "border-2 border-black order-first md:order-none md:-mt-4"
+                  : "border border-gray-200"
+              }`}
+            >
+              {tier.popular && (
+                <div className="absolute -top-3 left-6">
+                  <span className="px-3 py-1 rounded-full bg-black text-white text-xs font-semibold tracking-wide">
+                    Most popular
+                  </span>
+                </div>
+              )}
+              <p className="text-xs text-gray-400 tracking-wide uppercase mb-3 mt-1">{tier.label}</p>
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="text-4xl font-bold text-black">{tier.price}</span>
+                <span className="text-base text-gray-400">/month</span>
+              </div>
+              <p className="text-sm text-gray-400 mb-6">No upfront cost</p>
 
-          <div className="border border-gray-200 rounded-2xl p-7 flex flex-col">
-            <p className="text-xs text-gray-400 tracking-wide uppercase mb-3 mt-1">E-commerce & complex</p>
-            <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-4xl font-bold text-black">$249</span>
-              <span className="text-base text-gray-400">/month</span>
+              <ul className="space-y-3 flex-1">
+                {tier.features.map((f) => (
+                  <li key={f.text} className="flex items-start gap-2.5">
+                    <Check className="text-gray-400 mt-0.5" />
+                    <span className={`text-sm ${f.highlight ? "font-medium text-black" : "text-gray-600"}`}>
+                      {f.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              {tier.nudge && (
+                <p className="text-xs text-gray-400 mt-5">
+                  {tier.nudge.text}{" "}
+                  <button
+                    onClick={() => scrollTo(tier.nudge!.target)}
+                    className="underline text-gray-500 hover:text-black transition-colors cursor-pointer"
+                  >
+                    {tier.nudge.link} →
+                  </button>
+                </p>
+              )}
+
+              <div className="mt-6">
+                {tier.popular ? (
+                  <Link href="/" className="block w-full bg-black text-white text-sm font-medium py-3 rounded-full hover:opacity-80 transition-opacity text-center">
+                    <span className="inline-flex items-center gap-2">Get Started <Arrow /></span>
+                  </Link>
+                ) : (
+                  <Link href="/" className="block w-full border border-gray-300 text-black text-sm font-medium py-3 rounded-full hover:bg-gray-50 transition-colors text-center">
+                    <span className="inline-flex items-center gap-2">Get Started <Arrow /></span>
+                  </Link>
+                )}
+              </div>
             </div>
-            <p className="text-sm text-gray-400 mb-6">No upfront cost</p>
-            <ul className="space-y-3 flex-1 mb-8">
-              {businessFeatures.map((f) => (
-                <li key={f} className="flex items-start gap-2.5">
-                  <Check className="text-gray-400 mt-0.5" />
-                  <span className="text-sm text-gray-600">{f}</span>
-                </li>
-              ))}
-            </ul>
-            <Link href="/" className="block w-full bg-black text-white text-sm font-medium py-3 rounded-full hover:opacity-80 transition-opacity text-center">
-              <span className="inline-flex items-center gap-2">
-                Get Started
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </span>
-            </Link>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -248,10 +301,7 @@ export default function Pricing() {
             No upfront cost. Live in 14 days. Cancel anytime.
           </p>
           <Link href="/" className="bg-black text-white text-sm font-medium px-8 py-3 rounded-full hover:opacity-80 transition-opacity inline-flex items-center gap-2">
-            Get Started
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+            Get Started <Arrow />
           </Link>
         </div>
       </section>
