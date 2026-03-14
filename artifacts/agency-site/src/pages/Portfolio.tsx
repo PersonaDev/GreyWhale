@@ -71,15 +71,18 @@ const categories = ["All", "Healthcare", "Service", "Food & Drink", "E-commerce"
 function ProjectCard({ project, active, hovered }: { project: Project; active: boolean; hovered?: boolean }) {
   const isDark = project.imgBg === "#2a2a2a";
   return (
-    <div
-      className={`shrink-0 w-[85vw] md:w-80 rounded-2xl overflow-hidden transition-all duration-200 ${
+    <a
+      href={`https://${project.url}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`block shrink-0 w-[85vw] md:w-80 rounded-2xl overflow-hidden transition-all duration-200 ${
         hovered
           ? "shadow-2xl scale-[1.03] -translate-y-1"
           : active
           ? "shadow-xl"
           : "opacity-50"
       }`}
-      style={{ backgroundColor: project.imgBg }}
+      style={{ backgroundColor: project.imgBg, textDecoration: "none" }}
     >
       <div className="h-48 flex items-end p-5">
         <div className="w-full">
@@ -98,7 +101,7 @@ function ProjectCard({ project, active, hovered }: { project: Project; active: b
         </div>
         <p className={`text-[10px] font-mono tracking-wider ${isDark ? "text-white/30" : "text-black/25"}`}>{project.url}</p>
       </div>
-    </div>
+    </a>
   );
 }
 
