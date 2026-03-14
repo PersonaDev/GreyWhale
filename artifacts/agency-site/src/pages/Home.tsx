@@ -471,7 +471,7 @@ export default function Home() {
 
   return (
     <Layout>
-      <section className="min-h-[calc(100vh-57px)] flex flex-col items-start justify-center px-5 md:items-center md:text-center">
+      <section className="min-h-[calc(100vh-57px)] flex flex-col items-start justify-start pt-12 md:justify-center md:pt-0 px-5 md:items-center md:text-center">
         {/* Desktop: 3 centered lines */}
         <div
           className="hidden md:block text-center w-full text-[2.5rem]"
