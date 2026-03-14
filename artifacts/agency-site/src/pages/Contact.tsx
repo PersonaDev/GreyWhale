@@ -1,7 +1,64 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearch, useLocation } from "wouter";
 import Layout from "@/components/Layout";
 import { apiPost } from "@/lib/api";
+
+function InlineInput({
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  required,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+  type?: string;
+  required?: boolean;
+}) {
+  const spanRef = useRef<HTMLSpanElement>(null);
+  const [width, setWidth] = useState(0);
+
+  const measure = useCallback(() => {
+    if (spanRef.current) {
+      setWidth(spanRef.current.offsetWidth + 4);
+    }
+  }, []);
+
+  useEffect(() => {
+    measure();
+  }, [value, placeholder, measure]);
+
+  const displayText = value || placeholder;
+  const minW = 60;
+
+  return (
+    <span className="relative inline-block align-baseline">
+      <span
+        ref={spanRef}
+        aria-hidden
+        className="invisible whitespace-pre absolute top-0 left-0 font-semibold"
+        style={{ fontSize: "inherit", letterSpacing: "inherit" }}
+      >
+        {displayText}
+      </span>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        required={required}
+        className="font-semibold text-black bg-transparent border-b-2 border-black outline-none placeholder:text-gray-300 placeholder:font-semibold"
+        style={{
+          fontSize: "inherit",
+          letterSpacing: "inherit",
+          lineHeight: "inherit",
+          width: Math.max(width, minW),
+        }}
+      />
+    </span>
+  );
+}
 
 export default function Contact() {
   const search = useSearch();
@@ -14,9 +71,13 @@ export default function Contact() {
   const service = params.get("service") || "";
   const location_ = params.get("location") || "";
 
+  const formatLabel = (val: string) =>
+    val.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
   const [resolvedLeadId, setResolvedLeadId] = useState<string | null>(initialLeadId);
   const [name, setName] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [city, setCity] = useState(location_ ? formatLabel(location_) : "");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
@@ -55,7 +116,7 @@ export default function Contact() {
         const { id } = await apiPost("/leads", {
           role: role || "unknown",
           service: service || "unknown",
-          location: location_ || "unknown",
+          location: city.trim() || location_ || "unknown",
           plan: plan || "unknown",
         });
         currentLeadId = String(id);
@@ -79,6 +140,8 @@ export default function Contact() {
       setLoading(false);
     }
   }
+
+  const hasLeadContext = !!(role || service || location_ || plan);
 
   if (submitted) {
     return (
@@ -111,93 +174,95 @@ export default function Contact() {
 
   return (
     <Layout>
-      <div className="min-h-[calc(100vh-57px)] flex items-center justify-center px-5 py-16">
-        <div className="w-full max-w-md">
-          <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-2" style={{ letterSpacing: "0.12em" }}>
+      <div className="min-h-[calc(100vh-57px)] flex flex-col items-start justify-center px-5 py-16 md:items-center">
+        <div className="w-full max-w-3xl">
+          <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-6" style={{ letterSpacing: "0.12em" }}>
             Contact
           </p>
-          <h1 className="text-2xl font-semibold text-black mb-8 tracking-wide">Tell us about your project</h1>
 
-          {(role || service || location_ || plan) && (
-            <div className="bg-gray-50 rounded-xl px-4 py-3 mb-6">
+          {hasLeadContext && (
+            <div className="bg-gray-50 rounded-xl px-4 py-3 mb-8">
               <p className="text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Your selections</p>
               <p className="text-sm text-gray-600">
-                {[role, service, location_, plan].filter(Boolean).join(" · ")}
+                {[role && formatLabel(role), service && formatLabel(service), location_ && formatLabel(location_), plan && formatLabel(plan)].filter(Boolean).join(" · ")}
               </p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Name *</label>
-              <input
-                type="text"
+          <form onSubmit={handleSubmit}>
+            <p
+              className="font-medium leading-snug text-left md:text-center"
+              style={{ fontSize: "clamp(1.5rem, 4vw, 3rem)", color: "#c0c0c0", lineHeight: 1.5, letterSpacing: "0.01em" }}
+            >
+              {"Hi, my name is "}
+              <InlineInput
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={setName}
+                placeholder="your name"
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-900 focus:outline-none focus:border-black transition-colors"
-                placeholder="Your name"
               />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Business Name</label>
-              <input
-                type="text"
+              {". "}
+              <br className="hidden md:inline" />
+              {"I run "}
+              <InlineInput
                 value={businessName}
-                onChange={(e) => setBusinessName(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-900 focus:outline-none focus:border-black transition-colors"
-                placeholder="Your business name"
+                onChange={setBusinessName}
+                placeholder="a business"
               />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Email *</label>
-              <input
-                type="email"
+              {" in "}
+              <InlineInput
+                value={city}
+                onChange={setCity}
+                placeholder="Sacramento"
+              />
+              {". "}
+              <br className="hidden md:inline" />
+              {"You can reach me at "}
+              <InlineInput
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={setEmail}
+                placeholder="email@example.com"
+                type="email"
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-900 focus:outline-none focus:border-black transition-colors"
-                placeholder="you@example.com"
               />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Phone</label>
-              <input
-                type="tel"
+              {" or "}
+              <InlineInput
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-900 focus:outline-none focus:border-black transition-colors"
+                onChange={setPhone}
                 placeholder="(916) 555-0123"
+                type="tel"
               />
-            </div>
+              {"."}
+            </p>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Message</label>
+            <div className="mt-10 max-w-2xl md:mx-auto">
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 rows={4}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-900 focus:outline-none focus:border-black transition-colors resize-none"
-                placeholder="Tell us more about what you need…"
+                className="w-full px-0 py-3 border-b-2 border-gray-200 text-lg text-gray-900 bg-transparent focus:outline-none focus:border-black transition-colors resize-none placeholder:text-gray-300"
+                placeholder="Tell us about your project, goals, timeline — anything helps…"
               />
             </div>
 
             {error && (
-              <div className="bg-red-50 text-red-700 text-sm rounded-xl px-4 py-3">
+              <div className="mt-4 bg-red-50 text-red-700 text-sm rounded-xl px-4 py-3 max-w-2xl md:mx-auto">
                 {error}
               </div>
             )}
 
-            <button
-              type="submit"
-              disabled={loading || !name.trim() || !email.trim()}
-              className="w-full py-4 rounded-full bg-black text-white font-medium text-base hover:bg-gray-800 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed tracking-wide"
-            >
-              {loading ? "Sending…" : "Send Message"}
-            </button>
+            <div className="mt-8 md:text-center">
+              <button
+                type="submit"
+                disabled={loading || !name.trim() || !email.trim()}
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black text-white text-base font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? "Sending…" : "Send message"}
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
+            </div>
           </form>
         </div>
       </div>
