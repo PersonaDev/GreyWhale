@@ -8,17 +8,17 @@ const router = Router();
 router.post("/leads", async (req, res) => {
   try {
     const { role, service, location, plan, name, email, phone } = req.body;
-    if (!role || !service || !location || !plan) {
-      res.status(400).json({ error: "Missing required fields: role, service, location, plan" });
+    if (!plan) {
+      res.status(400).json({ error: "Missing required field: plan" });
       return;
     }
 
     const [lead] = await db.insert(leadsTable).values({
-      role,
-      service,
-      location,
       plan,
       status: "started",
+      ...(role && { role }),
+      ...(service && { service }),
+      ...(location && { location }),
       ...(name && { name }),
       ...(email && { email }),
       ...(phone && { phone }),
