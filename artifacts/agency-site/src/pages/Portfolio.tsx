@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "wouter";
+import { motion, useMotionValue, animate } from "framer-motion";
 import Layout from "@/components/Layout";
 
 type Project = {
@@ -105,6 +106,139 @@ function ProjectCard({ project, active, hovered }: { project: Project; active: b
   );
 }
 
+const CARD_GAP = 12;
+
+function getScaleForDistance(distance: number): number {
+  if (distance === 0) return 1.0;
+  if (Math.abs(distance) <= 1) return 0.78;
+  return 0.62;
+}
+
+function MobileDockCarousel({
+  filtered,
+  activeIndex,
+  setActiveIndex,
+}: {
+  filtered: Project[];
+  activeIndex: number;
+  setActiveIndex: (i: number) => void;
+}) {
+  const x = useMotionValue(0);
+  const [cardPx, setCardPx] = useState(0);
+  const isDragging = useRef(false);
+
+  useEffect(() => {
+    function measure() {
+      const vw = window.innerWidth;
+      setCardPx(vw * 0.85);
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  const stepSize = cardPx + CARD_GAP;
+
+  useEffect(() => {
+    if (!isDragging.current && cardPx > 0) {
+      animate(x, -activeIndex * stepSize, {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+      });
+    }
+  }, [activeIndex, cardPx, stepSize]);
+
+  useEffect(() => {
+    setActiveIndex(0);
+    if (cardPx > 0) {
+      x.set(0);
+    }
+  }, [filtered.length]);
+
+  const getActiveFromX = useCallback(
+    (xVal: number) => {
+      if (stepSize <= 0) return 0;
+      const raw = Math.round(-xVal / stepSize);
+      return Math.max(0, Math.min(raw, filtered.length - 1));
+    },
+    [stepSize, filtered.length]
+  );
+
+  useEffect(() => {
+    const unsub = x.on("change", (latest) => {
+      if (isDragging.current) {
+        const idx = getActiveFromX(latest);
+        setActiveIndex(idx);
+      }
+    });
+    return unsub;
+  }, [x, getActiveFromX, setActiveIndex]);
+
+  const minX = -(filtered.length - 1) * stepSize;
+
+  return (
+    <div className="md:hidden overflow-hidden">
+      <motion.div
+        className="flex pb-4"
+        style={{
+          x,
+          gap: `${CARD_GAP}px`,
+          paddingLeft: `calc((100vw - ${cardPx}px) / 2)`,
+          paddingRight: `calc((100vw - ${cardPx}px) / 2)`,
+        }}
+        drag="x"
+        dragConstraints={{ left: minX, right: 0 }}
+        dragElastic={0.15}
+        onDragStart={() => {
+          isDragging.current = true;
+        }}
+        onDragEnd={(_, info) => {
+          isDragging.current = false;
+          const velocity = info.velocity.x;
+          const currentX = x.get();
+          let projected = currentX + velocity * 0.3;
+          let idx = Math.round(-projected / stepSize);
+          idx = Math.max(0, Math.min(idx, filtered.length - 1));
+          setActiveIndex(idx);
+          animate(x, -idx * stepSize, {
+            type: "spring",
+            stiffness: 300,
+            damping: 30,
+          });
+        }}
+        dragMomentum={false}
+      >
+        {filtered.map((project, i) => {
+          const distance = i - activeIndex;
+          const scale = getScaleForDistance(distance);
+          return (
+            <motion.div
+              key={project.name}
+              className="shrink-0"
+              style={{ width: `85vw` }}
+              animate={{ scale }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              onClick={() => {
+                if (!isDragging.current) {
+                  setActiveIndex(i);
+                  animate(x, -i * stepSize, {
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30,
+                  });
+                }
+              }}
+            >
+              <ProjectCard project={project} active={i === activeIndex} />
+            </motion.div>
+          );
+        })}
+      </motion.div>
+    </div>
+  );
+}
+
 export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -205,26 +339,11 @@ export default function Portfolio() {
             );
           })()}
 
-          <div className="md:hidden">
-            <div
-              className="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-              onScroll={(e) => {
-                const el = e.currentTarget;
-                const cardWidth = el.scrollWidth / filtered.length;
-                const idx = Math.round(el.scrollLeft / cardWidth);
-                setActiveIndex(Math.min(idx, filtered.length - 1));
-              }}
-            >
-              <div className="shrink-0 w-[7.5vw]" />
-              {filtered.map((project, i) => (
-                <div key={project.name} className="snap-center shrink-0">
-                  <ProjectCard project={project} active={i === activeIndex} />
-                </div>
-              ))}
-              <div className="shrink-0 w-[7.5vw]" />
-            </div>
-          </div>
+          <MobileDockCarousel
+            filtered={filtered}
+            activeIndex={activeIndex}
+            setActiveIndex={setActiveIndex}
+          />
         </div>
 
         <div className="flex items-center justify-center gap-2 mt-6">
