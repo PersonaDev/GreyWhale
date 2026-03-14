@@ -68,38 +68,31 @@ const projects: Project[] = [
 
 const categories = ["All", "Healthcare", "Service", "Food & Drink", "E-commerce"];
 
-function BrowserCard({ project, active, hovered }: { project: Project; active: boolean; hovered?: boolean }) {
+function ProjectCard({ project, active, hovered }: { project: Project; active: boolean; hovered?: boolean }) {
+  const isDark = project.imgBg === "#2a2a2a";
   return (
     <div
-      className={`shrink-0 w-[85vw] md:w-80 rounded-xl overflow-hidden border bg-white transition-all duration-200 ${
+      className={`shrink-0 w-[85vw] md:w-80 rounded-2xl overflow-hidden transition-all duration-200 ${
         hovered
-          ? "border-gray-400 shadow-2xl scale-[1.03] -translate-y-1"
+          ? "shadow-2xl scale-[1.03] -translate-y-1"
           : active
-          ? "border-gray-300 shadow-xl"
-          : "border-gray-200 opacity-60"
+          ? "shadow-xl"
+          : "opacity-50"
       }`}
+      style={{ backgroundColor: project.imgBg }}
     >
-      {/* Browser chrome */}
-      <div className="px-3 py-2.5 border-b border-gray-100 flex items-center gap-2 bg-gray-50">
-        <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-        <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-        <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
-        <div className="flex-1 mx-2">
-          <div className="bg-white rounded px-2 py-0.5 text-xs text-gray-400 font-mono text-center border border-gray-200 truncate">
-            {project.url}
+      <div className="h-52 flex items-end p-5">
+        <div className="w-full">
+          <div className={`w-2/3 h-1.5 rounded-full ${isDark ? "bg-white/20" : "bg-black/10"} mb-2`} />
+          <div className={`w-1/2 h-1.5 rounded-full ${isDark ? "bg-white/10" : "bg-black/7"} mb-5`} />
+          <div className="flex gap-2">
+            <div className={`w-16 h-7 rounded-full ${isDark ? "bg-white/15" : "bg-black/10"}`} />
+            <div className={`w-12 h-7 rounded-full ${isDark ? "bg-white/8" : "bg-black/5"}`} />
           </div>
         </div>
       </div>
-      {/* Fake website content */}
-      <div className="h-44 flex items-center justify-center" style={{ backgroundColor: project.imgBg }}>
-        <div className="w-full px-6 py-4">
-          <div className="w-2/3 h-2 rounded-full bg-black/10 mb-2" />
-          <div className="w-1/2 h-2 rounded-full bg-black/7 mb-4" />
-          <div className="flex gap-2">
-            <div className="w-16 h-6 rounded-full bg-black/15" />
-            <div className="w-12 h-6 rounded-full bg-black/7" />
-          </div>
-        </div>
+      <div className="px-5 pb-4 pt-2">
+        <p className={`text-xs font-mono tracking-wider ${isDark ? "text-white/40" : "text-black/30"}`}>{project.url}</p>
       </div>
     </div>
   );
@@ -128,9 +121,9 @@ export default function Portfolio() {
 
   return (
     <Layout>
-      <div className="px-6 pt-10 pb-24">
+      <div className="px-5 pt-10 pb-24">
         <Link href="/">
-          <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-black transition-colors cursor-pointer mb-8">
+          <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-black transition-colors cursor-pointer mb-8 tracking-wide">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
@@ -139,19 +132,18 @@ export default function Portfolio() {
         </Link>
 
         <div className="flex items-start justify-between mb-4">
-          <h1 className="font-bold text-black text-4xl">Selected Work</h1>
-          <p className="text-xs text-gray-400 text-right hidden md:block leading-relaxed">
+          <h1 className="font-semibold text-black text-4xl tracking-tight">Selected Work</h1>
+          <p className="text-xs text-gray-400 text-right hidden md:block leading-relaxed tracking-wide">
             5 sample sites for local businesses.<br />Hover to explore.
           </p>
         </div>
 
-        {/* Category filter */}
         <div className="flex items-center gap-5 mb-10 overflow-x-auto pb-1">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => handleCategoryChange(cat)}
-              className={`text-sm font-medium cursor-pointer transition-colors whitespace-nowrap ${
+              className={`text-sm font-medium cursor-pointer transition-colors whitespace-nowrap tracking-wide ${
                 activeCategory === cat ? "text-black" : "text-gray-300 hover:text-gray-500"
               }`}
             >
@@ -163,9 +155,7 @@ export default function Portfolio() {
           ))}
         </div>
 
-        {/* Horizontal file-stack carousel */}
         <div className="relative">
-          {/* Desktop: overlapping stack with click-to-advance */}
           {(() => {
             const cardW = 320;
             const step = 44;
@@ -175,7 +165,7 @@ export default function Portfolio() {
               <div className="hidden md:block" style={{ height: 300 }}>
                 <div
                   className="relative"
-                  style={{ width: totalW, height: 240, margin: "40px auto 0" }}
+                  style={{ width: totalW, height: 260, margin: "40px auto 0" }}
                 >
                   {filtered.map((project, i) => {
                     const offset = i - activeIndex;
@@ -199,7 +189,7 @@ export default function Portfolio() {
                           width: cardW,
                         }}
                       >
-                        <BrowserCard project={project} active={isActive} hovered={isHovered} />
+                        <ProjectCard project={project} active={isActive} hovered={isHovered} />
                       </div>
                     );
                   })}
@@ -208,7 +198,6 @@ export default function Portfolio() {
             );
           })()}
 
-          {/* Mobile: scroll-snap horizontal carousel */}
           <div className="md:hidden">
             <div
               className="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth"
@@ -220,20 +209,17 @@ export default function Portfolio() {
                 setActiveIndex(Math.min(idx, filtered.length - 1));
               }}
             >
-              {/* Leading spacer */}
               <div className="shrink-0 w-[7.5vw]" />
               {filtered.map((project, i) => (
                 <div key={project.name} className="snap-center shrink-0">
-                  <BrowserCard project={project} active={i === activeIndex} />
+                  <ProjectCard project={project} active={i === activeIndex} />
                 </div>
               ))}
-              {/* Trailing spacer */}
               <div className="shrink-0 w-[7.5vw]" />
             </div>
           </div>
         </div>
 
-        {/* Dot indicators */}
         <div className="flex items-center justify-center gap-2 mt-6">
           {filtered.map((_, i) => (
             <button
@@ -246,24 +232,23 @@ export default function Portfolio() {
           ))}
         </div>
 
-        {/* Project info */}
         <div className="flex flex-col items-center mt-6 text-center min-h-[80px]">
           {activeProject ? (
             <>
-              <h3 className="font-bold text-black text-xl">{activeProject.name}</h3>
-              <p className="text-gray-400 text-sm mt-1">
+              <h3 className="font-semibold text-black text-xl tracking-tight">{activeProject.name}</h3>
+              <p className="text-gray-400 text-sm mt-1 tracking-wide">
                 {activeProject.category} · {activeProject.location} · {activeProject.year}
               </p>
               <div className="flex items-center gap-2 mt-2">
                 {activeProject.tags.map((tag) => (
-                  <span key={tag} className="text-xs px-2 py-0.5 rounded border border-gray-200 text-gray-500">
+                  <span key={tag} className="text-xs px-2 py-0.5 rounded border border-gray-200 text-gray-500 tracking-wide">
                     {tag}
                   </span>
                 ))}
               </div>
             </>
           ) : (
-            <p className="text-gray-300 text-sm">Hover to explore projects</p>
+            <p className="text-gray-300 text-sm tracking-wide">Hover to explore projects</p>
           )}
         </div>
       </div>

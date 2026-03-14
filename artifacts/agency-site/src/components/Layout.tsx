@@ -16,9 +16,9 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="fixed inset-0 z-40 md:hidden flex flex-col justify-end">
+    <div className="fixed inset-0 z-[60] md:hidden flex flex-col justify-end">
       <div
-        className="absolute inset-0 bg-black/15 transition-opacity duration-300"
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
         style={{ opacity: visible ? 1 : 0 }}
         onClick={close}
       />
@@ -28,12 +28,12 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
       >
         <div className="w-10 h-1 rounded bg-gray-200 mx-auto mt-3 mb-2" />
         <Link href="/portfolio">
-          <button onClick={close} className="w-full text-left px-6 py-5 text-lg font-medium text-gray-900 hover:bg-gray-50 transition-colors">
+          <button onClick={close} className="w-full text-left px-6 py-5 text-lg font-medium text-gray-900 mx-2 rounded-xl hover:bg-gray-50 transition-colors" style={{ width: "calc(100% - 16px)" }}>
             Portfolio
           </button>
         </Link>
         <Link href="/about">
-          <button onClick={close} className="w-full text-left px-6 py-5 text-lg font-medium text-gray-900 hover:bg-gray-50 transition-colors">
+          <button onClick={close} className="w-full text-left px-6 py-5 text-lg font-medium text-gray-900 mx-2 rounded-xl hover:bg-gray-50 transition-colors" style={{ width: "calc(100% - 16px)" }}>
             About
           </button>
         </Link>
@@ -52,29 +52,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans">
-      {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white border-b border-gray-100">
         <Link href="/">
-          <span className="font-bold text-base text-black tracking-tight cursor-pointer">GreyWhale</span>
+          <span className="font-semibold text-base text-black tracking-wide cursor-pointer" style={{ letterSpacing: "0.04em" }}>GreyWhale</span>
         </Link>
 
-        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           <Link href="/portfolio">
-            <span className={`text-sm cursor-pointer transition-colors ${location === "/portfolio" ? "text-black font-medium" : "text-gray-500 hover:text-black"}`}>
+            <span className={`text-sm cursor-pointer transition-colors tracking-wide ${location === "/portfolio" ? "text-black font-medium" : "text-gray-500 hover:text-black"}`}>
               Portfolio
             </span>
           </Link>
           <Link href="/about">
-            <span className={`text-sm cursor-pointer transition-colors ${location === "/about" ? "text-black font-medium" : "text-gray-500 hover:text-black"}`}>
+            <span className={`text-sm cursor-pointer transition-colors tracking-wide ${location === "/about" ? "text-black font-medium" : "text-gray-500 hover:text-black"}`}>
               About
             </span>
           </Link>
         </div>
 
-        {/* Mobile hamburger — animated morphing lines */}
         <button
-          className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-0 cursor-pointer"
+          className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-0 cursor-pointer relative z-[70]"
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
         >
@@ -103,7 +100,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </button>
       </nav>
 
-      {/* Mobile menu bottom sheet */}
       {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} />}
 
       <main className="flex-1 pt-[57px]">
@@ -112,18 +108,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <footer className="border-t border-gray-100 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="font-bold text-sm text-black">GreyWhale</span>
+          <span className="font-semibold text-sm text-black tracking-wide">GreyWhale</span>
           <span className="text-gray-300 hidden sm:inline">|</span>
-          <span className="text-sm text-gray-400 hidden sm:inline">Sacramento</span>
+          <span className="text-sm text-gray-400 hidden sm:inline tracking-wide">Sacramento</span>
         </div>
         <div className="flex items-center gap-4 md:gap-6">
           <Link href="/portfolio">
-            <span className="text-sm text-gray-400 hover:text-black cursor-pointer transition-colors hidden md:inline">Portfolio</span>
+            <span className="text-sm text-gray-400 hover:text-black cursor-pointer transition-colors hidden md:inline tracking-wide">Portfolio</span>
           </Link>
           <Link href="/about">
-            <span className="text-sm text-gray-400 hover:text-black cursor-pointer transition-colors hidden md:inline">About</span>
+            <span className="text-sm text-gray-400 hover:text-black cursor-pointer transition-colors hidden md:inline tracking-wide">About</span>
           </Link>
-          <span className="text-xs text-gray-300">© 2026</span>
+          <span className="text-xs text-gray-300 tracking-wider">© 2026</span>
         </div>
       </footer>
     </div>

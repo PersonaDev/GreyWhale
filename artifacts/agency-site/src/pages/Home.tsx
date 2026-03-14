@@ -31,7 +31,6 @@ const plans = [
   },
 ];
 
-/* ─── Slide-up modal backdrop ─── */
 function SlideUpModal({ onClose, children }: { onClose: () => void; children: React.ReactNode }) {
   const [visible, setVisible] = useState(false);
 
@@ -48,13 +47,11 @@ function SlideUpModal({ onClose, children }: { onClose: () => void; children: Re
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/25 backdrop-blur-sm transition-opacity duration-300"
         style={{ opacity: visible ? 1 : 0 }}
         onClick={close}
       />
-      {/* Sheet */}
       <div
         className="relative bg-white rounded-t-3xl md:rounded-3xl w-full md:max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto transition-transform duration-300 ease-out"
         style={{ transform: visible ? "translateY(0)" : "translateY(100%)" }}
@@ -65,7 +62,6 @@ function SlideUpModal({ onClose, children }: { onClose: () => void; children: Re
   );
 }
 
-/* ─── Plan picker modal ─── */
 function PlanModal({ value, onChange, onClose, excludeEssential }: {
   value: string;
   onChange: (v: string) => void;
@@ -76,7 +72,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
     <SlideUpModal onClose={onClose}>
       <div className="p-6 pb-10">
         <div className="w-10 h-1 rounded bg-gray-200 mx-auto mb-6 md:hidden" />
-        <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-5">Choose your plan</p>
+        <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-5" style={{ letterSpacing: "0.12em" }}>Choose your plan</p>
         {excludeEssential && (
           <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2 mb-4">
             E-commerce and booking sites require Growth or Premium.
@@ -91,7 +87,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
                     onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
                     className="animated-border-inner w-full text-left p-4"
                   >
-                    <p className="font-bold text-lg text-black">{plan.name}</p>
+                    <p className="font-semibold text-lg text-black tracking-wide">{plan.name}</p>
                     <p className="text-xs mt-0.5 text-gray-400">{plan.price} + {plan.monthly}</p>
                     <div className="flex flex-wrap gap-x-4 gap-y-1 my-3">
                       {plan.features.map((f) => (
@@ -117,13 +113,13 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
                 }`}
               >
                 {plan.recommended && (
-                  <span className="absolute -top-3 right-4 bg-black text-white text-xs font-semibold px-3 py-1 rounded-full">
+                  <span className="absolute -top-3 right-4 bg-black text-white text-xs font-medium px-3 py-1 rounded-full tracking-wide">
                     RECOMMENDED
                   </span>
                 )}
                 <div className="flex items-start justify-between mb-2">
                   <div>
-                    <p className={`font-bold text-lg ${plan.dark ? "text-white" : "text-black"}`}>{plan.name}</p>
+                    <p className={`font-semibold text-lg tracking-wide ${plan.dark ? "text-white" : "text-black"}`}>{plan.name}</p>
                     <p className="text-xs mt-0.5 text-gray-400">{plan.price} + {plan.monthly}</p>
                   </div>
                   {plan.dark && (
@@ -151,7 +147,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
             );
           })}
         </div>
-        <p className="text-center text-xs text-gray-400 mt-6">
+        <p className="text-center text-xs text-gray-400 mt-6 tracking-wide">
           Need something more tailored?{" "}
           <span className="text-black font-medium underline cursor-pointer">Contact us</span>
           {" "}for a custom quote.
@@ -161,7 +157,6 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
   );
 }
 
-/* ─── Option picker bottom sheet (mobile) ─── */
 function OptionSheet({ options, value, onChange, onClose }: {
   options: Option[];
   value: string;
@@ -178,61 +173,62 @@ function OptionSheet({ options, value, onChange, onClose }: {
 
   return (
     <SlideUpModal onClose={onClose}>
-      <div className="pb-8">
-        <div className="w-10 h-1 rounded bg-gray-200 mx-auto mt-3 mb-2" />
-        {options.map((opt) => {
-          const isSelected = opt.value === value;
-          return (
+      <div className="pb-8 pt-1">
+        <div className="w-10 h-1 rounded bg-gray-200 mx-auto mt-3 mb-4" />
+        <div className="px-2">
+          {options.map((opt) => {
+            const isSelected = opt.value === value;
+            return (
+              <button
+                key={opt.value}
+                onClick={() => { onChange(opt.value); onClose(); }}
+                className={`w-full text-left px-4 py-4 text-base font-medium flex items-center justify-between transition-colors rounded-xl mx-0 ${
+                  isSelected ? "bg-black text-white" : "text-gray-900 hover:bg-gray-50"
+                }`}
+              >
+                {opt.label}
+                {isSelected && (
+                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </button>
+            );
+          })}
+          {customMode ? (
+            <div className="px-3 py-3 flex items-center gap-2">
+              <input
+                autoFocus
+                value={customText}
+                onChange={(e) => setCustomText(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") submitCustom(); if (e.key === "Escape") { setCustomMode(false); setCustomText(""); } }}
+                placeholder="Type your own…"
+                className="flex-1 border-b border-gray-300 focus:border-black outline-none py-1 text-base text-gray-900 bg-transparent"
+              />
+              <button
+                onClick={submitCustom}
+                className="text-sm font-medium text-black px-3 py-1.5 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors"
+              >
+                Done
+              </button>
+            </div>
+          ) : (
             <button
-              key={opt.value}
-              onClick={() => { onChange(opt.value); onClose(); }}
-              className={`w-full text-left px-5 py-4 text-base font-medium flex items-center justify-between transition-colors ${
-                isSelected ? "bg-black text-white" : "text-gray-900 hover:bg-gray-50"
-              }`}
+              onClick={() => setCustomMode(true)}
+              className="w-full text-left px-4 py-4 text-base text-gray-400 flex items-center gap-2 hover:bg-gray-50 transition-colors rounded-xl"
             >
-              {opt.label}
-              {isSelected && (
-                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              )}
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+              Other...
             </button>
-          );
-        })}
-        {customMode ? (
-          <div className="px-5 py-3 flex items-center gap-2">
-            <input
-              autoFocus
-              value={customText}
-              onChange={(e) => setCustomText(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") submitCustom(); if (e.key === "Escape") { setCustomMode(false); setCustomText(""); } }}
-              placeholder="Type your own…"
-              className="flex-1 border-b border-gray-300 focus:border-black outline-none py-1 text-base text-gray-900 bg-transparent"
-            />
-            <button
-              onClick={submitCustom}
-              className="text-sm font-semibold text-black px-3 py-1.5 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors"
-            >
-              Done
-            </button>
-          </div>
-        ) : (
-          <button
-            onClick={() => setCustomMode(true)}
-            className="w-full text-left px-5 py-4 text-base text-gray-400 flex items-center gap-2 hover:bg-gray-50 transition-colors"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
-            Other...
-          </button>
-        )}
+          )}
+        </div>
       </div>
     </SlideUpModal>
   );
 }
 
-/* ─── Desktop inline dropdown ─── */
 function DesktopDropdown({ options, value, onChange, onClose }: {
   options: Option[];
   value: string;
@@ -261,28 +257,29 @@ function DesktopDropdown({ options, value, onChange, onClose }: {
         transform: visible ? "scaleY(1) translateY(0)" : "scaleY(0.9) translateY(-8px)",
       }}
     >
-      {options.map((opt) => {
-        const isSelected = opt.value === value;
-        return (
-          <button
-            key={opt.value}
-            onClick={() => { onChange(opt.value); onClose(); }}
-            className={`w-full text-left px-5 py-3 text-sm flex items-center justify-between transition-colors hover:bg-gray-50 ${
-              isSelected ? "font-bold text-black" : "text-gray-700"
-            }`}
-          >
-            {opt.label}
-            {isSelected && (
-              <svg className="w-3.5 h-3.5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            )}
-          </button>
-        );
-      })}
-      {/* Other... / custom input */}
+      <div className="p-1.5">
+        {options.map((opt) => {
+          const isSelected = opt.value === value;
+          return (
+            <button
+              key={opt.value}
+              onClick={() => { onChange(opt.value); onClose(); }}
+              className={`w-full text-left px-4 py-2.5 text-sm flex items-center justify-between transition-colors rounded-lg ${
+                isSelected ? "font-semibold text-black bg-gray-50" : "text-gray-700 hover:bg-gray-50"
+              }`}
+            >
+              {opt.label}
+              {isSelected && (
+                <svg className="w-3.5 h-3.5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+            </button>
+          );
+        })}
+      </div>
       {customMode ? (
-        <div className="px-4 py-2.5 flex items-center gap-2 border-t border-gray-50">
+        <div className="px-3 py-2.5 flex items-center gap-2 border-t border-gray-50">
           <input
             autoFocus
             value={customText}
@@ -293,27 +290,28 @@ function DesktopDropdown({ options, value, onChange, onClose }: {
           />
           <button
             onClick={submitCustom}
-            className="text-xs font-semibold bg-black text-white px-2.5 py-1.5 rounded-lg hover:bg-gray-800 transition-colors"
+            className="text-xs font-medium bg-black text-white px-2.5 py-1.5 rounded-lg hover:bg-gray-800 transition-colors"
           >
             ↵
           </button>
         </div>
       ) : (
-        <button
-          onClick={() => setCustomMode(true)}
-          className="w-full text-left px-5 py-3 text-sm text-gray-400 flex items-center gap-1.5 hover:bg-gray-50 border-t border-gray-50 transition-colors"
-        >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-          </svg>
-          Other...
-        </button>
+        <div className="px-1.5 pb-1.5">
+          <button
+            onClick={() => setCustomMode(true)}
+            className="w-full text-left px-4 py-2.5 text-sm text-gray-400 flex items-center gap-1.5 hover:bg-gray-50 border-t border-gray-50 transition-colors rounded-lg"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+            Other...
+          </button>
+        </div>
       )}
     </span>
   );
 }
 
-/* ─── Inline dropdown trigger ─── */
 function InlineDropdown({ options, value, onChange, isPlan, excludeEssential }: {
   options: Option[];
   value: string;
@@ -345,7 +343,7 @@ function InlineDropdown({ options, value, onChange, isPlan, excludeEssential }: 
       <span ref={ref} className="relative inline-block">
         <button
           onClick={() => setOpen((o) => !o)}
-          className="inline-flex items-center gap-1 font-bold text-black border-b-2 border-black cursor-pointer hover:opacity-70 transition-opacity focus:outline-none"
+          className="inline-flex items-center gap-1 font-semibold text-black border-b-2 border-black cursor-pointer hover:opacity-70 transition-opacity focus:outline-none"
         >
           {displayLabel}
           <svg
@@ -359,7 +357,6 @@ function InlineDropdown({ options, value, onChange, isPlan, excludeEssential }: 
           </svg>
         </button>
 
-        {/* Desktop inline dropdown */}
         {open && !isPlan && (
           <span className="hidden md:block">
             <DesktopDropdown options={options} value={value} onChange={onChange} onClose={close} />
@@ -367,14 +364,12 @@ function InlineDropdown({ options, value, onChange, isPlan, excludeEssential }: 
         )}
       </span>
 
-      {/* Mobile bottom sheet for regular options */}
       {open && !isPlan && (
         <span className="md:hidden">
           <OptionSheet options={options} value={value} onChange={onChange} onClose={close} />
         </span>
       )}
 
-      {/* Plan modal — slides up on all screen sizes */}
       {open && isPlan && (
         <PlanModal value={value} onChange={onChange} onClose={close} excludeEssential={excludeEssential} />
       )}
@@ -382,7 +377,6 @@ function InlineDropdown({ options, value, onChange, isPlan, excludeEssential }: 
   );
 }
 
-/* ─── Options ─── */
 const roleOptions: Option[] = [
   { label: "business owner", value: "business owner" },
   { label: "restaurant owner", value: "restaurant owner" },
@@ -434,10 +428,10 @@ export default function Home() {
 
   return (
     <Layout>
-      <section className="min-h-[calc(100vh-57px)] flex flex-col items-start justify-center px-6 md:items-center md:text-center">
+      <section className="min-h-[calc(100vh-57px)] flex flex-col items-start justify-center px-5 md:items-center md:text-center">
         <p
-          className="font-bold leading-snug text-left md:text-center"
-          style={{ fontSize: "clamp(2rem, 5.5vw, 4.5rem)", color: "#c0c0c0", lineHeight: 1.25 }}
+          className="font-medium leading-snug text-left md:text-center"
+          style={{ fontSize: "clamp(1.85rem, 5.5vw, 4.5rem)", color: "#c0c0c0", lineHeight: 1.3, letterSpacing: "0.01em" }}
         >
           {"I'm a "}
           <InlineDropdown options={roleOptions} value={role} onChange={setRole} />
@@ -455,7 +449,7 @@ export default function Home() {
         <div className="mt-10">
           <button
             onClick={() => {}}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black text-white text-base font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black text-white text-base font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide"
           >
             Get Started
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
