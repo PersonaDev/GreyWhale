@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "wouter";
 import { motion, useMotionValue, animate, AnimatePresence } from "framer-motion";
 import Layout from "@/components/Layout";
@@ -168,10 +168,9 @@ function MobileProjectCard({ project, active }: { project: Project; active: bool
   );
 }
 
-const DECK_WIDTH = 640;
-const DECK_HEIGHT = 420;
-const OFFSET_PER_STEP = 25;
-const SCALE_PER_STEP = 0.03;
+const FAN_CARD_W = 500;
+const FAN_CARD_H = 350;
+const FAN_X_OFFSET = 90;
 
 function StackedDeck({
   filtered,
@@ -182,68 +181,46 @@ function StackedDeck({
   activeIndex: number;
   setActiveIndex: (i: number) => void;
 }) {
-  const orderedCards = useMemo(() => {
-    const result: { project: Project; originalIndex: number; depth: number; side: number }[] = [];
-    result.push({ project: filtered[activeIndex], originalIndex: activeIndex, depth: 0, side: 0 });
-
-    const others = filtered
-      .map((p, i) => ({ project: p, originalIndex: i }))
-      .filter((_, i) => i !== activeIndex);
-
-    others.forEach((item, i) => {
-      const depth = Math.floor(i / 2) + 1;
-      const side = i % 2 === 0 ? 1 : -1;
-      result.push({ ...item, depth, side });
-    });
-
-    return result;
-  }, [filtered, activeIndex]);
+  const n = filtered.length;
+  const fanWidth = (n - 1) * FAN_X_OFFSET + FAN_CARD_W;
+  const containerHeight = FAN_CARD_H + 20;
 
   return (
-    <div className="max-w-7xl mx-auto px-5">
-      <div
-        className="relative mx-auto"
-        style={{ width: DECK_WIDTH, height: DECK_HEIGHT }}
-      >
-        {orderedCards.map(({ project, originalIndex, depth, side }) => {
-          const isFront = depth === 0;
-          const scale = 1 - depth * SCALE_PER_STEP;
-          const xOffset = side * depth * OFFSET_PER_STEP;
-          const zIndex = filtered.length - depth;
-          const opacity = depth > 3 ? 0 : 1 - depth * 0.12;
+    <div className="flex justify-center px-5">
+      <div style={{ position: "relative", width: fanWidth, height: containerHeight }}>
+        {filtered.map((project, i) => {
+          const isActive = i === activeIndex;
+          const rotate = n > 1 ? (i / (n - 1)) * 4 - 2 : 0;
+          const distFromActive = Math.abs(i - activeIndex);
+          const zIndex = isActive ? n + 1 : n - distFromActive;
 
           return (
             <motion.div
               key={project.name}
-              className="absolute inset-0 cursor-pointer"
               style={{
+                position: "absolute",
+                left: i * FAN_X_OFFSET,
+                bottom: 0,
+                width: FAN_CARD_W,
+                height: FAN_CARD_H,
                 zIndex,
-                boxShadow: isFront
-                  ? "0 4px 6px rgba(0,0,0,0.05), 0 10px 30px rgba(0,0,0,0.08)"
-                  : "0 2px 4px rgba(0,0,0,0.03), 0 4px 12px rgba(0,0,0,0.04)",
+                cursor: "pointer",
                 borderRadius: 12,
+                boxShadow: isActive
+                  ? "0 4px 6px rgba(0,0,0,0.04), 0 12px 30px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04)"
+                  : "0 2px 4px rgba(0,0,0,0.03), 0 6px 16px rgba(0,0,0,0.06)",
               }}
               animate={{
-                x: xOffset,
-                scale,
-                opacity,
+                y: isActive ? -10 : 0,
+                rotate,
               }}
               transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 25,
-                duration: 0.4,
+                type: "tween",
+                duration: 0.35,
+                ease: "easeOut",
               }}
-              onClick={() => {
-                if (!isFront) {
-                  setActiveIndex(originalIndex);
-                }
-              }}
-              onMouseEnter={() => {
-                if (!isFront) {
-                  setActiveIndex(originalIndex);
-                }
-              }}
+              onMouseEnter={() => setActiveIndex(i)}
+              onClick={() => setActiveIndex(i)}
             >
               <ProjectCard project={project} />
             </motion.div>

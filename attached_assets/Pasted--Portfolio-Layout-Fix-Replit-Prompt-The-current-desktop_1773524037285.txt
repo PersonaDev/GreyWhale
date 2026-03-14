@@ -1,0 +1,53 @@
+# Portfolio Layout Fix — Replit Prompt
+
+The current desktop portfolio layout is stacking cards behind each other in depth (front to back), so you only see thin edges peeking out. This is wrong. I need a HORIZONTAL fan layout, not a depth stack.
+
+## Exactly What I Want (reference the right-side screenshot)
+
+Imagine 5 cards laid out on a table, overlapping horizontally like a hand of playing cards fanned out left to right. All cards are visible — not hidden behind one front card. Here's the specific layout:
+
+### Card Arrangement
+- All 5 cards are in a HORIZONTAL ROW, overlapping each other by about 60-70% of their width
+- Cards are arranged left to right, each one offset maybe 80-100px to the right of the previous one
+- The cards tilt/rotate very slightly — leftmost cards tilted maybe -2 degrees, rightmost tilted +2 degrees, creating a subtle fan arc
+- Each card is the SAME SIZE — roughly 500px wide and 350px tall
+- Every card's browser chrome (dots + URL bar) is visible at the top
+- Every card shows its content (screenshot or placeholder)
+- You can see meaningful portions of ALL 5 cards at once, not just edges
+
+### Which Card Is "Active"
+- One card is considered active/highlighted — it sits slightly higher (translateY -10px) and has a stronger shadow
+- The active card is also slightly in front (higher z-index) of its neighbors
+- On hover, a card becomes active — it lifts up slightly and its neighbors shift apart a bit to give it room
+- The transition between states is smooth, 300-400ms ease-out
+
+### Key Difference From Current Implementation
+RIGHT NOW: One big card in front, others hidden behind it as thin slivers → THIS IS WRONG
+WHAT I WANT: All cards visible in a horizontal fan, overlapping but each one clearly showing its content → LIKE A HAND OF PLAYING CARDS
+
+### Below the Cards
+- Show the active/hovered card's project info: name (bold), category · location · year (muted), tag pills
+- Navigation dots corresponding to each card
+- Info transitions smoothly when hovering different cards
+
+### Card Content
+Each card is a browser window mockup. For now use clean placeholders:
+1. Blue Oak Dental — white bg, name in centered serif font
+2. Maison Caldo — charcoal/black bg, name in white
+3. Valley Roots Cafe — warm cream bg, name in dark green
+4. Peak Performance Concept — light gray bg, name in black  
+5. Sunrise Plumbing — white bg, name in navy
+
+### Sizing
+- The entire card fan should be centered on the page
+- Total width of the fan (all cards together) should be roughly 900-1000px
+- Individual cards: 500w x 350h
+- The fan should sit comfortably in the viewport without scrolling
+
+## Do Not Change
+- Mobile layout (keep the existing swipe/scroll behavior)
+- Filter tabs above
+- Overall page structure and navigation
+
+## Reference
+Think of how the original Figma Make version looked (the right screenshot with real photos) — multiple cards overlapping in a horizontal spread, with one in focus showing maisoncaldo.com. That's the layout I want, just with the browser mockup style cards instead of photo cards.
