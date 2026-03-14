@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { Link } from "wouter";
-import { motion, useMotionValue, animate } from "framer-motion";
+import { motion, useMotionValue, animate, AnimatePresence } from "framer-motion";
 import Layout from "@/components/Layout";
 
 type Project = {
@@ -12,6 +12,8 @@ type Project = {
   url: string;
   imgBg: string;
   gradient: string;
+  cardBg: string;
+  cardTextColor: string;
 };
 
 const projects: Project[] = [
@@ -22,18 +24,22 @@ const projects: Project[] = [
     year: 2025,
     tags: ["Web Design", "Forms", "SEO"],
     url: "blueoakdental.com",
-    imgBg: "#e8e2d9",
+    imgBg: "#ffffff",
     gradient: "from-stone-200 via-stone-100 to-amber-50",
+    cardBg: "#ffffff",
+    cardTextColor: "#1a1a1a",
   },
   {
     name: "Maison Caldo",
     category: "E-commerce",
     location: "Sacramento, CA",
     year: 2025,
-    tags: ["E-commerce", "Shopify", "Branding"],
+    tags: ["Web Design", "E-commerce", "Branding"],
     url: "maisoncaldo.com",
     imgBg: "#1a1a1a",
     gradient: "from-neutral-900 via-neutral-800 to-zinc-900",
+    cardBg: "#1a1a1a",
+    cardTextColor: "#ffffff",
   },
   {
     name: "Valley Roots Cafe",
@@ -44,26 +50,32 @@ const projects: Project[] = [
     url: "valleyrootscafe.com",
     imgBg: "#f5ede0",
     gradient: "from-amber-100 via-orange-50 to-yellow-50",
+    cardBg: "#f5ede0",
+    cardTextColor: "#1a3c2a",
   },
   {
-    name: "Peak Performance PT",
+    name: "Peak Performance Concept",
     category: "Healthcare",
-    location: "Elk Grove, CA",
-    year: 2025,
-    tags: ["Booking", "Forms", "Web Design"],
-    url: "peakperformancept.com",
-    imgBg: "#dce8f5",
+    location: "Roseville, CA",
+    year: 2026,
+    tags: ["Web Design", "Booking", "SEO"],
+    url: "peakperformanceconcept.com",
+    imgBg: "#e8ecf0",
     gradient: "from-blue-100 via-sky-50 to-indigo-50",
+    cardBg: "#e8ecf0",
+    cardTextColor: "#000000",
   },
   {
     name: "Sunrise Plumbing",
     category: "Service",
-    location: "Roseville, CA",
-    year: 2025,
-    tags: ["Web Design", "SEO", "GMB"],
+    location: "Sacramento, CA",
+    year: 2026,
+    tags: ["Web Design", "Forms", "Local SEO"],
     url: "sunriseplumbing.com",
-    imgBg: "#fde8d8",
+    imgBg: "#ffffff",
     gradient: "from-orange-100 via-amber-50 to-yellow-50",
+    cardBg: "#ffffff",
+    cardTextColor: "#0a1628",
   },
 ];
 
@@ -91,30 +103,40 @@ function BrowserChrome({ url, isDark }: { url: string; isDark: boolean }) {
   );
 }
 
-function CardContent({ project, isDark }: { project: Project; isDark: boolean }) {
+function CardContent({ project }: { project: Project }) {
   return (
-    <div className={`flex-1 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 gap-3">
-        <div className={`w-3/5 h-2.5 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"}`} />
-        <div className={`w-2/5 h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"}`} />
-        <div className="flex gap-2 mt-2">
-          <div className={`w-16 h-7 rounded-lg ${isDark ? "bg-white/15" : "bg-black/10"}`} />
-          <div className={`w-12 h-7 rounded-lg ${isDark ? "bg-white/8" : "bg-black/6"}`} />
-        </div>
-        <div className={`w-full mt-2 h-px ${isDark ? "bg-white/8" : "bg-black/6"}`} />
-        <div className="flex items-start gap-3 w-full">
-          <div className={`w-8 h-8 rounded-lg shrink-0 ${isDark ? "bg-white/10" : "bg-black/8"}`} />
-          <div className="flex-1 space-y-1.5">
-            <div className={`h-2 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"} w-full`} />
-            <div className={`h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"} w-4/5`} />
-          </div>
-        </div>
-      </div>
+    <div
+      className="flex-1 flex items-center justify-center overflow-hidden rounded-b-xl"
+      style={{ backgroundColor: project.cardBg }}
+    >
+      <span
+        className="text-2xl tracking-tight"
+        style={{
+          color: project.cardTextColor,
+          fontFamily: "'Georgia', 'Times New Roman', serif",
+          fontWeight: 600,
+        }}
+      >
+        {project.name}
+      </span>
     </div>
   );
 }
 
-function ProjectCard({ project, active }: { project: Project; active: boolean }) {
+function ProjectCard({ project }: { project: Project }) {
+  const isDark = project.imgBg === "#1a1a1a";
+  return (
+    <div
+      className="rounded-xl overflow-hidden flex flex-col bg-white"
+      style={{ height: "100%", width: "100%" }}
+    >
+      <BrowserChrome url={project.url} isDark={isDark} />
+      <CardContent project={project} />
+    </div>
+  );
+}
+
+function MobileProjectCard({ project, active }: { project: Project; active: boolean }) {
   const isDark = project.imgBg === "#1a1a1a";
   return (
     <div
@@ -124,78 +146,106 @@ function ProjectCard({ project, active }: { project: Project; active: boolean })
       style={{ height: "100%", width: "100%" }}
     >
       <BrowserChrome url={project.url} isDark={isDark} />
-      <CardContent project={project} isDark={isDark} />
+      <div className={`flex-1 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 gap-3">
+          <div className={`w-3/5 h-2.5 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"}`} />
+          <div className={`w-2/5 h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"}`} />
+          <div className="flex gap-2 mt-2">
+            <div className={`w-16 h-7 rounded-lg ${isDark ? "bg-white/15" : "bg-black/10"}`} />
+            <div className={`w-12 h-7 rounded-lg ${isDark ? "bg-white/8" : "bg-black/6"}`} />
+          </div>
+          <div className={`w-full mt-2 h-px ${isDark ? "bg-white/8" : "bg-black/6"}`} />
+          <div className="flex items-start gap-3 w-full">
+            <div className={`w-8 h-8 rounded-lg shrink-0 ${isDark ? "bg-white/10" : "bg-black/8"}`} />
+            <div className="flex-1 space-y-1.5">
+              <div className={`h-2 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"} w-full`} />
+              <div className={`h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"} w-4/5`} />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-function HoverGallery({
+const DECK_WIDTH = 640;
+const DECK_HEIGHT = 420;
+const OFFSET_PER_STEP = 25;
+const SCALE_PER_STEP = 0.03;
+
+function StackedDeck({
   filtered,
-  hoveredIndex,
-  setHoveredIndex,
+  activeIndex,
+  setActiveIndex,
 }: {
   filtered: Project[];
-  hoveredIndex: number | null;
-  setHoveredIndex: (i: number | null) => void;
+  activeIndex: number;
+  setActiveIndex: (i: number) => void;
 }) {
-  const count = filtered.length;
-  const baseFlexValue = 1;
-  const expandedFlexValue = count > 1 ? 3 : 1;
+  const orderedCards = useMemo(() => {
+    const result: { project: Project; originalIndex: number; depth: number; side: number }[] = [];
+    result.push({ project: filtered[activeIndex], originalIndex: activeIndex, depth: 0, side: 0 });
+
+    const others = filtered
+      .map((p, i) => ({ project: p, originalIndex: i }))
+      .filter((_, i) => i !== activeIndex);
+
+    others.forEach((item, i) => {
+      const depth = Math.floor(i / 2) + 1;
+      const side = i % 2 === 0 ? 1 : -1;
+      result.push({ ...item, depth, side });
+    });
+
+    return result;
+  }, [filtered, activeIndex]);
 
   return (
     <div className="max-w-7xl mx-auto px-5">
       <div
-        className="flex gap-3"
-        style={{ height: 280 }}
-        onMouseLeave={() => setHoveredIndex(null)}
+        className="relative mx-auto"
+        style={{ width: DECK_WIDTH, height: DECK_HEIGHT }}
       >
-        {filtered.map((project, i) => {
-          const isHovered = hoveredIndex === i;
-          const isDark = project.imgBg === "#1a1a1a";
-          const flexVal = hoveredIndex === null
-            ? baseFlexValue
-            : isHovered
-              ? expandedFlexValue
-              : 0.5;
+        {orderedCards.map(({ project, originalIndex, depth, side }) => {
+          const isFront = depth === 0;
+          const scale = 1 - depth * SCALE_PER_STEP;
+          const xOffset = side * depth * OFFSET_PER_STEP;
+          const zIndex = filtered.length - depth;
+          const opacity = depth > 3 ? 0 : 1 - depth * 0.12;
 
           return (
             <motion.div
               key={project.name}
-              className="rounded-2xl overflow-hidden flex flex-col cursor-pointer relative"
-              style={{ minWidth: 0 }}
-              animate={{ flex: flexVal }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              onMouseEnter={() => setHoveredIndex(i)}
+              className="absolute inset-0 cursor-pointer"
+              style={{
+                zIndex,
+                boxShadow: isFront
+                  ? "0 4px 6px rgba(0,0,0,0.05), 0 10px 30px rgba(0,0,0,0.08)"
+                  : "0 2px 4px rgba(0,0,0,0.03), 0 4px 12px rgba(0,0,0,0.04)",
+                borderRadius: 12,
+              }}
+              animate={{
+                x: xOffset,
+                scale,
+                opacity,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 25,
+                duration: 0.4,
+              }}
               onClick={() => {
-                window.open(`https://${project.url}`, "_blank", "noopener,noreferrer");
+                if (!isFront) {
+                  setActiveIndex(originalIndex);
+                }
+              }}
+              onMouseEnter={() => {
+                if (!isFront) {
+                  setActiveIndex(originalIndex);
+                }
               }}
             >
-              {(isHovered || hoveredIndex === null) && (
-                <BrowserChrome url={project.url} isDark={isDark} />
-              )}
-              <div className={`flex-1 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
-                {(isHovered || hoveredIndex === null) && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6 gap-3">
-                    <div className={`w-3/5 h-2.5 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"}`} />
-                    <div className={`w-2/5 h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"}`} />
-                    <div className="flex gap-2 mt-2">
-                      <div className={`w-16 h-7 rounded-lg ${isDark ? "bg-white/15" : "bg-black/10"}`} />
-                      <div className={`w-12 h-7 rounded-lg ${isDark ? "bg-white/8" : "bg-black/6"}`} />
-                    </div>
-                    <div className={`w-full mt-2 h-px ${isDark ? "bg-white/8" : "bg-black/6"}`} />
-                    <div className="flex items-start gap-3 w-full">
-                      <div className={`w-8 h-8 rounded-lg shrink-0 ${isDark ? "bg-white/10" : "bg-black/8"}`} />
-                      <div className="flex-1 space-y-1.5">
-                        <div className={`h-2 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"} w-full`} />
-                        <div className={`h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"} w-4/5`} />
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              {!isHovered && hoveredIndex !== null && (
-                <div className="absolute inset-0 bg-black/5 rounded-2xl" />
-              )}
+              <ProjectCard project={project} />
             </motion.div>
           );
         })}
@@ -363,7 +413,7 @@ function PeekCarousel({
                 }
               }}
             >
-              <ProjectCard project={project} active={isActive} />
+              <MobileProjectCard project={project} active={isActive} />
             </motion.div>
           );
         })}
@@ -375,13 +425,13 @@ function PeekCarousel({
 export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [desktopActiveIndex, setDesktopActiveIndex] = useState(0);
 
   const filtered = activeCategory === "All"
     ? projects
     : projects.filter((p) => p.category === activeCategory);
 
-  const desktopActiveProject = hoveredIndex !== null ? filtered[hoveredIndex] : null;
+  const desktopActiveProject = filtered[desktopActiveIndex] || filtered[0];
   const mobileActiveProject = filtered[activeIndex] || filtered[0];
 
   const categoryCounts: Record<string, number> = { All: projects.length };
@@ -392,7 +442,7 @@ export default function Portfolio() {
   function handleCategoryChange(cat: string) {
     setActiveCategory(cat);
     setActiveIndex(0);
-    setHoveredIndex(null);
+    setDesktopActiveIndex(0);
   }
 
   return (
@@ -410,7 +460,7 @@ export default function Portfolio() {
         <div className="flex items-start justify-between mb-4">
           <h1 className="font-bold text-black text-4xl tracking-tight">Selected Work</h1>
           <p className="text-xs text-gray-400 text-right hidden md:block leading-relaxed tracking-wide">
-            5 sample sites for local businesses.<br />Hover to explore.
+            5 sample sites for local businesses.<br />Click to explore.
           </p>
         </div>
 
@@ -433,10 +483,10 @@ export default function Portfolio() {
       </div>
 
       <div className="hidden md:block">
-        <HoverGallery
+        <StackedDeck
           filtered={filtered}
-          hoveredIndex={hoveredIndex}
-          setHoveredIndex={setHoveredIndex}
+          activeIndex={desktopActiveIndex}
+          setActiveIndex={setDesktopActiveIndex}
         />
       </div>
 
@@ -461,24 +511,41 @@ export default function Portfolio() {
           ))}
         </div>
 
-        <div className="hidden md:flex flex-col items-center mt-6 text-center min-h-[80px]">
-          {desktopActiveProject ? (
-            <>
-              <h3 className="font-bold text-black text-xl tracking-tight">{desktopActiveProject.name}</h3>
-              <p className="text-gray-400 text-sm mt-1 tracking-wide">
+        <div className="hidden md:flex items-center justify-center gap-2 mt-6">
+          {filtered.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setDesktopActiveIndex(i)}
+              className={`rounded-full transition-all duration-200 cursor-pointer ${
+                i === desktopActiveIndex ? "bg-black w-2.5 h-2.5" : "bg-gray-300 w-2 h-2 hover:bg-gray-400"
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="hidden md:flex flex-col items-center mt-6 text-center min-h-[100px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={desktopActiveProject.name}
+              className="flex flex-col items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <h3 className="font-bold text-black text-2xl tracking-tight">{desktopActiveProject.name}</h3>
+              <p className="text-gray-400 text-sm mt-1.5 tracking-wide">
                 {desktopActiveProject.category} · {desktopActiveProject.location} · {desktopActiveProject.year}
               </p>
-              <div className="flex items-center gap-2 mt-2">
+              <div className="flex items-center gap-2 mt-3">
                 {desktopActiveProject.tags.map((tag) => (
-                  <span key={tag} className="text-xs px-2 py-0.5 rounded border border-gray-200 text-gray-500 tracking-wide">
+                  <span key={tag} className="text-xs px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 tracking-wide">
                     {tag}
                   </span>
                 ))}
               </div>
-            </>
-          ) : (
-            <p className="text-gray-300 text-sm tracking-wide">Hover to explore projects</p>
-          )}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         <div className="md:hidden flex flex-col items-center mt-6 text-center min-h-[80px]">
