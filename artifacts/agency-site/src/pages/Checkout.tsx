@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation, useSearch } from "wouter";
 import Layout from "@/components/Layout";
 import { apiPost } from "@/lib/api";
@@ -26,32 +26,39 @@ export default function Checkout() {
   const [, navigate] = useLocation();
   const params = new URLSearchParams(search);
 
-  const leadId = params.get("lead");
+  const initialLeadId = params.get("lead");
   const plan = params.get("plan") || "essential";
   const role = params.get("role") || "";
   const service = params.get("service") || "";
   const location_ = params.get("location") || "";
 
   const info = PLAN_INFO[plan] || PLAN_INFO.essential;
+  const [resolvedLeadId, setResolvedLeadId] = useState<string | null>(initialLeadId);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const mountedRef = useRef(false);
 
   useEffect(() => {
-    if (!leadId) {
-      navigate("/");
+    if (mountedRef.current) return;
+    mountedRef.current = true;
+
+    if (!initialLeadId && role && service && location_) {
+      apiPost("/leads", { role, service, location: location_, plan })
+        .then((res: { id: number }) => setResolvedLeadId(String(res.id)))
+        .catch(() => {});
     }
-  }, [leadId, navigate]);
+  }, [initialLeadId, role, service, location_, plan]);
 
   async function handlePay() {
-    if (!leadId) return;
+    if (!resolvedLeadId) return;
     setLoading(true);
     setError("");
     try {
       const base = window.location.origin + import.meta.env.BASE_URL.replace(/\/$/, "");
       const { url } = await apiPost("/stripe/checkout", {
-        leadId: parseInt(leadId, 10),
+        leadId: parseInt(resolvedLeadId, 10),
         plan,
-        successUrl: `${base}/checkout/success?lead=${leadId}`,
+        successUrl: `${base}/checkout/success?lead=${resolvedLeadId}`,
         cancelUrl: window.location.href,
       });
       if (url) {
@@ -59,18 +66,17 @@ export default function Checkout() {
       } else {
         setError("Could not create checkout session. Stripe may not be configured yet.");
       }
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Something went wrong";
+      setError(message);
     } finally {
       setLoading(false);
     }
   }
 
   function handleContact() {
-    navigate(`/contact?lead=${leadId}&plan=${plan}&role=${role}&service=${service}&location=${location_}`);
+    navigate(`/contact?lead=${resolvedLeadId || ""}&plan=${plan}&role=${role}&service=${service}&location=${location_}`);
   }
-
-  if (!leadId) return null;
 
   return (
     <Layout>
@@ -122,7 +128,7 @@ export default function Checkout() {
 
           <button
             onClick={handlePay}
-            disabled={loading}
+            disabled={loading || !resolvedLeadId}
             className="w-full py-4 rounded-full bg-black text-white font-medium text-base hover:bg-gray-800 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed tracking-wide"
           >
             {loading ? "Redirecting to payment…" : `Pay ${info.price}`}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearch, useLocation } from "wouter";
 import Layout from "@/components/Layout";
 import { apiPost } from "@/lib/api";
@@ -8,12 +8,13 @@ export default function Contact() {
   const [, navigate] = useLocation();
   const params = new URLSearchParams(search);
 
-  const leadId = params.get("lead");
+  const initialLeadId = params.get("lead");
   const plan = params.get("plan") || "";
   const role = params.get("role") || "";
   const service = params.get("service") || "";
   const location_ = params.get("location") || "";
 
+  const [resolvedLeadId, setResolvedLeadId] = useState<string | null>(initialLeadId);
   const [name, setName] = useState("");
   const [businessName, setBusinessName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,17 +23,34 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    if (mountedRef.current) return;
+    mountedRef.current = true;
+
+    if (!initialLeadId && (role || service || location_ || plan)) {
+      apiPost("/leads", {
+        role: role || "unknown",
+        service: service || "unknown",
+        location: location_ || "unknown",
+        plan: plan || "unknown",
+      })
+        .then((res: { id: number }) => setResolvedLeadId(String(res.id)))
+        .catch(() => {});
+    }
+  }, [initialLeadId, role, service, location_, plan]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
 
-    let currentLeadId = leadId;
-
     setLoading(true);
     setError("");
 
     try {
+      let currentLeadId = resolvedLeadId;
+
       if (!currentLeadId) {
         const { id } = await apiPost("/leads", {
           role: role || "unknown",
@@ -41,10 +59,11 @@ export default function Contact() {
           plan: plan || "unknown",
         });
         currentLeadId = String(id);
+        setResolvedLeadId(currentLeadId);
       }
 
       await apiPost("/contact", {
-        leadId: parseInt(currentLeadId!, 10),
+        leadId: parseInt(currentLeadId, 10),
         name: name.trim(),
         businessName: businessName.trim() || undefined,
         email: email.trim(),
@@ -53,8 +72,9 @@ export default function Contact() {
       });
 
       setSubmitted(true);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Something went wrong";
+      setError(message);
     } finally {
       setLoading(false);
     }
