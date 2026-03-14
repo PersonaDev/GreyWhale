@@ -20,7 +20,7 @@ const tiers = [
       { text: "1 revision per month" },
       { text: "48-hour support response" },
     ] as Feature[],
-    nudge: { text: "Want analytics and booking?", link: "See Professional", target: "professional" },
+    nudge: { text: "Want analytics and booking?", link: "See Professional →", target: "professional" },
     popular: false,
   },
   {
@@ -37,9 +37,9 @@ const tiers = [
       { text: "Contact forms with lead notifications", highlight: true },
       { text: "Advanced SEO (local schema, FAQ markup, structured data)", highlight: true },
       { text: "2 revisions per month", highlight: true },
-      { text: "24-hour priority support", highlight: true },
+      { text: "24-hour priority support response", highlight: true },
     ] as Feature[],
-    nudge: { text: "Need e-commerce?", link: "See Business", target: "business" },
+    nudge: { text: "Need e-commerce?", link: "See Business →", target: "business" },
     popular: true,
   },
   {
