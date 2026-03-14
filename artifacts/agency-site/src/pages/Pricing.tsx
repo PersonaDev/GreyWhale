@@ -3,8 +3,8 @@ import Layout from "@/components/Layout";
 const plans = [
   {
     name: "Essential",
-    price: "$499",
-    monthly: "$69/month",
+    price: "$299",
+    monthly: "$99/month",
     features: [
       "Up to 5 pages",
       "Custom design",
@@ -18,8 +18,8 @@ const plans = [
   },
   {
     name: "Growth",
-    price: "$999",
-    monthly: "$99/month",
+    price: "$799",
+    monthly: "$149/month",
     features: [
       "Up to 10 pages",
       "Everything in Essential",
@@ -33,10 +33,10 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "$2,499",
-    monthly: "$149/month",
+    price: "$1,999",
+    monthly: "$249/month",
     features: [
-      "Up to 15 pages",
+      "Up to 20 pages",
       "Everything in Growth",
       "E-commerce",
       "Custom integrations",

@@ -3,23 +3,26 @@ import { useLocation, useSearch } from "wouter";
 import Layout from "@/components/Layout";
 import { apiPost, apiPatch } from "@/lib/api";
 
-const PLAN_INFO: Record<string, { name: string; price: string; amount: number; features: string[] }> = {
+const PLAN_INFO: Record<string, { name: string; setup: string; monthly: string; todayTotal: string; features: string[] }> = {
   essential: {
     name: "Essential",
-    price: "$499",
-    amount: 499,
+    setup: "$299",
+    monthly: "$99/mo",
+    todayTotal: "$398",
     features: ["Up to 5 pages", "Custom design", "Mobile responsive", "Basic SEO", "CMS access", "Hosting & SSL"],
   },
   growth: {
     name: "Growth",
-    price: "$999",
-    amount: 999,
+    setup: "$799",
+    monthly: "$149/mo",
+    todayTotal: "$948",
     features: ["Up to 10 pages", "Everything in Essential", "Contact forms", "Google Analytics", "Priority support"],
   },
   premium: {
     name: "Premium",
-    price: "$2,499",
-    amount: 2499,
+    setup: "$1,999",
+    monthly: "$249/mo",
+    todayTotal: "$2,248",
     features: ["Up to 20 pages", "Everything in Growth", "E-commerce ready", "Custom integrations", "Advanced SEO", "Dedicated support"],
   },
 };
@@ -115,12 +118,23 @@ export default function Checkout() {
                 Order summary
               </p>
 
-              <div className="flex items-start justify-between mb-5">
-                <div>
-                  <h2 className="text-lg font-semibold text-black tracking-wide">{info.name} Plan</h2>
-                  <p className="text-sm text-gray-400 mt-0.5">One-time setup fee</p>
+              <div className="mb-5">
+                <h2 className="text-lg font-semibold text-black tracking-wide mb-3">{info.name} Plan</h2>
+                <div className="space-y-1.5 text-sm">
+                  <div className="flex justify-between text-gray-600">
+                    <span>Setup & design</span>
+                    <span className="font-medium text-black">{info.setup}</span>
+                  </div>
+                  <div className="flex justify-between text-gray-600">
+                    <span>First month retainer</span>
+                    <span className="font-medium text-black">{info.monthly.replace("/mo", "")}</span>
+                  </div>
+                  <div className="flex justify-between pt-2 border-t border-gray-200 mt-2">
+                    <span className="font-semibold text-black">Due today</span>
+                    <span className="font-semibold text-black">{info.todayTotal}</span>
+                  </div>
+                  <p className="text-xs text-gray-400 pt-1">then {info.monthly} ongoing</p>
                 </div>
-                <span className="text-2xl font-semibold text-black">{info.price}</span>
               </div>
 
               <div className="border-t border-gray-200 pt-5">
@@ -232,7 +246,7 @@ export default function Checkout() {
                     </>
                   ) : (
                     <>
-                      Pay {info.price} with Stripe
+                      Pay {info.todayTotal} today with Stripe
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
