@@ -94,11 +94,7 @@ export default function Checkout() {
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Something went wrong";
-      if (message.toLowerCase().includes("stripe") || message.toLowerCase().includes("not configured")) {
-        navigate(`/contact?lead=${resolvedLeadId.current || ""}&plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(service)}&location=${encodeURIComponent(location_)}`);
-      } else {
-        setError(message);
-      }
+      setError(message);
     } finally {
       setLoading(false);
     }

@@ -27,3 +27,10 @@ timeoutMs = 20000
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+STRIPE_SECRET_KEY = "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"
+STRIPE_PUBLISHABLE_KEY = "pk_live_51QJr5mLFyFYtjNUWAn03EJkxwbZhurjc1G9gcC5c4FaAjuSMK1Zyxr8oUZ5U8BaLGxVVQtCNcniORQEGkoHTAEZT00tPrtpvnb"
+STRIPE_WEBHOOK_SECRET = "whsec_RDN53mLhlRDfZy7LHmi3NndIebBFy8s0"
