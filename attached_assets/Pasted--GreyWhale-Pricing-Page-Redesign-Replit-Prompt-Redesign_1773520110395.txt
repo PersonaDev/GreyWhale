@@ -1,0 +1,105 @@
+# GreyWhale Pricing Page Redesign — Replit Prompt
+
+Redesign the pricing section on the /pricing page. Three tiers instead of two. The goal is subtle upsell psychology — the $149 tier should feel slightly incomplete, nudging people toward $249 without feeling manipulative. Every tier should feel like a good deal, but the middle tier should feel like the obvious choice.
+
+## Pricing Tiers
+
+### Tier 1 — Starter · $149/month
+Position this as "everything you need to get online" — solid, respectable, but clearly the baseline.
+
+Includes:
+- Custom designed website
+- Up to 5 pages
+- Mobile responsive
+- Basic SEO (meta tags, sitemap)
+- Hosting & SSL included
+- Contact form
+- 1 round of revisions per month
+- 48-hour support response time
+
+What it does NOT include (and this is the nudge): no analytics, no booking/scheduling integration, no Google Business Profile optimization, no priority support. These are things a business owner will want once they see the tier above.
+
+### Tier 2 — Professional · $249/month · ← Mark this as "Most popular"
+This is the anchor. It should feel like the obvious choice — everything in Starter plus the things that actually help a business grow.
+
+Includes:
+- Everything in Starter
+- Up to 10 pages
+- Google Analytics setup
+- Google Business Profile optimization
+- Booking or scheduling integration
+- Contact forms with lead notifications
+- Advanced SEO (local schema, FAQ markup, structured data)
+- 2 rounds of revisions per month
+- 24-hour priority support response time
+
+The jump from Starter to Professional should feel like: "for $100 more I get analytics, booking, better SEO, and faster support — that's a no-brainer."
+
+### Tier 3 — Business · $349/month
+Position this as the premium option for businesses that are serious about growth. It exists partly to make Professional look like a deal by comparison (price anchoring), but it should also be genuinely valuable for the right client.
+
+Includes:
+- Everything in Professional
+- Up to 20 pages
+- E-commerce functionality (product pages, cart, checkout)
+- Custom integrations (API connections, third-party tools)
+- Blog setup and management
+- Monthly performance report
+- Unlimited revisions
+- Same-day priority support
+
+## Design Notes
+
+### Card Layout
+Three cards side by side, centered. The Professional card (middle) should be visually emphasized:
+- Slightly taller or elevated compared to the other two
+- A "Most popular" badge at the top
+- A subtle highlighted border (e.g. 2px black border vs 1px light gray on the others)
+- The CTA button on Professional should be solid black with white text; the other two should be outlined/ghost buttons
+
+### Visual Hierarchy
+- Tier name: small, uppercase, muted text at top of card
+- Price: large, bold, dominant — "$249" should be the first thing your eye lands on
+- "/month" in smaller, lighter text beside the price
+- "No upfront cost" in muted text below the price
+- Feature list: clean, no bullet points — use small checkmarks (✓) in a muted color, with feature text in regular weight
+- Features that are unique to this tier (not in the tier below) should be in slightly bolder text or have a subtle "New" or "+" indicator so people can quickly see what they gain by upgrading
+
+### The Subtle Nudge
+Below the Starter card's feature list, add a small muted line: "Want analytics and booking? → See Professional"
+Below the Professional card's feature list, add: "Need e-commerce? → See Business"
+These should be subtle — small text, muted color, feels like a helpful suggestion not a sales push.
+
+### No CMS Language
+Do NOT mention "CMS access" or "CMS" anywhere on the page. Instead, describe the self-service editing capability as: "Edit your own text and images anytime" — this is clearer to a non-technical business owner and doesn't commit to a specific technical implementation.
+
+## Comparison Table (below the tiers)
+
+Keep the existing competitive comparison table (GreyWhale vs DIY Builders vs Freelancers vs Agencies). No changes needed there.
+
+## FAQ Updates
+
+Update the FAQ to reflect the three-tier structure:
+
+**"Which plan is right for me?"**
+Starter is perfect if you just need a clean, professional website to establish your online presence. Professional is our most popular plan — it adds analytics, booking integration, and advanced SEO so your site actually brings in new customers. Business is for companies that need e-commerce, custom integrations, or a larger web presence.
+
+**"Can I upgrade later?"**
+Yes. You can move up to a higher plan anytime. We'll add the new features to your existing site — no rebuild required.
+
+**"Is there a contract?"**
+No. All plans are month-to-month. Cancel anytime.
+
+**"What does 'rounds of revisions' mean?"**
+A revision is any change you want us to make that goes beyond basic text and image edits — things like layout changes, new sections, adding a page, or design tweaks. Starter includes 1 per month, Professional includes 2, and Business includes unlimited.
+
+**"Do I own my website?"**
+Yes. Your site is built on code we deliver to you. If you ever leave, you take everything with you.
+
+## Global Design Rules
+- Match existing greywhale.dev typography, spacing, and color
+- White background, black text, muted gray for secondary text
+- No gradients, no shadows on cards (just clean borders)
+- The Professional card is the only element that gets visual emphasis
+- Fully responsive — on mobile, stack cards vertically with Professional on top
+- Add "Pricing" to the nav on all pages if not already there
