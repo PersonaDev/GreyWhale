@@ -114,26 +114,14 @@ function CardContent({ project, isDark }: { project: Project; isDark: boolean })
   );
 }
 
-function ProjectCard({ project, active, hovered, onClick }: { project: Project; active: boolean; hovered?: boolean; onClick?: () => void }) {
+function ProjectCard({ project, active }: { project: Project; active: boolean }) {
   const isDark = project.imgBg === "#1a1a1a";
   return (
     <div
-      role="link"
-      tabIndex={0}
-      className={`block shrink-0 rounded-2xl overflow-hidden transition-all duration-200 flex flex-col cursor-pointer ${
-        hovered ? "shadow-2xl" : active ? "shadow-xl" : "opacity-55"
+      className={`block shrink-0 rounded-2xl overflow-hidden flex flex-col ${
+        active ? "shadow-xl" : ""
       }`}
-      style={{ height: "100%" }}
-      onClick={(e) => {
-        e.stopPropagation();
-        if (onClick) onClick();
-      }}
-      onKeyDown={(e) => {
-        if ((e.key === "Enter" || e.key === " ") && onClick) {
-          e.preventDefault();
-          onClick();
-        }
-      }}
+      style={{ height: "100%", width: "100%" }}
     >
       <BrowserChrome url={project.url} isDark={isDark} />
       <CardContent project={project} isDark={isDark} />
@@ -141,17 +129,31 @@ function ProjectCard({ project, active, hovered, onClick }: { project: Project; 
   );
 }
 
-const CARD_W = 320;
-const CARD_H = 220;
-const CARD_GAP = 12;
+const CARD_GAP = 16;
+const CARD_H = 240;
 
-function getScaleForDistance(distance: number): number {
-  if (distance === 0) return 1.0;
-  if (Math.abs(distance) === 1) return 0.82;
-  return 0.65;
+function useCardWidth() {
+  const [cardWidth, setCardWidth] = useState(420);
+  useEffect(() => {
+    function measure() {
+      const vw = window.innerWidth;
+      setCardWidth(vw < 768 ? Math.round(vw * 0.82) : 420);
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+  return cardWidth;
 }
 
-function MobileDockCarousel({
+function getOpacityForDistance(distance: number): number {
+  const abs = Math.abs(distance);
+  if (abs === 0) return 1;
+  if (abs === 1) return 0.5;
+  return 0;
+}
+
+function PeekCarousel({
   filtered,
   activeIndex,
   setActiveIndex,
@@ -161,35 +163,25 @@ function MobileDockCarousel({
   setActiveIndex: (i: number) => void;
 }) {
   const x = useMotionValue(0);
-  const [cardPx, setCardPx] = useState(0);
+  const cardWidth = useCardWidth();
   const isDragging = useRef(false);
   const hasDragged = useRef(false);
 
-  useEffect(() => {
-    function measure() {
-      const vw = window.innerWidth;
-      setCardPx(Math.round(vw * 0.82));
-    }
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
-
-  const stepSize = cardPx + CARD_GAP;
+  const stepSize = cardWidth + CARD_GAP;
 
   useEffect(() => {
-    if (!isDragging.current && cardPx > 0) {
+    if (!isDragging.current && cardWidth > 0) {
       animate(x, -activeIndex * stepSize, {
         type: "spring",
         stiffness: 300,
         damping: 30,
       });
     }
-  }, [activeIndex, cardPx, stepSize]);
+  }, [activeIndex, cardWidth, stepSize]);
 
   useEffect(() => {
     setActiveIndex(0);
-    if (cardPx > 0) {
+    if (cardWidth > 0) {
       x.set(0);
     }
   }, [filtered.length]);
@@ -214,17 +206,20 @@ function MobileDockCarousel({
   }, [x, getActiveFromX, setActiveIndex]);
 
   const minX = -(filtered.length - 1) * stepSize;
-  const pad = cardPx > 0 ? `calc((100vw - ${cardPx}px) / 2)` : "9vw";
+  const maxContainerWidth = 900;
+  const sideInset = (maxContainerWidth - cardWidth) / 2;
+  const pad = cardWidth > 0 ? `calc(max((100vw - ${maxContainerWidth}px) / 2 + ${sideInset}px, (100vw - ${cardWidth}px) / 2))` : "9vw";
 
   return (
-    <div className="md:hidden overflow-hidden">
+    <div className="overflow-hidden">
       <motion.div
-        className="flex"
+        className="flex items-center"
         style={{
           x,
           gap: `${CARD_GAP}px`,
           paddingLeft: pad,
           paddingRight: pad,
+          height: CARD_H,
         }}
         drag="x"
         dragConstraints={{ left: minX, right: 0 }}
@@ -249,16 +244,26 @@ function MobileDockCarousel({
       >
         {filtered.map((project, i) => {
           const distance = i - activeIndex;
-          const scale = getScaleForDistance(distance);
+          const opacity = getOpacityForDistance(distance);
+          const isActive = i === activeIndex;
           return (
             <motion.div
               key={project.name}
-              className="shrink-0"
-              style={{ width: cardPx > 0 ? cardPx : "82vw", height: 220 }}
-              animate={{ scale }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              role="button"
+              tabIndex={0}
+              aria-label={isActive ? `Open ${project.name} website` : `View ${project.name}`}
+              className="shrink-0 cursor-pointer"
+              style={{ width: cardWidth, height: CARD_H }}
+              animate={{ opacity }}
+              transition={{ type: "tween", duration: 0.3 }}
               onClick={() => {
-                if (!isDragging.current) {
+                if (hasDragged.current) {
+                  hasDragged.current = false;
+                  return;
+                }
+                if (isActive) {
+                  window.open(`https://${project.url}`, "_blank", "noopener,noreferrer");
+                } else {
                   setActiveIndex(i);
                   animate(x, -i * stepSize, {
                     type: "spring",
@@ -267,17 +272,23 @@ function MobileDockCarousel({
                   });
                 }
               }}
-            >
-              <ProjectCard
-                project={project}
-                active={i === activeIndex}
-                onClick={() => {
-                  if (!hasDragged.current) {
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  if (isActive) {
                     window.open(`https://${project.url}`, "_blank", "noopener,noreferrer");
+                  } else {
+                    setActiveIndex(i);
+                    animate(x, -i * stepSize, {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 30,
+                    });
                   }
-                  hasDragged.current = false;
-                }}
-              />
+                }
+              }}
+            >
+              <ProjectCard project={project} active={isActive} />
             </motion.div>
           );
         })}
@@ -289,7 +300,6 @@ function MobileDockCarousel({
 export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const filtered = activeCategory === "All"
     ? projects
@@ -322,7 +332,7 @@ export default function Portfolio() {
         <div className="flex items-start justify-between mb-4">
           <h1 className="font-bold text-black text-4xl tracking-tight">Selected Work</h1>
           <p className="text-xs text-gray-400 text-right hidden md:block leading-relaxed tracking-wide">
-            5 sample sites for local businesses.<br />Hover to explore.
+            5 sample sites for local businesses.<br />Click or swipe to explore.
           </p>
         </div>
 
@@ -342,58 +352,15 @@ export default function Portfolio() {
             </button>
           ))}
         </div>
+      </div>
 
-        {/* Desktop stacked fan */}
-        {(() => {
-          const step = 44;
-          const n = filtered.length;
-          const totalW = CARD_W + (n - 1) * step;
-          return (
-            <div className="hidden md:flex justify-center" style={{ height: CARD_H + 60, paddingTop: 40 }}>
-              <div className="relative" style={{ width: totalW, height: CARD_H }}>
-                {filtered.map((project, i) => {
-                  const offset = i - activeIndex;
-                  const isActive = i === activeIndex;
-                  const isHovered = hoveredIndex === i;
-                  return (
-                    <div
-                      key={project.name}
-                      onClick={() => setActiveIndex(i)}
-                      onMouseEnter={() => setHoveredIndex(i)}
-                      onMouseLeave={() => setHoveredIndex(null)}
-                      className="absolute top-0 cursor-pointer transition-all duration-200"
-                      style={{
-                        left: `${i * step}px`,
-                        zIndex: isHovered ? n + 20 : isActive ? n + 10 : n - Math.abs(offset),
-                        transform: `translateX(${isActive ? 8 : 0}px) scale(${isHovered ? 1.04 : isActive ? 1.02 : 0.97})`,
-                        width: CARD_W,
-                        height: CARD_H,
-                      }}
-                    >
-                      <ProjectCard
-                      project={project}
-                      active={isActive}
-                      hovered={isHovered}
-                      onClick={() => {
-                        window.open(`https://${project.url}`, "_blank", "noopener,noreferrer");
-                      }}
-                    />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })()}
+      <PeekCarousel
+        filtered={filtered}
+        activeIndex={activeIndex}
+        setActiveIndex={setActiveIndex}
+      />
 
-        {/* Mobile dock carousel */}
-        <MobileDockCarousel
-          filtered={filtered}
-          activeIndex={activeIndex}
-          setActiveIndex={setActiveIndex}
-        />
-
-        {/* Dots */}
+      <div className="max-w-7xl mx-auto px-5 pb-24">
         <div className="flex items-center justify-center gap-2 mt-6">
           {filtered.map((_, i) => (
             <button
@@ -406,7 +373,6 @@ export default function Portfolio() {
           ))}
         </div>
 
-        {/* Project info */}
         <div className="flex flex-col items-center mt-6 text-center min-h-[80px]">
           {activeProject ? (
             <>
@@ -423,10 +389,9 @@ export default function Portfolio() {
               </div>
             </>
           ) : (
-            <p className="text-gray-300 text-sm tracking-wide">Hover to explore projects</p>
+            <p className="text-gray-300 text-sm tracking-wide">Click or swipe to explore projects</p>
           )}
         </div>
-
       </div>
     </Layout>
   );
