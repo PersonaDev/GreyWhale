@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import Layout from "@/components/Layout";
+import { apiPost } from "@/lib/api";
 
 type Option = { label: string; value: string };
 
 const plans = [
   {
     name: "Essential",
-    price: "$299",
+    price: "$499",
     monthly: "$69/month",
     features: ["Up to 5 pages", "Custom design", "Mobile responsive", "Basic SEO", "CMS access", "Hosting & SSL"],
     bestFor: "Barbershops, cafes, food trucks, solo shops",
@@ -15,7 +16,7 @@ const plans = [
   },
   {
     name: "Growth",
-    price: "$749",
+    price: "$999",
     monthly: "$99/month",
     features: ["Up to 10 pages", "Everything in Essential", "Contact forms", "Google Analytics", "Priority support"],
     bestFor: "Tattoo shops, dental, auto shops, studios",
@@ -23,7 +24,7 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "$1,499",
+    price: "$2,499",
     monthly: "$149/month",
     features: ["Up to 15 pages", "Everything in Growth", "E-commerce", "Custom integrations", "Advanced SEO"],
     bestFor: "Med spas, multi-location, dealerships",
@@ -416,6 +417,8 @@ export default function Home() {
   const [site, setSite] = useState("website");
   const [location, setLocation] = useState("sacramento");
   const [plan, setPlan] = useState("essential");
+  const [, navigate] = useLocation();
+  const [starting, setStarting] = useState(false);
 
   function handleSiteChange(v: string) {
     setSite(v);
@@ -425,6 +428,18 @@ export default function Home() {
   }
 
   const excludeEssential = COMPLEX_SITES.includes(site);
+
+  async function handleGetStarted() {
+    setStarting(true);
+    try {
+      const { id } = await apiPost("/leads", { role, service: site, location, plan });
+      navigate(`/checkout?lead=${id}&plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`);
+    } catch {
+      navigate(`/contact?plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`);
+    } finally {
+      setStarting(false);
+    }
+  }
 
   return (
     <Layout>
@@ -448,10 +463,11 @@ export default function Home() {
 
         <div className="mt-10">
           <button
-            onClick={() => {}}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black text-white text-base font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide"
+            onClick={handleGetStarted}
+            disabled={starting}
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black text-white text-base font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide disabled:opacity-50"
           >
-            Get Started
+            {starting ? "Creating…" : "Get Started"}
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

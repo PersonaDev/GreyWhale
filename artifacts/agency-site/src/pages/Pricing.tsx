@@ -3,7 +3,7 @@ import Layout from "@/components/Layout";
 const plans = [
   {
     name: "Essential",
-    price: "$299",
+    price: "$499",
     monthly: "$69/month",
     features: [
       "Up to 5 pages",
@@ -18,7 +18,7 @@ const plans = [
   },
   {
     name: "Growth",
-    price: "$749",
+    price: "$999",
     monthly: "$99/month",
     features: [
       "Up to 10 pages",
@@ -33,7 +33,7 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "$1,499",
+    price: "$2,499",
     monthly: "$149/month",
     features: [
       "Up to 15 pages",
