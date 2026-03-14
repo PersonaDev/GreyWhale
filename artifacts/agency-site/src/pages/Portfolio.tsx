@@ -190,7 +190,7 @@ function StackedDeck({
       <div style={{ position: "relative", width: fanWidth, height: containerHeight }}>
         {filtered.map((project, i) => {
           const isActive = i === activeIndex;
-          const rotate = n > 1 ? (i / (n - 1)) * 4 - 2 : 0;
+          const rotate = 0;
           const distFromActive = Math.abs(i - activeIndex);
           const zIndex = isActive ? n + 1 : n - distFromActive;
 
