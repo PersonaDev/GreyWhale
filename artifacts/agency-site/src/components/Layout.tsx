@@ -18,7 +18,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[60] md:hidden flex flex-col justify-end">
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+        className="absolute inset-0 bg-black/25 backdrop-blur-sm transition-opacity duration-300"
         style={{ opacity: visible ? 1 : 0 }}
         onClick={close}
       />
@@ -71,7 +71,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         <button
-          className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-0 cursor-pointer relative z-[70]"
+          className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-0 cursor-pointer"
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
         >

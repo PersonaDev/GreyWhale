@@ -81,7 +81,7 @@ function ProjectCard({ project, active, hovered }: { project: Project; active: b
       }`}
       style={{ backgroundColor: project.imgBg }}
     >
-      <div className="h-52 flex items-end p-5">
+      <div className="h-48 flex items-end p-5">
         <div className="w-full">
           <div className={`w-2/3 h-1.5 rounded-full ${isDark ? "bg-white/20" : "bg-black/10"} mb-2`} />
           <div className={`w-1/2 h-1.5 rounded-full ${isDark ? "bg-white/10" : "bg-black/7"} mb-5`} />
@@ -91,8 +91,12 @@ function ProjectCard({ project, active, hovered }: { project: Project; active: b
           </div>
         </div>
       </div>
-      <div className="px-5 pb-4 pt-2">
-        <p className={`text-xs font-mono tracking-wider ${isDark ? "text-white/40" : "text-black/30"}`}>{project.url}</p>
+      <div className="px-5 pb-4 pt-3 flex items-end justify-between">
+        <div>
+          <p className={`text-sm font-semibold tracking-tight ${isDark ? "text-white" : "text-black"}`}>{project.name}</p>
+          <p className={`text-xs mt-0.5 ${isDark ? "text-white/40" : "text-black/35"}`}>{project.category} · {project.location}</p>
+        </div>
+        <p className={`text-[10px] font-mono tracking-wider ${isDark ? "text-white/30" : "text-black/25"}`}>{project.url}</p>
       </div>
     </div>
   );
