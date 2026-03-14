@@ -168,82 +168,10 @@ function MobileProjectCard({ project, active }: { project: Project; active: bool
   );
 }
 
-const FILE_CARD_W = 190;
-const FILE_CARD_H = 300;
-const FILE_TAB_H = 52;
-const FILE_OVERLAP = 18;
-const FILE_HOVER_LIFT = 32;
-
-function FileCard({
-  project,
-  index,
-  left,
-  isActive,
-  totalCards,
-  onActivate,
-}: {
-  project: Project;
-  index: number;
-  left: number;
-  isActive: boolean;
-  totalCards: number;
-  onActivate: () => void;
-}) {
-  const [hovered, setHovered] = useState(false);
-  const isDark = project.imgBg === "#1a1a1a";
-
-  const yTarget = isActive
-    ? 0
-    : FILE_CARD_H - FILE_TAB_H - (hovered ? FILE_HOVER_LIFT : 0);
-
-  const zIndex = isActive
-    ? totalCards + 10
-    : hovered
-    ? totalCards + index
-    : index + 1;
-
-  return (
-    <motion.div
-      className={`absolute overflow-hidden rounded-xl ${isActive ? "" : "cursor-pointer"}`}
-      style={{
-        left,
-        top: 0,
-        width: FILE_CARD_W,
-        height: FILE_CARD_H,
-        zIndex,
-        boxShadow: isActive
-          ? "0 4px 8px rgba(0,0,0,0.06), 0 16px 36px rgba(0,0,0,0.10)"
-          : hovered
-          ? "0 4px 12px rgba(0,0,0,0.08)"
-          : "0 2px 4px rgba(0,0,0,0.04)",
-      }}
-      animate={{ y: yTarget }}
-      transition={{ type: "tween", duration: 0.38, ease: "easeOut" }}
-      onClick={() => { if (!isActive) onActivate(); }}
-      onMouseEnter={() => { if (!isActive) setHovered(true); }}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div className="flex flex-col h-full">
-        <BrowserChrome url={project.url} isDark={isDark} />
-        <div
-          className="flex-1 flex items-center justify-center"
-          style={{ backgroundColor: project.cardBg }}
-        >
-          <span
-            className="text-base tracking-tight px-3 text-center"
-            style={{
-              color: project.cardTextColor,
-              fontFamily: "'Georgia', 'Times New Roman', serif",
-              fontWeight: 600,
-            }}
-          >
-            {project.name}
-          </span>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
+const DECK_WIDTH = 640;
+const DECK_HEIGHT = 420;
+const OFFSET_PER_STEP = 25;
+const SCALE_PER_STEP = 0.03;
 
 function StackedDeck({
   filtered,
@@ -254,30 +182,73 @@ function StackedDeck({
   activeIndex: number;
   setActiveIndex: (i: number) => void;
 }) {
-  const stride = FILE_CARD_W - FILE_OVERLAP;
-  const totalWidth = FILE_CARD_W + stride * (filtered.length - 1);
+  const orderedCards = useMemo(() => {
+    const result: { project: Project; originalIndex: number; depth: number; side: number }[] = [];
+    result.push({ project: filtered[activeIndex], originalIndex: activeIndex, depth: 0, side: 0 });
+
+    const others = filtered
+      .map((p, i) => ({ project: p, originalIndex: i }))
+      .filter((_, i) => i !== activeIndex);
+
+    others.forEach((item, i) => {
+      const depth = Math.floor(i / 2) + 1;
+      const side = i % 2 === 0 ? 1 : -1;
+      result.push({ ...item, depth, side });
+    });
+
+    return result;
+  }, [filtered, activeIndex]);
 
   return (
-    <div className="max-w-7xl mx-auto px-8">
+    <div className="max-w-7xl mx-auto px-5">
       <div
         className="relative mx-auto"
-        style={{
-          width: totalWidth,
-          height: FILE_CARD_H,
-          clipPath: `inset(-24px -24px 0px -24px)`,
-        }}
+        style={{ width: DECK_WIDTH, height: DECK_HEIGHT }}
       >
-        {filtered.map((project, i) => (
-          <FileCard
-            key={project.name}
-            project={project}
-            index={i}
-            left={i * stride}
-            isActive={i === activeIndex}
-            totalCards={filtered.length}
-            onActivate={() => setActiveIndex(i)}
-          />
-        ))}
+        {orderedCards.map(({ project, originalIndex, depth, side }) => {
+          const isFront = depth === 0;
+          const scale = 1 - depth * SCALE_PER_STEP;
+          const xOffset = side * depth * OFFSET_PER_STEP;
+          const zIndex = filtered.length - depth;
+          const opacity = depth > 3 ? 0 : 1 - depth * 0.12;
+
+          return (
+            <motion.div
+              key={project.name}
+              className="absolute inset-0 cursor-pointer"
+              style={{
+                zIndex,
+                boxShadow: isFront
+                  ? "0 4px 6px rgba(0,0,0,0.05), 0 10px 30px rgba(0,0,0,0.08)"
+                  : "0 2px 4px rgba(0,0,0,0.03), 0 4px 12px rgba(0,0,0,0.04)",
+                borderRadius: 12,
+              }}
+              animate={{
+                x: xOffset,
+                scale,
+                opacity,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 25,
+                duration: 0.4,
+              }}
+              onClick={() => {
+                if (!isFront) {
+                  setActiveIndex(originalIndex);
+                }
+              }}
+              onMouseEnter={() => {
+                if (!isFront) {
+                  setActiveIndex(originalIndex);
+                }
+              }}
+            >
+              <ProjectCard project={project} />
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );
@@ -476,7 +447,7 @@ export default function Portfolio() {
 
   return (
     <Layout>
-      <div className="max-w-7xl mx-auto px-5 pt-10 pb-6">
+      <div className="max-w-7xl mx-auto px-5 pt-10 pb-24">
         <Link href="/">
           <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-black transition-colors cursor-pointer mb-8 tracking-wide">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
