@@ -454,22 +454,28 @@ export default function Home() {
   return (
     <Layout>
       <section className="min-h-[calc(100vh-57px)] flex flex-col items-start justify-center px-5 md:items-center md:text-center">
-        <p
-          className="font-medium leading-snug text-left md:text-center"
-          style={{ fontSize: "clamp(1.85rem, 5.5vw, 4.5rem)", color: "#c0c0c0", lineHeight: 1.3, letterSpacing: "0.01em" }}
+        <div
+          className="text-left md:text-center"
+          style={{ fontSize: "clamp(2.6rem, 8vw, 5.5rem)", color: "#c0c0c0", lineHeight: 1.15, letterSpacing: "0.01em" }}
         >
-          {"I'm a "}
-          <InlineDropdown options={roleOptions} value={role} onChange={setRole} />
-          {" looking for a new"}
-          <br />
-          <InlineDropdown options={siteOptions} value={site} onChange={handleSiteChange} />
-          {" located in "}
-          <InlineDropdown options={locationOptions} value={location} onChange={setLocation} />
-          <br />
-          {"interested in a "}
-          <InlineDropdown options={planOptions} value={plan} onChange={setPlan} isPlan excludeEssential={excludeEssential} />
-          {" plan."}
-        </p>
+          <p className="mb-4 md:mb-6" style={{ lineHeight: 1.15 }}>
+            {"I'm a "}
+            <InlineDropdown options={roleOptions} value={role} onChange={setRole} />
+          </p>
+          <p className="mb-4 md:mb-6" style={{ lineHeight: 1.15 }}>
+            {"looking for a new "}
+            <InlineDropdown options={siteOptions} value={site} onChange={handleSiteChange} />
+          </p>
+          <p className="mb-4 md:mb-6" style={{ lineHeight: 1.15 }}>
+            {"located in "}
+            <InlineDropdown options={locationOptions} value={location} onChange={setLocation} />
+          </p>
+          <p style={{ lineHeight: 1.15 }}>
+            {"interested in a "}
+            <InlineDropdown options={planOptions} value={plan} onChange={setPlan} isPlan excludeEssential={excludeEssential} />
+            {" plan."}
+          </p>
+        </div>
 
         <div className="mt-10">
           <button
