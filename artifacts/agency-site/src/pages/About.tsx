@@ -309,7 +309,7 @@ export default function About() {
           <FadeInSection>
             <h1
               className="font-semibold leading-tight mb-10"
-              style={{ fontSize: "clamp(2.2rem, 6.5vw, 5.5rem)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              style={{ fontSize: "clamp(2.2rem, 5vw, 3.8rem)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
             >
               <span className="text-black">We're new here.</span>
               <br />

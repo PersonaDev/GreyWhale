@@ -477,7 +477,7 @@ export default function Home() {
       <section className="min-h-[calc(100vh-57px)] flex flex-col items-start justify-center px-5 md:items-center md:text-center">
         <div
           className="text-left md:text-center"
-          style={{ fontSize: "clamp(2.6rem, 8vw, 5.5rem)", color: "#c0c0c0", lineHeight: 1.15, letterSpacing: "0.01em" }}
+          style={{ fontSize: "clamp(2.6rem, 6vw, 3.8rem)", color: "#c0c0c0", lineHeight: 1.15, letterSpacing: "0.01em" }}
         >
           <p className="mb-4 md:mb-6" style={{ lineHeight: 1.15 }}>
             {"I'm a "}
