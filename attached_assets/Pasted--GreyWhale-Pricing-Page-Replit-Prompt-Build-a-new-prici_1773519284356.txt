@@ -1,0 +1,124 @@
+# GreyWhale Pricing Page — Replit Prompt
+
+Build a new `/pricing` page for greywhale.dev that matches the existing site's design language: clean white background, minimal layout, black typography, generous whitespace, no gradients or shadows. The page should feel like it belongs on the same site as the homepage and about page.
+
+## Page Structure (top to bottom)
+
+### 1. Navigation
+Same nav as the rest of the site: "GreyWhale" wordmark top left, "Portfolio", "About", "Pricing" links top right. "Pricing" should be active/bold.
+
+### 2. Hero Section
+Centered headline: **"Agency-quality websites. No agency price tag."**
+Subtext below in muted gray: "Custom-designed, fully managed websites for local businesses. No upfront cost. Cancel anytime."
+
+### 3. Pricing Tiers
+Two cards side by side, centered on the page.
+
+**Card 1 — Standard ($149/month)**
+- "Most businesses" label in small muted text
+- "$149" large, bold + "/month" smaller beside it
+- "No upfront cost" in muted text beneath the price
+- Feature list (no bullet points — use checkmarks or simple line items):
+  - Custom design — no templates
+  - Up to 10 pages
+  - Mobile responsive
+  - SEO setup (meta tags, schema, sitemap)
+  - CMS access for self-service edits
+  - Hosting & SSL included
+  - Contact forms
+  - Google Analytics
+  - Ongoing support
+- CTA button: "Get Started →" (black button, white text, links to homepage Get Started flow or a contact/intake form)
+
+**Card 2 — Business ($249/month)**
+- "E-commerce & complex" label in small muted text
+- "$249" large, bold + "/month" smaller beside it
+- "No upfront cost" in muted text beneath the price
+- Feature list:
+  - Everything in Standard
+  - Up to 20 pages
+  - E-commerce functionality
+  - Custom integrations
+  - Advanced SEO (local schema, FAQ markup, structured data)
+  - Priority support
+- CTA button: "Get Started →" (same style)
+
+Design notes for cards: clean white background with a subtle border (1px light gray), rounded corners. The Standard card should have a small "Most popular" badge or highlighted border to draw attention. Keep spacing generous. No gradients, no shadows.
+
+### 4. Comparison Section
+Headline: **"How we compare"**
+Subtext: "See how GreyWhale stacks up against common alternatives for local businesses."
+
+Build a responsive comparison table with 5 columns:
+
+| | DIY Builders | Freelancer | Agency | **GreyWhale** |
+|---|---|---|---|---|
+| **Upfront cost** | $0 | $1,500–$5,000 | $4,000–$10,000 | **$0** |
+| **Monthly cost** | $16–$39 | $0–$100 | $200–$2,000 | **$149** |
+| **Year 1 total** | $192–$468 | $1,500–$6,200 | $6,400–$34,000 | **$1,788** |
+| **Custom design** | ✗ | ✓ | ✓ | **✓** |
+| **You build it** | Yes | No | No | **No** |
+| **Hosting included** | ✓ | Rarely | Sometimes | **✓** |
+| **SEO setup** | Basic | Varies | ✓ | **✓** |
+| **Self-service edits** | ✓ | ✗ | Sometimes | **✓** |
+| **Turnaround** | DIY | 4–8 weeks | 6–12 weeks | **14 days** |
+| **Contract lock-in** | Monthly/annual | Per project | 6–12 months | **Cancel anytime** |
+| **Ongoing support** | Help docs | Extra cost | Retainer | **Included** |
+
+Design notes: The GreyWhale column should be visually distinct — slightly bolder text, or a subtle background highlight on that column. Use green checkmarks for positive, red X for negative, yellow/amber for "sometimes" or "varies." Keep the table clean and scannable. On mobile, make it horizontally scrollable or convert to stacked cards.
+
+### 5. Comparison Detail Cards
+Below the table, 4 cards in a 2x2 grid:
+
+**Card: "vs. Squarespace"**
+"You get custom design instead of a template everyone uses. We build it for you. Your site doesn't look like 10,000 other Squarespace sites. For $149/mo you get a fully managed site — no learning curve, no drag-and-drop frustration."
+
+**Card: "vs. Freelancers"**
+"No $3,000–5,000 upfront gamble. No ghosting after launch. No hunting for someone new when you need updates. GreyWhale is ongoing — your site stays current, supported, and maintained as long as you're a member."
+
+**Card: "vs. Agencies"**
+"Same quality, fraction of the cost. Agencies charge $4,000–10,000 upfront then $200–2,000/mo for maintenance. With GreyWhale your year 1 total is $1,788. That's less than most agencies charge just to start."
+
+**Card: "vs. Niche agencies (SLIVR, AMS, etc.)"**
+"Specialty agencies charge $300–500/mo with contracts and cookie-cutter templates branded as 'custom.' Same layout, different logo. GreyWhale builds each site from scratch — no two sites look alike."
+
+Design notes: Light gray background on cards, rounded corners, clean typography. No icons needed — let the copy do the work.
+
+### 6. FAQ Section (optional but recommended)
+Simple accordion or just stacked Q&A pairs:
+
+**"What's included in the monthly price?"**
+Everything — design, development, hosting, SSL, CMS access, SEO setup, ongoing support, and maintenance. There are no hidden fees.
+
+**"Is there a contract?"**
+No. Cancel anytime. We don't lock you in because we'd rather earn your business every month.
+
+**"How long does it take to build my site?"**
+Most sites go live within 14 days of our first conversation.
+
+**"Can I edit my own site?"**
+Yes. Every plan includes CMS access so you can update text, images, and basic content yourself. For bigger changes, we handle it.
+
+**"What if I need e-commerce or custom features?"**
+Our Business plan at $249/month includes e-commerce, custom integrations, and advanced functionality.
+
+**"Do I own my website?"**
+Yes. Your site is built on code we deliver to you. If you ever leave, you take your site with you.
+
+### 7. Bottom CTA
+Full-width section with centered text:
+Headline: **"Ready to get started?"**
+Subtext: "No upfront cost. Live in 14 days. Cancel anytime."
+Button: "Get Started →" (same black button style)
+
+### 8. Footer
+Same footer as the rest of the site.
+
+## Global Design Rules
+- Match existing greywhale.dev typography, spacing, and color palette exactly
+- White background, black text, muted gray for secondary text
+- No gradients, no shadows, no decorative elements
+- Generous whitespace — let the content breathe
+- Fully responsive — clean on desktop and mobile
+- All animations/transitions should be subtle and match existing site behavior
+- Add "Pricing" to the nav on all existing pages as well
