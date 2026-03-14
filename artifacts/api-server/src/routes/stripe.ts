@@ -32,7 +32,7 @@ router.post("/stripe/checkout", async (req, res) => {
       return;
     }
 
-    const { leadId, plan, successUrl, cancelUrl } = req.body;
+    const { leadId, plan, successUrl, cancelUrl, customerEmail } = req.body;
     if (!leadId || !plan || !successUrl || !cancelUrl) {
       res.status(400).json({ error: "Missing required fields: leadId, plan, successUrl, cancelUrl" });
       return;
@@ -62,6 +62,7 @@ router.post("/stripe/checkout", async (req, res) => {
       mode: "payment",
       success_url: successUrl,
       cancel_url: cancelUrl,
+      customer_email: customerEmail || undefined,
       metadata: { leadId: String(leadId) },
     });
 

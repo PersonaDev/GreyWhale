@@ -7,7 +7,7 @@ const router = Router();
 
 router.post("/leads", async (req, res) => {
   try {
-    const { role, service, location, plan } = req.body;
+    const { role, service, location, plan, name, email, phone } = req.body;
     if (!role || !service || !location || !plan) {
       res.status(400).json({ error: "Missing required fields: role, service, location, plan" });
       return;
@@ -19,6 +19,9 @@ router.post("/leads", async (req, res) => {
       location,
       plan,
       status: "started",
+      ...(name && { name }),
+      ...(email && { email }),
+      ...(phone && { phone }),
     }).returning();
 
     res.json({ id: lead.id });
