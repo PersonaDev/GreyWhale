@@ -54,7 +54,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex flex-col bg-white font-sans">
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white border-b border-gray-100">
         <Link href="/">
-          <span className="font-semibold text-base text-black tracking-wide cursor-pointer" style={{ letterSpacing: "0.04em" }}>GreyWhale</span>
+          <span className="font-bold text-base text-black tracking-wide cursor-pointer" style={{ letterSpacing: "0.04em" }}>GreyWhale</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
@@ -108,7 +108,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <footer className="border-t border-gray-100 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="font-semibold text-sm text-black tracking-wide">GreyWhale</span>
+          <span className="font-bold text-sm text-black tracking-wide">GreyWhale</span>
           <span className="text-gray-300 hidden sm:inline">|</span>
           <span className="text-sm text-gray-400 hidden sm:inline tracking-wide">Sacramento</span>
         </div>
