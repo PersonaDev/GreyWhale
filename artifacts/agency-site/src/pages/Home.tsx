@@ -32,7 +32,7 @@ const plans = [
   },
 ];
 
-function SlideUpModal({ onClose, children }: { onClose: () => void; children: React.ReactNode }) {
+function SlideUpModal({ onClose, children, className }: { onClose: () => void; children: React.ReactNode; className?: string }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ function SlideUpModal({ onClose, children }: { onClose: () => void; children: Re
         onClick={close}
       />
       <div
-        className="relative bg-white rounded-t-3xl md:rounded-3xl w-full md:max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto transition-transform duration-300 ease-out"
+        className={`relative bg-white rounded-t-3xl md:rounded-3xl w-full ${className || "md:max-w-lg"} shadow-2xl max-h-[90vh] overflow-y-auto transition-transform duration-300 ease-out`}
         style={{ transform: visible ? "translateY(0)" : "translateY(100%)" }}
       >
         {children}
@@ -70,7 +70,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
   excludeEssential?: boolean;
 }) {
   return (
-    <SlideUpModal onClose={onClose}>
+    <SlideUpModal onClose={onClose} className="md:max-w-4xl">
       <div className="p-6 pb-10">
         <div className="w-10 h-1 rounded bg-gray-200 mx-auto mb-6 md:hidden" />
         <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-5" style={{ letterSpacing: "0.12em" }}>Choose your plan</p>
@@ -79,7 +79,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
             E-commerce and booking sites require Growth or Premium.
           </p>
         )}
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {plans.filter((p) => !(excludeEssential && p.dark)).map((plan) => {
             if (plan.bordered) {
               return (
@@ -150,7 +150,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
 
           <button
             onClick={() => { onChange("bespoke"); onClose(); }}
-            className="w-full text-left rounded-2xl p-4 border border-dashed border-gray-300 hover:border-gray-400 transition-colors"
+            className="w-full text-left rounded-2xl p-4 border border-dashed border-gray-300 hover:border-gray-400 transition-colors md:col-span-3"
           >
             <p className="font-semibold text-lg text-black tracking-wide">Bespoke</p>
             <p className="text-xs mt-0.5 text-gray-400">Custom quote</p>
