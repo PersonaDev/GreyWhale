@@ -6,8 +6,10 @@ export const paymentsTable = pgTable("payments", {
   leadId: integer("lead_id").notNull().references(() => leadsTable.id),
   plan: text("plan").notNull(),
   amountCents: integer("amount_cents").notNull(),
+  monthlyAmountCents: integer("monthly_amount_cents"),
   stripeSessionId: text("stripe_session_id").notNull(),
   stripePaymentIntentId: text("stripe_payment_intent_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
   customerEmail: text("customer_email"),
   paidAt: timestamp("paid_at").defaultNow().notNull(),
 });
