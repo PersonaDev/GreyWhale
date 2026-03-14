@@ -168,10 +168,75 @@ function MobileProjectCard({ project, active }: { project: Project; active: bool
   );
 }
 
-const DECK_WIDTH = 640;
-const DECK_HEIGHT = 420;
-const OFFSET_PER_STEP = 25;
+const DECK_WIDTH = 800;
+const DECK_HEIGHT = 390;
+const OFFSET_PER_STEP = 60;
 const SCALE_PER_STEP = 0.03;
+const HOVER_SHIFT = 12;
+
+function DeckCard({
+  project,
+  originalIndex,
+  depth,
+  side,
+  totalCards,
+  setActiveIndex,
+}: {
+  project: Project;
+  originalIndex: number;
+  depth: number;
+  side: number;
+  totalCards: number;
+  setActiveIndex: (i: number) => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+  const isFront = depth === 0;
+  const scale = 1 - depth * SCALE_PER_STEP;
+  const baseX = side * depth * OFFSET_PER_STEP;
+  const hoverExtra = !isFront && hovered ? side * HOVER_SHIFT : 0;
+  const xOffset = baseX + hoverExtra;
+  const zIndex = totalCards - depth;
+  const opacity = depth > 3 ? 0 : 1 - depth * 0.12;
+  const rotate = isFront ? 0 : side * depth * 1.5;
+
+  return (
+    <motion.div
+      key={project.name}
+      className={`absolute inset-0 ${isFront ? "" : "cursor-pointer"}`}
+      style={{
+        zIndex,
+        boxShadow: isFront
+          ? "0 4px 6px rgba(0,0,0,0.04), 0 12px 30px rgba(0,0,0,0.08)"
+          : "0 2px 4px rgba(0,0,0,0.02), 0 4px 10px rgba(0,0,0,0.03)",
+        borderRadius: 12,
+      }}
+      animate={{
+        x: xOffset,
+        scale,
+        opacity,
+        rotate,
+      }}
+      transition={{
+        type: "tween",
+        duration: 0.4,
+        ease: "easeOut",
+      }}
+      onClick={() => {
+        if (!isFront) {
+          setActiveIndex(originalIndex);
+        }
+      }}
+      onMouseEnter={() => {
+        if (!isFront) setHovered(true);
+      }}
+      onMouseLeave={() => {
+        setHovered(false);
+      }}
+    >
+      <ProjectCard project={project} />
+    </motion.div>
+  );
+}
 
 function StackedDeck({
   filtered,
@@ -205,50 +270,17 @@ function StackedDeck({
         className="relative mx-auto"
         style={{ width: DECK_WIDTH, height: DECK_HEIGHT }}
       >
-        {orderedCards.map(({ project, originalIndex, depth, side }) => {
-          const isFront = depth === 0;
-          const scale = 1 - depth * SCALE_PER_STEP;
-          const xOffset = side * depth * OFFSET_PER_STEP;
-          const zIndex = filtered.length - depth;
-          const opacity = depth > 3 ? 0 : 1 - depth * 0.12;
-
-          return (
-            <motion.div
-              key={project.name}
-              className="absolute inset-0 cursor-pointer"
-              style={{
-                zIndex,
-                boxShadow: isFront
-                  ? "0 4px 6px rgba(0,0,0,0.05), 0 10px 30px rgba(0,0,0,0.08)"
-                  : "0 2px 4px rgba(0,0,0,0.03), 0 4px 12px rgba(0,0,0,0.04)",
-                borderRadius: 12,
-              }}
-              animate={{
-                x: xOffset,
-                scale,
-                opacity,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 25,
-                duration: 0.4,
-              }}
-              onClick={() => {
-                if (!isFront) {
-                  setActiveIndex(originalIndex);
-                }
-              }}
-              onMouseEnter={() => {
-                if (!isFront) {
-                  setActiveIndex(originalIndex);
-                }
-              }}
-            >
-              <ProjectCard project={project} />
-            </motion.div>
-          );
-        })}
+        {orderedCards.map(({ project, originalIndex, depth, side }) => (
+          <DeckCard
+            key={project.name}
+            project={project}
+            originalIndex={originalIndex}
+            depth={depth}
+            side={side}
+            totalCards={filtered.length}
+            setActiveIndex={setActiveIndex}
+          />
+        ))}
       </div>
     </div>
   );
