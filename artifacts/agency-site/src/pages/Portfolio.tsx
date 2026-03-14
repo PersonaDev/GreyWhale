@@ -114,22 +114,30 @@ function CardContent({ project, isDark }: { project: Project; isDark: boolean })
   );
 }
 
-function ProjectCard({ project, active, hovered }: { project: Project; active: boolean; hovered?: boolean }) {
+function ProjectCard({ project, active, hovered, onClick }: { project: Project; active: boolean; hovered?: boolean; onClick?: () => void }) {
   const isDark = project.imgBg === "#1a1a1a";
   return (
-    <a
-      href={`https://${project.url}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`block shrink-0 rounded-2xl overflow-hidden transition-all duration-200 flex flex-col ${
+    <div
+      role="link"
+      tabIndex={0}
+      className={`block shrink-0 rounded-2xl overflow-hidden transition-all duration-200 flex flex-col cursor-pointer ${
         hovered ? "shadow-2xl" : active ? "shadow-xl" : "opacity-55"
       }`}
-      style={{ textDecoration: "none", height: "100%" }}
-      onClick={(e) => e.stopPropagation()}
+      style={{ height: "100%" }}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (onClick) onClick();
+      }}
+      onKeyDown={(e) => {
+        if ((e.key === "Enter" || e.key === " ") && onClick) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
     >
       <BrowserChrome url={project.url} isDark={isDark} />
       <CardContent project={project} isDark={isDark} />
-    </a>
+    </div>
   );
 }
 
@@ -155,6 +163,7 @@ function MobileDockCarousel({
   const x = useMotionValue(0);
   const [cardPx, setCardPx] = useState(0);
   const isDragging = useRef(false);
+  const hasDragged = useRef(false);
 
   useEffect(() => {
     function measure() {
@@ -221,7 +230,7 @@ function MobileDockCarousel({
         dragConstraints={{ left: minX, right: 0 }}
         dragElastic={0.12}
         dragMomentum={false}
-        onDragStart={() => { isDragging.current = true; }}
+        onDragStart={() => { isDragging.current = true; hasDragged.current = true; }}
         onDragEnd={(_, info) => {
           isDragging.current = false;
           const velocity = info.velocity.x;
@@ -235,6 +244,7 @@ function MobileDockCarousel({
             stiffness: 300,
             damping: 30,
           });
+          setTimeout(() => { hasDragged.current = false; }, 300);
         }}
       >
         {filtered.map((project, i) => {
@@ -258,7 +268,16 @@ function MobileDockCarousel({
                 }
               }}
             >
-              <ProjectCard project={project} active={i === activeIndex} />
+              <ProjectCard
+                project={project}
+                active={i === activeIndex}
+                onClick={() => {
+                  if (!hasDragged.current) {
+                    window.open(`https://${project.url}`, "_blank", "noopener,noreferrer");
+                  }
+                  hasDragged.current = false;
+                }}
+              />
             </motion.div>
           );
         })}
@@ -307,12 +326,12 @@ export default function Portfolio() {
           </p>
         </div>
 
-        <div className="flex items-center gap-5 mb-10 overflow-x-auto pb-1">
+        <div className="flex items-center gap-3 md:gap-5 mb-10 overflow-x-auto pb-1">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => handleCategoryChange(cat)}
-              className={`text-sm font-medium cursor-pointer transition-colors whitespace-nowrap tracking-wide ${
+              className={`text-xs md:text-sm font-medium cursor-pointer transition-colors whitespace-nowrap tracking-wide ${
                 activeCategory === cat ? "text-black" : "text-gray-300 hover:text-gray-500"
               }`}
             >
@@ -351,7 +370,14 @@ export default function Portfolio() {
                         height: CARD_H,
                       }}
                     >
-                      <ProjectCard project={project} active={isActive} hovered={isHovered} />
+                      <ProjectCard
+                      project={project}
+                      active={isActive}
+                      hovered={isHovered}
+                      onClick={() => {
+                        window.open(`https://${project.url}`, "_blank", "noopener,noreferrer");
+                      }}
+                    />
                     </div>
                   );
                 })}
