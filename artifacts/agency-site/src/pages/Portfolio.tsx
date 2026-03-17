@@ -424,7 +424,7 @@ export default function Portfolio() {
 
   return (
     <Layout>
-      <div className="max-w-7xl mx-auto px-5 pt-10 pb-24">
+      <div className="max-w-7xl mx-auto px-6 pt-10 pb-24">
         <Link href="/">
           <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-black transition-colors cursor-pointer mb-8 tracking-wide">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -475,7 +475,7 @@ export default function Portfolio() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-5 pb-24">
+      <div className="max-w-7xl mx-auto px-6 pb-24">
         <div className="flex items-center justify-center gap-2 mt-6 md:hidden">
           {filtered.map((_, i) => (
             <button
