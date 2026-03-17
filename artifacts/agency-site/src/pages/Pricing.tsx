@@ -166,15 +166,17 @@ export default function Pricing() {
 
   return (
     <Layout>
-      <section className="px-6 pt-10 pb-0">
-        <Link href="/">
-          <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-black transition-colors cursor-pointer tracking-wide">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Back
-          </button>
-        </Link>
+      <section className="pt-10 pb-0">
+        <div className="max-w-7xl mx-auto px-6">
+          <Link href="/">
+            <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-black transition-colors cursor-pointer tracking-wide">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back
+            </button>
+          </Link>
+        </div>
       </section>
 
       <section className="px-6 pt-12 pb-16 md:pt-16 md:pb-20">
