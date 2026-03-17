@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
 
@@ -12,12 +13,9 @@ const tiers = [
     features: [
       { text: "Custom designed website" },
       { text: "Up to 5 pages" },
-      { text: "Mobile responsive" },
-      { text: "Basic SEO (meta tags, sitemap)" },
+      { text: "Mobile responsive design" },
       { text: "Hosting & SSL included" },
-      { text: "Contact form" },
-      { text: "Edit your own text and images anytime" },
-      { text: "1 revision per month" },
+      { text: "Basic SEO + contact form" },
       { text: "48-hour support response" },
     ] as Feature[],
     nudge: { text: "Want analytics and booking?", link: "See Professional →", target: "professional" },
@@ -36,8 +34,10 @@ const tiers = [
       { text: "Booking or scheduling integration", highlight: true },
       { text: "Contact forms with lead notifications", highlight: true },
       { text: "Advanced SEO (local schema, FAQ markup, structured data)", highlight: true },
+      { text: "Edit your own text and images anytime", highlight: true },
       { text: "2 revisions per month", highlight: true },
       { text: "24-hour priority support response", highlight: true },
+      { text: "Monthly check-in call", highlight: true },
     ] as Feature[],
     nudge: { text: "Need e-commerce?", link: "See Business →", target: "business" },
     popular: true,
@@ -51,11 +51,17 @@ const tiers = [
       { text: "Everything in Professional" },
       { text: "Up to 20 pages", highlight: true },
       { text: "E-commerce (product pages, cart, checkout)", highlight: true },
-      { text: "Custom integrations", highlight: true },
-      { text: "Blog setup and management", highlight: true },
+      { text: "Custom integrations (API connections, CRMs, tools)", highlight: true },
+      { text: "Blog setup and content management", highlight: true },
       { text: "Monthly performance report", highlight: true },
+      { text: "Speed & Core Web Vitals optimization", highlight: true },
+      { text: "Conversion rate optimization review", highlight: true },
       { text: "Unlimited revisions", highlight: true },
       { text: "Same-day priority support", highlight: true },
+      { text: "Dedicated account manager", highlight: true },
+      { text: "Priority feature requests", highlight: true },
+      { text: "Quarterly strategy session", highlight: true },
+      { text: "White-glove onboarding", highlight: true },
     ] as Feature[],
     popular: false,
   },
@@ -73,25 +79,6 @@ const comparisonRows: { label: string; diy: string; freelancer: string; agency: 
   { label: "Turnaround", diy: "DIY", freelancer: "4–8 weeks", agency: "6–12 weeks", gw: "14 days" },
   { label: "Contract lock-in", diy: "Monthly/annual", freelancer: "Per project", agency: "6–12 months", gw: "Cancel anytime" },
   { label: "Ongoing support", diy: "Help docs", freelancer: "Extra cost", agency: "Retainer", gw: "Included" },
-];
-
-const vsCards = [
-  {
-    title: "vs. Squarespace",
-    body: "You get custom design instead of a template everyone uses. We build it for you. Your site doesn't look like 10,000 other Squarespace sites. For $149/mo you get a fully managed site — no learning curve, no drag-and-drop frustration.",
-  },
-  {
-    title: "vs. Freelancers",
-    body: "No $3,000–5,000 upfront gamble. No ghosting after launch. No hunting for someone new when you need updates. GreyWhale is ongoing — your site stays current, supported, and maintained as long as you're a member.",
-  },
-  {
-    title: "vs. Agencies",
-    body: "Same quality, fraction of the cost. Agencies charge $4,000–10,000 upfront then $200–2,000/mo for maintenance. With GreyWhale your year 1 total is $1,788. That's less than most agencies charge just to start.",
-  },
-  {
-    title: "vs. Niche agencies",
-    body: "Specialty agencies charge $300–500/mo with contracts and cookie-cutter templates branded as 'custom.' Same layout, different logo. GreyWhale builds each site from scratch — no two sites look alike.",
-  },
 ];
 
 const faqs = [
@@ -125,7 +112,7 @@ function Check({ className }: { className?: string }) {
   );
 }
 
-function X({ className }: { className?: string }) {
+function XIcon({ className }: { className?: string }) {
   return (
     <svg className={`w-4 h-4 shrink-0 ${className || ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -135,8 +122,16 @@ function X({ className }: { className?: string }) {
 
 function CellValue({ value, bold }: { value: string; bold?: boolean }) {
   const lower = value.toLowerCase();
-  if (lower === "yes") return <Check className={bold ? "text-green-600" : "text-green-500"} />;
-  if (lower === "no") return <X className={bold ? "text-red-500" : "text-red-400"} />;
+  if (lower === "yes") return (
+    <div className="flex justify-center items-center">
+      <Check className={bold ? "text-green-600" : "text-green-500"} />
+    </div>
+  );
+  if (lower === "no") return (
+    <div className="flex justify-center items-center">
+      <XIcon className={bold ? "text-red-500" : "text-red-400"} />
+    </div>
+  );
   return <span className={bold ? "font-semibold text-black" : "text-gray-600"}>{value}</span>;
 }
 
@@ -148,7 +143,23 @@ function Arrow() {
   );
 }
 
+function Chevron({ open }: { open: boolean }) {
+  return (
+    <svg
+      className={`w-4 h-4 shrink-0 text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
 export default function Pricing() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   function scrollTo(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
@@ -268,28 +279,31 @@ export default function Pricing() {
       </section>
 
       <section className="px-6 pb-20">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-5">
-          {vsCards.map((card) => (
-            <div key={card.title} className="bg-gray-50 rounded-2xl p-7">
-              <h3 className="font-bold text-black mb-3">{card.title}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">{card.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="px-6 pb-20">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-black tracking-tight text-center mb-12">
             Frequently asked questions
           </h2>
-          <div className="space-y-8">
-            {faqs.map((faq) => (
-              <div key={faq.q}>
-                <h3 className="font-semibold text-black mb-2">{faq.q}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
+          <div className="divide-y divide-gray-100">
+            {faqs.map((faq, i) => {
+              const isOpen = openFaq === i;
+              return (
+                <div key={faq.q}>
+                  <button
+                    className="w-full flex items-center justify-between gap-4 py-5 text-left cursor-pointer"
+                    onClick={() => setOpenFaq(isOpen ? null : i)}
+                    aria-expanded={isOpen}
+                  >
+                    <span className="font-semibold text-black text-sm md:text-base">{faq.q}</span>
+                    <Chevron open={isOpen} />
+                  </button>
+                  <div
+                    className={`overflow-hidden transition-all duration-200 ${isOpen ? "max-h-96 pb-5" : "max-h-0"}`}
+                  >
+                    <p className="text-sm text-gray-500 leading-relaxed">{faq.a}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
