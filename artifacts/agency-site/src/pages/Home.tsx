@@ -920,126 +920,99 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={80}>
-            {/* ── Mobile: 3-column (Feature | Others | GreyWhale) ── */}
-            <div
-              className="md:hidden rounded-2xl overflow-hidden border border-gray-200"
-              style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1.3fr" }}
-            >
-              {/* Header */}
-              <div className="p-3 border-b border-r border-gray-200" />
-              <div className="p-3 border-b border-r border-gray-200 text-center">
-                <p className="font-semibold text-gray-500 text-xs">Others</p>
-                <p className="text-[10px] text-gray-400 mt-0.5 leading-tight">DIY · Agency</p>
-              </div>
+            <div className="overflow-x-auto -mx-6 px-6 md:overflow-visible md:mx-0 md:px-0">
               <div
-                className="py-4 px-2 border-b border-gray-200 text-center bg-black flex flex-col items-center justify-center gap-0.5"
-                style={{ borderTop: "3px solid #10b981" }}
+                className="rounded-2xl overflow-hidden border border-gray-200"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1.4fr 1fr 1fr 1.8fr",
+                  minWidth: "560px",
+                }}
               >
-                <p className="font-bold text-white text-xs leading-tight">GreyWhale</p>
-                <span className="text-emerald-400 text-[9px] tracking-wider">✦ BEST</span>
-              </div>
+                {/* Header */}
+                <div className="p-4 border-b border-r border-gray-200" />
+                <div className="p-4 border-b border-r border-gray-200 text-center">
+                  <p className="font-semibold text-gray-500 text-sm">
+                    DIY Builders
+                  </p>
+                  <p className="text-xs text-gray-400 mt-0.5">Squarespace, Wix</p>
+                </div>
+                <div className="p-4 border-b border-r border-gray-200 text-center">
+                  <p className="font-semibold text-gray-500 text-sm">Agency</p>
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    Traditional studio
+                  </p>
+                </div>
+                <div
+                  className="py-6 px-4 border-b border-gray-200 text-center bg-black flex flex-col items-center justify-center gap-1"
+                  style={{ borderTop: "3px solid #10b981" }}
+                >
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold tracking-widest uppercase mb-0.5">
+                    ✦ Best Value
+                  </span>
+                  <p className="font-bold text-white text-base">GreyWhale</p>
+                  <p className="text-xs text-zinc-500">Sacramento's studio</p>
+                </div>
 
-              {/* Price row */}
-              <div className="p-3 border-b border-r border-gray-100 text-[11px] text-gray-700 font-semibold flex items-center">
-                Monthly cost
-              </div>
-              <div className="p-3 border-b border-r border-gray-100 text-center text-[11px] text-gray-500 flex items-center justify-center leading-tight">
-                $16–2k
-              </div>
-              <div className="p-3 border-b border-gray-100 text-center text-xs font-bold text-white flex items-center justify-center bg-black/95">
-                $149
-              </div>
+                {/* Price row */}
+                <div className="p-3 border-b border-r border-gray-100 text-xs text-gray-600 font-semibold flex items-center">
+                  Monthly cost
+                </div>
+                <div className="p-3 border-b border-r border-gray-100 text-center text-xs text-gray-500 flex items-center justify-center">
+                  $16–39/mo
+                </div>
+                <div className="p-3 border-b border-r border-gray-100 text-center text-xs text-gray-500 flex items-center justify-center">
+                  $200–2,000/mo
+                </div>
+                <div className="p-3 border-b border-gray-100 text-center text-sm font-bold text-white flex items-center justify-center bg-black/95">
+                  $149/mo
+                </div>
 
-              {/* Setup cost */}
-              <div className="p-3 border-b border-r border-gray-100 text-[11px] text-gray-700 font-semibold flex items-center">
-                Setup cost
-              </div>
-              <div className="p-3 border-b border-r border-gray-100 text-center text-[11px] text-red-400 flex items-center justify-center font-semibold bg-red-50">
-                $0–10K
-              </div>
-              <div className="p-3 border-b border-gray-100 text-center text-[11px] text-emerald-500 flex items-center justify-center font-semibold bg-black/95">
-                None
-              </div>
+                <div className="p-3 border-b border-r border-gray-100 text-xs text-gray-600 font-semibold flex items-center">
+                  Setup cost
+                </div>
+                <div className="p-3 border-b border-r border-gray-100 text-center text-xs text-gray-500 flex items-center justify-center">
+                  None
+                </div>
+                <div className="p-3 border-b border-r border-gray-100 text-center text-xs text-red-400 flex items-center justify-center font-semibold bg-red-50">
+                  $5K–10K
+                </div>
+                <div className="p-3 border-b border-gray-100 text-center text-xs text-emerald-500 flex items-center justify-center font-semibold bg-black/95">
+                  None
+                </div>
 
-              {/* Feature rows */}
-              {compFeatures.map((row, i) => {
-                const othersHaveIt = row.diy || row.agency;
-                const notLast = i < compFeatures.length - 1;
-                const alt = i % 2 !== 0;
-                return (
-                  <Fragment key={row.label}>
-                    <div className={`p-3 border-r border-gray-100 text-[11px] text-gray-700 font-semibold flex items-center ${notLast ? "border-b" : ""} ${alt ? "bg-gray-50/60" : ""}`}>
-                      {row.label}
-                    </div>
-                    <div className={`p-3 border-r border-gray-100 flex items-center justify-center ${notLast ? "border-b" : ""} ${!othersHaveIt ? "bg-red-50" : alt ? "bg-gray-50/60" : ""}`}>
-                      <Check yes={othersHaveIt} />
-                    </div>
-                    <div className={`p-3 flex items-center justify-center bg-black/95 ${notLast ? "border-b border-zinc-800" : ""}`}>
-                      <span className="text-emerald-400 font-bold text-lg">✓</span>
-                    </div>
-                  </Fragment>
-                );
-              })}
-            </div>
-
-            {/* ── Desktop: full 4-column ── */}
-            <div
-              className="hidden md:grid rounded-2xl overflow-hidden border border-gray-200"
-              style={{ gridTemplateColumns: "1.4fr 1fr 1fr 1.8fr" }}
-            >
-              {/* Header */}
-              <div className="p-4 border-b border-r border-gray-200" />
-              <div className="p-4 border-b border-r border-gray-200 text-center">
-                <p className="font-semibold text-gray-500 text-sm">DIY Builders</p>
-                <p className="text-xs text-gray-400 mt-0.5">Squarespace, Wix</p>
+                {/* Feature rows */}
+                {compFeatures.map((row, i) => {
+                  const alt = i % 2 !== 0;
+                  const notLast = i < compFeatures.length - 1;
+                  return (
+                    <Fragment key={row.label}>
+                      <div
+                        className={`p-3 border-r border-gray-100 text-xs text-gray-700 font-semibold flex items-center ${notLast ? "border-b" : ""} ${alt ? "bg-gray-50/60" : ""}`}
+                      >
+                        {row.label}
+                      </div>
+                      <div
+                        className={`p-3 border-r border-gray-100 flex items-center justify-center ${notLast ? "border-b" : ""} ${!row.diy ? "bg-red-50" : alt ? "bg-gray-50/60" : ""}`}
+                      >
+                        <Check yes={row.diy} />
+                      </div>
+                      <div
+                        className={`p-3 border-r border-gray-100 flex items-center justify-center ${notLast ? "border-b" : ""} ${!row.agency ? "bg-red-50" : alt ? "bg-gray-50/60" : ""}`}
+                      >
+                        <Check yes={row.agency} />
+                      </div>
+                      <div
+                        className={`p-3 flex items-center justify-center bg-black/95 ${notLast ? "border-b border-zinc-800" : ""}`}
+                      >
+                        <span className="text-emerald-400 font-bold text-xl">
+                          ✓
+                        </span>
+                      </div>
+                    </Fragment>
+                  );
+                })}
               </div>
-              <div className="p-4 border-b border-r border-gray-200 text-center">
-                <p className="font-semibold text-gray-500 text-sm">Agency</p>
-                <p className="text-xs text-gray-400 mt-0.5">Traditional studio</p>
-              </div>
-              <div
-                className="py-6 px-4 border-b border-gray-200 text-center bg-black flex flex-col items-center justify-center gap-1"
-                style={{ borderTop: "3px solid #10b981" }}
-              >
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold tracking-widest uppercase mb-0.5">
-                  ✦ Best Value
-                </span>
-                <p className="font-bold text-white text-base">GreyWhale</p>
-                <p className="text-xs text-zinc-500">Sacramento's studio</p>
-              </div>
-
-              {/* Price row */}
-              <div className="p-3 border-b border-r border-gray-100 text-xs text-gray-600 font-semibold flex items-center">Monthly cost</div>
-              <div className="p-3 border-b border-r border-gray-100 text-center text-xs text-gray-500 flex items-center justify-center">$16–39/mo</div>
-              <div className="p-3 border-b border-r border-gray-100 text-center text-xs text-gray-500 flex items-center justify-center">$200–2,000/mo</div>
-              <div className="p-3 border-b border-gray-100 text-center text-sm font-bold text-white flex items-center justify-center bg-black/95">$149/mo</div>
-
-              <div className="p-3 border-b border-r border-gray-100 text-xs text-gray-600 font-semibold flex items-center">Setup cost</div>
-              <div className="p-3 border-b border-r border-gray-100 text-center text-xs text-gray-500 flex items-center justify-center">None</div>
-              <div className="p-3 border-b border-r border-gray-100 text-center text-xs text-red-400 flex items-center justify-center font-semibold bg-red-50">$5K–10K</div>
-              <div className="p-3 border-b border-gray-100 text-center text-xs text-emerald-500 flex items-center justify-center font-semibold bg-black/95">None</div>
-
-              {/* Feature rows */}
-              {compFeatures.map((row, i) => {
-                const alt = i % 2 !== 0;
-                const notLast = i < compFeatures.length - 1;
-                return (
-                  <Fragment key={row.label}>
-                    <div className={`p-3 border-r border-gray-100 text-xs text-gray-700 font-semibold flex items-center ${notLast ? "border-b" : ""} ${alt ? "bg-gray-50/60" : ""}`}>
-                      {row.label}
-                    </div>
-                    <div className={`p-3 border-r border-gray-100 flex items-center justify-center ${notLast ? "border-b" : ""} ${!row.diy ? "bg-red-50" : alt ? "bg-gray-50/60" : ""}`}>
-                      <Check yes={row.diy} />
-                    </div>
-                    <div className={`p-3 border-r border-gray-100 flex items-center justify-center ${notLast ? "border-b" : ""} ${!row.agency ? "bg-red-50" : alt ? "bg-gray-50/60" : ""}`}>
-                      <Check yes={row.agency} />
-                    </div>
-                    <div className={`p-3 flex items-center justify-center bg-black/95 ${notLast ? "border-b border-zinc-800" : ""}`}>
-                      <span className="text-emerald-400 font-bold text-xl">✓</span>
-                    </div>
-                  </Fragment>
-                );
-              })}
             </div>
           </Reveal>
 
