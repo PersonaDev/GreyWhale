@@ -933,18 +933,26 @@ export default function Home() {
           <Reveal delay={80}>
             {/* ── Mobile: transposed — competitors as rows, features as columns ── */}
             <div className="md:hidden relative">
-              {/* right-edge fade + arrow — disappears once user reaches end */}
+              {/* Arrow beacon — sits outside the masked container, fades out at end */}
               <div
-                className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 rounded-r-2xl z-20 flex items-center justify-end pr-2"
+                className="pointer-events-none absolute right-1.5 top-0 bottom-0 z-20 flex items-center"
+                style={{ opacity: compAtEnd ? 0 : 1, transition: "opacity 0.25s ease" }}
+              >
+                <span className="animate-pulse flex items-center justify-center w-7 h-7 rounded-full bg-white border border-gray-200 shadow-sm text-gray-500 text-sm font-bold select-none">
+                  ›
+                </span>
+              </div>
+              {/* mask-image fades content out at right edge — works on both light + dark rows */}
+              <div
+                ref={compScrollRef}
+                className="overflow-x-auto rounded-2xl border border-gray-200"
                 style={{
-                  background: "linear-gradient(to left, rgba(255,255,255,1) 30%, transparent 100%)",
-                  opacity: compAtEnd ? 0 : 1,
-                  transition: "opacity 0.3s ease",
+                  WebkitOverflowScrolling: "touch",
+                  maskImage: compAtEnd ? "none" : "linear-gradient(to right, black 55%, transparent 100%)",
+                  WebkitMaskImage: compAtEnd ? "none" : "linear-gradient(to right, black 55%, transparent 100%)",
+                  transition: "mask-image 0.25s",
                 }}
               >
-                <span className="text-gray-400 text-base animate-bounce" style={{ animationDirection: "alternate", animationDuration: "0.8s" }}>›</span>
-              </div>
-              <div ref={compScrollRef} className="overflow-x-auto rounded-2xl border border-gray-200" style={{ WebkitOverflowScrolling: "touch" }}>
               <table className="border-collapse" style={{ minWidth: "640px" }}>
                 <thead>
                   <tr>
