@@ -1,0 +1,226 @@
+# GreyWhale — Niche-Specific Landing Pages — Replit Prompt
+
+Create a set of niche-specific landing pages on greywhale.dev. Each page is a custom homepage targeting a specific business type. These pages exist for two reasons: SEO (ranking for “[business type] website design Sacramento”) and conversion (speaking directly to that business owner’s needs so they feel like we specialize in their industry).
+
+Each page lives at: greywhale.dev/for/[niche]
+
+These pages are NOT linked in the main navigation. They are standalone SEO landing pages that people find through Google search. They can be linked from the main site’s footer in a small “Industries” section or from a dedicated /industries page, but they should function as independent conversion pages.
+
+-----
+
+## NICHE PAGES TO CREATE
+
+1. /for/dentists
+1. /for/barbershops
+1. /for/tattoo-shops
+1. /for/restaurants
+1. /for/auto-shops
+1. /for/coffee-shops
+1. /for/med-spas
+1. /for/fitness-studios
+1. /for/plumbers
+1. /for/real-estate-agents
+
+-----
+
+## TEMPLATE STRUCTURE (same layout for every niche, content customized)
+
+Each niche page follows this exact structure. The copy, pain points, features, and portfolio examples change per niche but the layout is identical.
+
+### SECTION 1: HERO
+
+**Headline pattern:** “Websites for [Niche] in Sacramento”
+Example: “Websites for Dentists in Sacramento”
+Example: “Websites for Barbershops in Sacramento”
+
+**Subheadline pattern:** “Custom designed. SEO optimized to bring [niche-specific outcome]. Live in 14 days. No upfront cost.”
+Example for dentists: “Custom designed. SEO optimized to bring new patients to your practice. Live in 14 days. No upfront cost.”
+Example for barbers: “Custom designed. SEO optimized to keep your chairs full. Live in 14 days. No upfront cost.”
+Example for restaurants: “Custom designed. SEO optimized to fill your tables. Live in 14 days. No upfront cost.”
+
+**CTA button:** “See Pricing →” smooth-scrolls to pricing section on this same page.
+
+### SECTION 2: THE PROBLEM (niche-specific pain points)
+
+**Headline:** “Your [niche] deserves better than a Squarespace template.”
+
+Three pain points specific to this niche. Examples:
+
+**Dentists:**
+
+- “Patients Google ‘dentist near me’ and your outdated site loses them in 3 seconds.”
+- “Your competitor down the street has a modern site with online booking. You don’t.”
+- “You’re paying a dental marketing agency $300-500/month for a cookie-cutter template.”
+
+**Barbershops:**
+
+- “Clients search for barbers on their phone. If your site isn’t mobile-perfect, they scroll past.”
+- “You’re relying on Instagram alone. But Instagram doesn’t rank on Google.”
+- “Walk-ins are declining. Your online presence should be filling your chairs.”
+
+**Tattoo shops:**
+
+- “Your portfolio deserves better than an Instagram grid. A real site shows your art properly.”
+- “Clients want to browse your work, check your availability, and book — all in one place.”
+- “You’re losing bookings to shops with better websites, not better artists.”
+
+**Restaurants:**
+
+- “Customers check your menu online before they ever walk in the door.”
+- “If your site is slow, ugly, or missing your hours — they’re going to the place next door.”
+- “You’re paying DoorDash and Yelp to own your customer relationships.”
+
+**Auto shops:**
+
+- “When someone’s car breaks down, they Google ‘auto shop near me.’ Your site needs to be there.”
+- “Your competitors have online appointment booking. You’re still answering every call manually.”
+- “A professional website builds trust before the customer ever walks through your bay door.”
+
+**Coffee shops:**
+
+- “People Google ‘coffee near me’ before they walk anywhere. Your site is your storefront.”
+- “Your vibe is everything. Your website should feel like your shop.”
+- “A great site turns a one-time visitor into a regular.”
+
+**Med spas:**
+
+- “Clients research treatments online for weeks before booking. Your site is your first consultation.”
+- “You’re competing against med spas with $10,000 agency websites. You don’t need to spend that.”
+- “Online booking and service menus aren’t optional anymore — they’re expected.”
+
+**Fitness studios:**
+
+- “Members want to see your schedule, pricing, and vibe before they try a class.”
+- “Your competitor has a slick site with online class booking. You have a Facebook page.”
+- “A professional website converts curious browsers into paying members.”
+
+**Plumbers:**
+
+- “Emergency calls go to whoever shows up first on Google. That should be you.”
+- “Homeowners judge your professionalism by your website before they call.”
+- “Every day without a real site is money going to your competitors.”
+
+**Real estate agents:**
+
+- “Your brokerage template site looks like every other agent in town.”
+- “Clients want to see YOUR brand, YOUR listings, YOUR story — not a generic portal.”
+- “A custom site positions you as the agent, not just an agent.”
+
+### SECTION 3: NICHE-SPECIFIC DEMO SITE
+
+**Headline:** “Here’s what a [niche] site looks like.”
+
+Display a browser mockup of a demo site for this niche. If a real client site exists (like Heritage Oak Dental for the dentist page), show that. If not, show a clean placeholder mockup with the niche name.
+
+For the dentist page specifically, show the Heritage Oak Dental site as the live demo.
+
+Below the mockup:
+“This is a real site we built for [Business Name] in [City]. [Link to live demo]”
+OR if no real client yet:
+“This is a sample site we designed for a [niche] in Sacramento. [Link to demo subdomain]”
+
+### SECTION 4: WHAT’S INCLUDED (same as main site but with niche-specific language)
+
+**Headline:** “What your [niche] website includes.”
+
+Six features, same structure as main homepage but with niche-relevant descriptions:
+
+**Dentists:**
+
+- Custom Design — “Built to reflect your practice, not a template every dentist uses.”
+- Patient-Focused SEO — “Rank for ‘dentist in Rocklin CA’ and your specific services.”
+- Mobile Optimized — “Patients are searching on their phones. Your site will look perfect.”
+- Online Forms — “New patient forms, appointment requests, contact forms built in.”
+- Self-Service Edits — “Update hours, add a new doctor, change services yourself.”
+- HIPAA Aware Design — “Built with healthcare best practices in mind.”
+
+**Barbershops:**
+
+- Custom Design — “Your site should feel like your shop. We build it to match your vibe.”
+- Local SEO — “Rank for ‘barbershop near me’ in your neighborhood.”
+- Mobile First — “Clients find you on their phone. Your site will look clean.”
+- Gallery — “Show off your cuts. A real portfolio, not just an Instagram embed.”
+- Self-Service Edits — “Update prices, hours, and photos yourself.”
+- Fast Launch — “Live in 14 days. Start booking this month.”
+
+(Create similar niche-specific feature descriptions for all 10 niches)
+
+### SECTION 5: COMPARISON (condensed version)
+
+Same three-column comparison as the main homepage but with niche-specific agency references where relevant.
+
+For dentists: reference “dental marketing agencies like SLIVR and AMS charging $300-500/month for template sites”
+For other niches: use the generic agency comparison
+
+### SECTION 6: PRICING (same as main site)
+
+Show the three tiers: Starter $149, Professional $249, Business $349.
+CTA buttons smooth-scroll to the sentence builder.
+
+### SECTION 7: SENTENCE BUILDER + CTA
+
+Same interactive sentence builder from the main homepage, relocated here as the final conversion action. The [business type] dropdown should be pre-selected to match the niche of the page they’re on.
+
+For example: on /for/dentists, the sentence builder should already have “dentist” pre-selected in the business type dropdown. On /for/barbershops, “barbershop” should be pre-selected. This reduces friction — one less choice to make.
+
+-----
+
+## SEO REQUIREMENTS FOR EACH NICHE PAGE
+
+Every niche page must have:
+
+**Unique title tag pattern:**
+“[Niche] Website Design Sacramento | GreyWhale”
+Example: “Dentist Website Design Sacramento | GreyWhale”
+Example: “Barbershop Website Design Sacramento | GreyWhale”
+
+**Unique meta description pattern:**
+“Custom websites for [niche plural] in Sacramento, Rocklin, Roseville and surrounding areas. No upfront cost. SEO optimized. Live in 14 days. Starting at $149/month.”
+
+**H1:** “Websites for [Niche] in Sacramento”
+
+**JSON-LD structured data:** LocalBusiness schema with service type matching the niche
+
+**Canonical URL:** Self-referencing canonical on each page
+
+**Internal links:** Link to the main /pricing page, /portfolio page, and other relevant niche pages in a “We also work with” section at the bottom
+
+**Alt text on images:** Include niche and location keywords naturally
+
+**Body content:** Must include natural mentions of surrounding cities: Sacramento, Rocklin, Roseville, Folsom, Granite Bay, Lincoln, Citrus Heights, Elk Grove, Davis, Rancho Cordova
+
+-----
+
+## INDUSTRIES HUB PAGE (/industries or /for)
+
+Create a simple hub page at /for that lists all niche pages in a clean grid:
+
+**Headline:** “Websites built for your industry.”
+**Subheadline:** “We design custom sites for local businesses across Sacramento.”
+
+Grid of cards, each linking to the niche page:
+
+- Dentists → /for/dentists
+- Barbershops → /for/barbershops
+- Tattoo Shops → /for/tattoo-shops
+- Restaurants → /for/restaurants
+- Auto Shops → /for/auto-shops
+- Coffee Shops → /for/coffee-shops
+- Med Spas → /for/med-spas
+- Fitness Studios → /for/fitness-studios
+- Plumbers → /for/plumbers
+- Real Estate Agents → /for/real-estate-agents
+
+Each card has the niche name and a one-line description like “Custom websites that bring new patients to your practice” for dentists.
+
+Add a link to this hub page in the main site footer under an “Industries” section.
+
+-----
+
+## IMPORTANT NOTES
+
+- Each niche page must feel like a standalone landing page that someone could land on from Google and convert without ever seeing the main homepage
+- The design language matches the main greywhale.dev site exactly — same fonts, same colors, same animation style
+- The sentence builder dropdown should AUTO-SELECT the matching business type based on which niche page the visitor is on
+- These pages are the SEO engine for the entire business — they need to be content-rich enough to rank but clean enough to convert
+- Add more niche pages over time as you expand into new industries — the template makes this easy to replicate

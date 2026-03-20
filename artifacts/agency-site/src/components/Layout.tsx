@@ -89,25 +89,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           >
             <span
               className="block h-0.5 bg-black origin-center transition-all duration-300 ease-in-out"
-              style={{
-                width: 20,
-                transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none",
-              }}
+              style={{ width: 20, transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none" }}
             />
             <span
               className="block h-0.5 bg-black transition-all duration-300 ease-in-out mt-[5px]"
-              style={{
-                width: 20,
-                opacity: menuOpen ? 0 : 1,
-                transform: menuOpen ? "scaleX(0)" : "scaleX(1)",
-              }}
+              style={{ width: 20, opacity: menuOpen ? 0 : 1, transform: menuOpen ? "scaleX(0)" : "scaleX(1)" }}
             />
             <span
               className="block h-0.5 bg-black origin-center transition-all duration-300 ease-in-out mt-[5px]"
-              style={{
-                width: 20,
-                transform: menuOpen ? "translateY(-11px) rotate(-45deg)" : "none",
-              }}
+              style={{ width: 20, transform: menuOpen ? "translateY(-11px) rotate(-45deg)" : "none" }}
             />
           </button>
         </div>
@@ -119,10 +109,40 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
 
-      <footer className="border-t border-gray-100 px-6 py-6">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <span className="font-bold text-sm text-black" style={{ letterSpacing: "-0.02em" }}>GreyWhale</span>
-          <span className="text-xs text-gray-400 tracking-wider">© 2026</span>
+      <footer className="border-t border-gray-100 px-6 py-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row items-start justify-between gap-10">
+            <span className="font-bold text-base text-black" style={{ letterSpacing: "-0.02em" }}>GreyWhale</span>
+
+            <div className="flex flex-col sm:flex-row gap-10 sm:gap-16">
+              <div>
+                <p className="text-xs text-gray-400 tracking-widest uppercase mb-4" style={{ letterSpacing: "0.12em" }}>Pages</p>
+                <div className="flex flex-col gap-3">
+                  <Link href="/portfolio"><span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer">Portfolio</span></Link>
+                  <Link href="/pricing"><span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer">Pricing</span></Link>
+                  <Link href="/about"><span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer">About</span></Link>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-400 tracking-widest uppercase mb-4" style={{ letterSpacing: "0.12em" }}>Industries</p>
+                <div className="flex flex-col gap-3">
+                  <Link href="/for/dentists"><span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer">Dentists</span></Link>
+                  <Link href="/for/barbershops"><span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer">Barbershops</span></Link>
+                  <Link href="/for/restaurants"><span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer">Restaurants</span></Link>
+                  <Link href="/for/plumbers"><span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer">Plumbers</span></Link>
+                  <Link href="/for"><span className="text-sm text-gray-400 hover:text-black transition-colors cursor-pointer">View all →</span></Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 pt-6 border-t border-gray-100 flex items-center justify-between">
+            <span className="text-xs text-gray-400 tracking-wide">© 2026 GreyWhale. Sacramento, CA.</span>
+            <Link href="/for">
+              <span className="text-xs text-gray-400 hover:text-black transition-colors cursor-pointer tracking-wide">All Industries →</span>
+            </Link>
+          </div>
         </div>
       </footer>
     </div>

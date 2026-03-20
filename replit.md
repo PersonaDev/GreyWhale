@@ -50,6 +50,16 @@ Creative web agency site for the Greater Sacramento area. Services: web design, 
 - **Checkout** (`/checkout`) — Plan summary + Stripe payment button. Shows plan features and project details. Falls back to contact form if Stripe not configured.
 - **Checkout Success** (`/checkout/success`) — Payment confirmation page
 - **Contact** (`/contact`) — Contact form (name, email, phone, message) that submits lead info and sends email notification
+- **Industries Hub** (`/for`) — Grid of all 10 niche landing pages
+- **Niche Pages** (`/for/:niche`) — 10 SEO landing pages targeting local business types: dentists, barbershops, tattoo-shops, restaurants, auto-shops, coffee-shops, med-spas, fitness-studios, plumbers, real-estate-agents. Each has 7 sections: Hero, Problem (3 pain points), Demo (browser mockup), Features (6 items), Comparison, Pricing, Sentence Builder + "We also work with" links.
+
+### Shared Components
+- `src/components/Reveal.tsx` — IntersectionObserver scroll reveal (used in Home + all niche pages)
+- `src/components/SentenceBuilder.tsx` — Self-contained sentence builder with all dropdowns, modals, state, and handleGetStarted logic. Accepts `initialRole` prop for niche pre-selection.
+
+### Niche Data
+- `src/pages/niche/data.ts` — Full data for all 10 niches (headline, pain points, features, demo card, SEO, rolePreset)
+- `src/pages/niche/NicheTemplate.tsx` — Shared 7-section template component
 
 ### Design
 - White background, Inter font, gray (#c0c0c0) surrounding text, black bold underlined dropdown words
