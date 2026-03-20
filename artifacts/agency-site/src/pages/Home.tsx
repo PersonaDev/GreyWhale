@@ -357,11 +357,11 @@ function BeforeAfterSlider() {
           updatePct(e.touches[0].clientX);
         }}
       >
-        {/* ── Template side (left) — WE.SMILE generic template ── */}
+        {/* ── Bespoke side (left, base) — Heritage Oak Dental new site ── */}
         <div className="absolute inset-0">
           <img
-            src="/slider-template.png"
-            alt="Generic template website"
+            src="/slider-bespoke.png"
+            alt="GreyWhale bespoke website"
             className="w-full h-full object-cover object-top select-none"
             draggable={false}
           />
@@ -369,23 +369,23 @@ function BeforeAfterSlider() {
             className="absolute bottom-3 left-3 px-2 py-0.5 rounded text-xs font-semibold tracking-wider uppercase"
             style={{ background: "rgba(0,0,0,0.55)", color: "#fff" }}
           >
-            Template
+            Bespoke
           </div>
         </div>
 
-        {/* ── Bespoke side (right) — Heritage Oak Dental ── */}
+        {/* ── Template side (right, clipped) — Heritage Oak old template site ── */}
         <div
           className="absolute inset-0"
           style={{ clipPath: `inset(0 0 0 ${pct}%)` }}
         >
           <img
-            src="/slider-bespoke.png"
-            alt="GreyWhale bespoke website"
+            src="/slider-template.png"
+            alt="Generic template website"
             className="w-full h-full object-cover object-top select-none"
             draggable={false}
           />
           <div className="absolute bottom-3 right-3 px-2 py-0.5 rounded text-xs font-semibold tracking-wider uppercase" style={{ background: "rgba(0,0,0,0.55)", color: "#fff" }}>
-            Bespoke
+            Template
           </div>
         </div>
 
