@@ -11,6 +11,7 @@ import NicheHub from "@/pages/NicheHub";
 import NicheTemplate from "@/pages/niche/NicheTemplate";
 import { getNicheBySlug } from "@/pages/niche/data";
 import NotFound from "@/pages/not-found";
+import Start from "@/pages/Start";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/checkout" component={Checkout} />
       <Route path="/checkout/success" component={CheckoutSuccess} />
       <Route path="/contact" component={Contact} />
+      <Route path="/start" component={Start} />
       <Route path="/for" component={NicheHub} />
       <Route path="/for/:niche" component={NichePage} />
       <Route component={NotFound} />

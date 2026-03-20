@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation, useRoute } from "wouter";
+import { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "wouter";
 
-function MobileMenu({ onClose, onCTA }: { onClose: () => void; onCTA: () => void }) {
+function MobileMenu({ onClose }: { onClose: () => void }) {
   const [visible, setVisible] = useState(false);
   const [location] = useLocation();
 
@@ -14,11 +14,6 @@ function MobileMenu({ onClose, onCTA }: { onClose: () => void; onCTA: () => void
   function close() {
     setVisible(false);
     setTimeout(onClose, 280);
-  }
-
-  function handleCTA() {
-    close();
-    setTimeout(onCTA, 300);
   }
 
   return (
@@ -35,12 +30,14 @@ function MobileMenu({ onClose, onCTA }: { onClose: () => void; onCTA: () => void
         <div className="w-10 h-1 rounded bg-gray-200 mx-auto mt-3 mb-2" />
 
         <div className="px-4 py-3 mx-2">
-          <button
-            onClick={handleCTA}
-            className="w-full py-3.5 rounded-2xl bg-black text-white text-base font-medium text-center cursor-pointer tracking-wide"
-          >
-            Start Your Site →
-          </button>
+          <Link href="/start">
+            <button
+              onClick={close}
+              className="w-full py-3.5 rounded-2xl bg-black text-white text-base font-medium text-center cursor-pointer tracking-wide"
+            >
+              Start Your Site →
+            </button>
+          </Link>
         </div>
 
         <div className="h-px bg-gray-100 mx-6 my-2" />
@@ -66,8 +63,7 @@ function MobileMenu({ onClose, onCTA }: { onClose: () => void; onCTA: () => void
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [location, navigate] = useLocation();
-  const [isHome] = useRoute("/");
+  const [location] = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -80,14 +76,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
-
-  function handleCTA() {
-    if (isHome) {
-      document.getElementById("builder-section")?.scrollIntoView({ behavior: "smooth" });
-    } else {
-      navigate("/");
-    }
-  }
 
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans">
@@ -106,35 +94,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <div className="hidden md:flex items-center gap-7">
             <Link href="/portfolio">
-              <span className={`text-sm font-normal cursor-pointer transition-colors tracking-wide ${location === "/portfolio" ? "text-gray-600" : "text-black hover:text-gray-600"}`}>
-                Portfolio
-              </span>
+              <span className={`text-sm font-normal cursor-pointer transition-colors tracking-wide ${location === "/portfolio" ? "text-gray-500" : "text-black hover:text-gray-500"}`}>Portfolio</span>
             </Link>
             <Link href="/pricing">
-              <span className={`text-sm font-normal cursor-pointer transition-colors tracking-wide ${location === "/pricing" ? "text-gray-600" : "text-black hover:text-gray-600"}`}>
-                Pricing
-              </span>
+              <span className={`text-sm font-normal cursor-pointer transition-colors tracking-wide ${location === "/pricing" ? "text-gray-500" : "text-black hover:text-gray-500"}`}>Pricing</span>
             </Link>
             <Link href="/about">
-              <span className={`text-sm font-normal cursor-pointer transition-colors tracking-wide ${location === "/about" ? "text-gray-600" : "text-black hover:text-gray-600"}`}>
-                About
-              </span>
+              <span className={`text-sm font-normal cursor-pointer transition-colors tracking-wide ${location === "/about" ? "text-gray-500" : "text-black hover:text-gray-500"}`}>About</span>
             </Link>
-            <button
-              onClick={handleCTA}
-              className="nav-cta-pulse inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-black text-white text-sm font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide"
-            >
-              Start Your Site →
-            </button>
+            <Link href="/start">
+              <button className="nav-cta-pulse inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-black text-white text-sm font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide">
+                Start Your Site →
+              </button>
+            </Link>
           </div>
 
           <div className="md:hidden flex items-center gap-3">
-            <button
-              onClick={handleCTA}
-              className="px-4 py-2 rounded-full bg-black text-white text-xs font-medium tracking-wide cursor-pointer"
-            >
-              Start →
-            </button>
             <button
               className="flex flex-col justify-center items-center w-8 h-8 gap-0 cursor-pointer"
               onClick={() => setMenuOpen((o) => !o)}
@@ -148,7 +123,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </nav>
 
-      {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} onCTA={handleCTA} />}
+      {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} />}
 
       <main className="flex-1 pt-[57px]">
         {children}
@@ -166,6 +141,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Link href="/portfolio"><span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer">Portfolio</span></Link>
                   <Link href="/pricing"><span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer">Pricing</span></Link>
                   <Link href="/about"><span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer">About</span></Link>
+                  <Link href="/start"><span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer">Get Started</span></Link>
                 </div>
               </div>
 
