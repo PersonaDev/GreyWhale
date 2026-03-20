@@ -534,6 +534,17 @@ export default function Home() {
     return () => clearTimeout(t);
   }, []);
 
+  const compScrollRef = useRef<HTMLDivElement>(null);
+  const [compAtEnd, setCompAtEnd] = useState(false);
+  useEffect(() => {
+    const el = compScrollRef.current;
+    if (!el) return;
+    const check = () => setCompAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 8);
+    check();
+    el.addEventListener("scroll", check, { passive: true });
+    return () => el.removeEventListener("scroll", check);
+  }, []);
+
   const heroStyle = (delay: number): React.CSSProperties => ({
     opacity: heroReady ? 1 : 0,
     transform: heroReady ? "translateY(0)" : "translateY(20px)",
@@ -922,9 +933,18 @@ export default function Home() {
           <Reveal delay={80}>
             {/* ── Mobile: transposed — competitors as rows, features as columns ── */}
             <div className="md:hidden relative">
-              {/* right-edge fade — signals more content */}
-              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-14 rounded-r-2xl z-20" style={{ background: "linear-gradient(to left, rgba(255,255,255,0.95) 0%, transparent 100%)" }} />
-              <div className="overflow-x-auto rounded-2xl border border-gray-200" style={{ WebkitOverflowScrolling: "touch" }}>
+              {/* right-edge fade + arrow — disappears once user reaches end */}
+              <div
+                className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 rounded-r-2xl z-20 flex items-center justify-end pr-2"
+                style={{
+                  background: "linear-gradient(to left, rgba(255,255,255,1) 30%, transparent 100%)",
+                  opacity: compAtEnd ? 0 : 1,
+                  transition: "opacity 0.3s ease",
+                }}
+              >
+                <span className="text-gray-400 text-base animate-bounce" style={{ animationDirection: "alternate", animationDuration: "0.8s" }}>›</span>
+              </div>
+              <div ref={compScrollRef} className="overflow-x-auto rounded-2xl border border-gray-200" style={{ WebkitOverflowScrolling: "touch" }}>
               <table className="border-collapse" style={{ minWidth: "640px" }}>
                 <thead>
                   <tr>
@@ -983,7 +1003,9 @@ export default function Home() {
                 </tbody>
               </table>
               </div>
-              <p className="mt-2 text-right text-[11px] text-gray-400 tracking-wide select-none">swipe to compare →</p>
+              <p className="mt-2 text-[11px] text-gray-400 tracking-wide select-none transition-all duration-300" style={{ textAlign: compAtEnd ? "left" : "right" }}>
+                {compAtEnd ? "← swipe back" : "swipe to compare →"}
+              </p>
             </div>
 
             {/* ── Desktop: original 4-column grid ── */}
