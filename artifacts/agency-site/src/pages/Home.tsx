@@ -933,15 +933,6 @@ export default function Home() {
           <Reveal delay={80}>
             {/* ── Mobile: transposed — competitors as rows, features as columns ── */}
             <div className="md:hidden relative">
-              {/* Arrow beacon — sits outside the masked container, fades out at end */}
-              <div
-                className="pointer-events-none absolute right-1.5 top-0 bottom-0 z-20 flex items-center"
-                style={{ opacity: compAtEnd ? 0 : 1, transition: "opacity 0.25s ease" }}
-              >
-                <span className="animate-pulse flex items-center justify-center w-7 h-7 rounded-full bg-white border border-gray-200 shadow-sm text-gray-500 text-sm font-bold select-none">
-                  ›
-                </span>
-              </div>
               {/* mask-image fades content out at right edge — works on both light + dark rows */}
               <div
                 ref={compScrollRef}
