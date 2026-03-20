@@ -385,3 +385,18 @@
 .nav-cta-pulse {
   animation: navBtnGlow 2s ease-out 0.6s 1;
 }
+
+@keyframes floatCode {
+  0%, 100% { transform: translateY(0px); opacity: 0.09; }
+  50% { transform: translateY(-14px); opacity: 0.06; }
+}
+
+@keyframes mesh-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes mesh-line {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.5; }
+}

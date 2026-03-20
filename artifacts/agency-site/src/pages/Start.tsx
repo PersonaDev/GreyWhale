@@ -3,6 +3,11 @@ import Reveal from "@/components/Reveal";
 import SentenceBuilder from "@/components/SentenceBuilder";
 
 export default function Start() {
+  const params = new URLSearchParams(
+    typeof window !== "undefined" ? window.location.search : "",
+  );
+  const initialRole = params.get("role") || "business owner";
+
   return (
     <Layout>
       <div className="min-h-[calc(100vh-57px)] flex flex-col items-center justify-center px-6 py-20">
@@ -17,7 +22,7 @@ export default function Start() {
           </Reveal>
 
           <Reveal delay={120}>
-            <SentenceBuilder />
+            <SentenceBuilder initialRole={initialRole} />
           </Reveal>
 
         </div>
