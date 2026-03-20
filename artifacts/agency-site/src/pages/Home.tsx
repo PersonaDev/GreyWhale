@@ -357,194 +357,34 @@ function BeforeAfterSlider() {
           updatePct(e.touches[0].clientX);
         }}
       >
-        {/* ── Template side (left) — obviously generic ── */}
-        <div
-          className="absolute inset-0 flex flex-col"
-          style={{ background: "#f5f0e8" }}
-        >
-          {/* Chrome */}
-          <div
-            className="flex items-center gap-2 px-4 py-2 border-b"
-            style={{ background: "#e8e0d4", borderColor: "#d4cabb" }}
-          >
-            <div className="flex gap-1.5">
-              <div
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ background: "#bbb0a0" }}
-              />
-              <div
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ background: "#bbb0a0" }}
-              />
-              <div
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ background: "#bbb0a0" }}
-              />
-            </div>
-            <div
-              className="flex-1 mx-2 h-5 rounded flex items-center px-2"
-              style={{ background: "#ddd8cf" }}
-            >
-              <span className="text-xs font-mono" style={{ color: "#a09080" }}>
-                genericbusiness.squarespace.com
-              </span>
-            </div>
-          </div>
-          {/* Nav */}
-          <div
-            className="flex items-center justify-between px-4 py-2 border-b"
-            style={{ background: "#ede7db", borderColor: "#d4cabb" }}
-          >
-            <span
-              className="text-xs font-bold tracking-widest uppercase"
-              style={{ color: "#7a6a5a" }}
-            >
-              ACME BUSINESS CO.
-            </span>
-            <div className="flex gap-4 text-xs" style={{ color: "#a09080" }}>
-              {["Home", "About", "Services", "Contact"].map((l) => (
-                <span key={l}>{l}</span>
-              ))}
-            </div>
-          </div>
-          {/* Hero content */}
-          <div className="flex-1 px-5 py-4 flex flex-col gap-2">
-            <p
-              className="text-xs tracking-widest uppercase"
-              style={{ color: "#b0a090" }}
-            >
-              Welcome To Our Website
-            </p>
-            <p
-              className="font-bold text-lg leading-snug"
-              style={{ color: "#5a4a3a" }}
-            >
-              We Provide Quality
-              <br />
-              Business Services
-            </p>
-            <p
-              className="text-xs leading-relaxed mt-1"
-              style={{ color: "#9a8a7a" }}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              <br />
-              Sed do eiusmod tempor incididunt ut labore.
-            </p>
-            <div
-              className="inline-block px-4 py-1.5 text-xs font-medium tracking-wider uppercase mt-2 rounded"
-              style={{ background: "#4a90d9", color: "#fff" }}
-            >
-              LEARN MORE
-            </div>
-            {/* Grid placeholders */}
-            <div className="grid grid-cols-3 gap-2 mt-3">
-              {[1, 2, 3].map((n) => (
-                <div
-                  key={n}
-                  className="rounded flex items-center justify-center"
-                  style={{ height: "4rem", background: "#ddd8cf" }}
-                >
-                  <svg
-                    className="w-6 h-6"
-                    style={{ color: "#bbb0a0" }}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* Label */}
+        {/* ── Template side (left) — WE.SMILE generic template ── */}
+        <div className="absolute inset-0">
+          <img
+            src="/slider-template.png"
+            alt="Generic template website"
+            className="w-full h-full object-cover object-top select-none"
+            draggable={false}
+          />
           <div
             className="absolute bottom-3 left-3 px-2 py-0.5 rounded text-xs font-semibold tracking-wider uppercase"
-            style={{ background: "rgba(120,100,80,0.65)", color: "#fff" }}
+            style={{ background: "rgba(0,0,0,0.55)", color: "#fff" }}
           >
             Template
           </div>
         </div>
 
-        {/* ── Bespoke side (right) — obviously premium ── */}
+        {/* ── Bespoke side (right) — Heritage Oak Dental ── */}
         <div
-          className="absolute inset-0 bg-zinc-950 flex flex-col"
+          className="absolute inset-0"
           style={{ clipPath: `inset(0 0 0 ${pct}%)` }}
         >
-          {/* Chrome */}
-          <div className="flex items-center gap-2 px-4 py-2 bg-zinc-800 border-b border-zinc-700">
-            <div className="flex gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-              <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-            </div>
-            <div className="flex-1 mx-2 h-5 bg-zinc-700 rounded flex items-center px-2">
-              <span className="text-xs text-zinc-400 font-mono">
-                yourbusiness.com
-              </span>
-            </div>
-          </div>
-          {/* Nav */}
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-zinc-800">
-            <div className="flex items-center gap-2">
-              <div className="w-1 h-4 rounded-full bg-emerald-400" />
-              <span
-                className="text-xs font-bold text-white tracking-widest uppercase"
-                style={{ letterSpacing: "0.14em" }}
-              >
-                Heritage Oak
-              </span>
-            </div>
-            <div className="flex gap-4 text-xs text-zinc-500">
-              {["Services", "Patients", "Our Team", "Book Now"].map((l) => (
-                <span key={l}>{l}</span>
-              ))}
-            </div>
-          </div>
-          {/* Hero content */}
-          <div className="flex-1 px-5 py-5 flex flex-col gap-2.5">
-            <div className="w-8 h-0.5 bg-emerald-400 mb-1" />
-            <p
-              className="font-bold text-white text-xl leading-snug"
-              style={{ letterSpacing: "-0.02em" }}
-            >
-              Sacramento's most
-              <br />
-              trusted dental care.
-            </p>
-            <p className="text-xs text-zinc-500 leading-relaxed">
-              Modern dentistry in a comfortable setting.
-              <br />
-              Family-owned and trusted since 2003.
-            </p>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 border border-white/30 text-white text-xs rounded-full tracking-wider font-medium mt-1">
-              Book an Appointment →
-            </div>
-            {/* Service cards */}
-            <div className="grid grid-cols-3 gap-2 mt-2">
-              {["General\nDentistry", "Cosmetic\nCare", "Emergency\nCare"].map(
-                (s) => (
-                  <div
-                    key={s}
-                    className="bg-zinc-900 border border-zinc-800 rounded-xl p-2.5 flex flex-col gap-1"
-                  >
-                    <div className="w-1 h-1 rounded-full bg-emerald-400" />
-                    <p className="text-white text-[9px] font-semibold leading-tight whitespace-pre-line">
-                      {s}
-                    </p>
-                  </div>
-                ),
-              )}
-            </div>
-          </div>
-          {/* Label */}
-          <div className="absolute bottom-3 right-3 px-2 py-0.5 bg-white/10 text-white rounded text-xs font-semibold tracking-wider uppercase">
+          <img
+            src="/slider-bespoke.png"
+            alt="GreyWhale bespoke website"
+            className="w-full h-full object-cover object-top select-none"
+            draggable={false}
+          />
+          <div className="absolute bottom-3 right-3 px-2 py-0.5 rounded text-xs font-semibold tracking-wider uppercase" style={{ background: "rgba(0,0,0,0.55)", color: "#fff" }}>
             Bespoke
           </div>
         </div>
