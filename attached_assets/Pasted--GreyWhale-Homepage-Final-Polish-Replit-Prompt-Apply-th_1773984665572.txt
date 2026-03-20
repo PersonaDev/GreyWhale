@@ -1,0 +1,141 @@
+# GreyWhale Homepage — Final Polish — Replit Prompt
+
+Apply these specific fixes. Do NOT rebuild from scratch. Modify what's there.
+
+---
+
+## 1. TERMINAL ANIMATION — FIX TEXT AND SCROLL BLOCKING
+
+**A. The terminal text is corny. Rewrite it.**
+
+Remove all the current terminal lines. Replace with something that feels like a real build process, not marketing copy. No "Customers are coming." No "Your site is live." Just clean, technical output that looks like an actual deployment log.
+
+New terminal content:
+```
+$ greywhale deploy --client "heritage-oak-dental"
+
+→ Initializing build environment...
+→ Compiling 24 pages
+→ Injecting SEO schema (LocalBusiness, FAQPage)
+→ Generating sitemap.xml
+→ Connecting backlink mesh (14 active nodes)
+→ Running Lighthouse audit...
+  Performance: 98
+  Accessibility: 100
+  Best Practices: 100
+  SEO: 100
+→ Deploying to production...
+
+✓ Live at heritageoakdental.com
+```
+
+This reads as real and technical. No fluff, no sales language inside the terminal. The terminal IS the proof — it doesn't need to sell.
+
+**B. CRITICAL BUG FIX — Scroll snapping.**
+
+The page currently forces the user to snap back to the top if they scroll down before the terminal typing animation finishes. This is breaking the entire user experience. FIX THIS IMMEDIATELY.
+
+The terminal animation should NOT block or interfere with scrolling in any way. The user must be able to scroll freely at any time regardless of whether the animation has completed. The animation should run in the background — if the user scrolls past it before it finishes, that's fine. It continues animating off-screen or stops. It should NEVER hijack scroll behavior or force the viewport position.
+
+Check for any scroll-locking, scroll-snap, or scroll-hijacking JavaScript and remove it. The page should scroll like a normal webpage at all times.
+
+---
+
+## 2. REMOVE "HAND-CODED" LANGUAGE
+
+Find and remove any mention of:
+- "hand-coded"
+- "coded by hand"
+- "coded from scratch"
+- "every line of code"
+
+Do NOT replace these with "we use AI tools" or anything about how the sites are built. Just remove the references to hand-coding. The emphasis should be on the RESULT (bespoke design, unique to your brand, not a template) not the PROCESS (how it was built).
+
+For example, the bespoke section text currently says "Every single site is coded by hand, designed from a blank canvas, and built around YOUR brand, YOUR customers, and YOUR goals."
+
+Change to: "Every site is designed from a blank canvas and built around YOUR brand, YOUR customers, and YOUR goals. No templates. No themes. No cookie-cutter layouts."
+
+---
+
+## 3. BACKLINK MESH — EXPLAIN IN LAYMAN'S TERMS
+
+The current mesh network section is too vague. A business owner doesn't know what "backlinks" means. Rewrite to explain it like you're talking to a dentist, not a developer.
+
+Replace the current "Our Backlink Mesh Network" section with:
+
+**Heading:** "Every new client makes your site rank higher."
+
+**Body:** "Here's how it works. When Google decides where to rank your website, one of the biggest factors is how many other websites link to yours. More links from real, relevant sites = higher rankings. Every business that joins GreyWhale gets connected to every other GreyWhale client's site through links built into the backend — completely invisible to visitors, but Google sees them and rewards you for it. So when we sign a new restaurant down the street, YOUR dental practice ranks higher too. The network grows every month. Your competition doesn't have this."
+
+This explains the concept without jargon. A dentist reads this and understands: more GreyWhale clients = my site ranks better = more patients find me.
+
+---
+
+## 4. BESPOKE SLIDER — BETTER PRESENTATION
+
+The template vs bespoke comparison slider is improved but the bespoke side still doesn't look impressive enough. The contrast needs to be more dramatic.
+
+**Template side improvements:**
+- Make it look MORE generic and worse. Add a stock photo placeholder (gray box with image icon), a bright blue "LEARN MORE" button that looks cheap, lorem ipsum text, and a generic grid layout. It should look like every bad small business website.
+- The URL should read "genericbusiness.squarespace.com"
+
+**Bespoke side improvements:**
+- Make it look like an actual GreyWhale build. Use the Heritage Oak Dental site layout as reference — clean typography, professional navigation (Services, Patients, Our Team, Book Now), structured content blocks, proper visual hierarchy.
+- The URL should read "yourbusiness.com" (no subdomain, looks professional)
+- The contrast between the two sides should make someone wince at the template side and nod at the bespoke side
+
+---
+
+## 5. SELECTED WORK — FULL RATIO THUMBNAILS
+
+The current portfolio cards show square browser mockup previews. They should show the FULL aspect ratio of a website — wider than they are tall, like an actual browser viewport (roughly 16:10 or 16:9 ratio).
+
+Change the browser mockup cards from square to landscape aspect ratio. Each card should look like a real browser window showing a real webpage, not a square thumbnail. The cards can be displayed side by side on desktop (two columns) at this wider ratio.
+
+---
+
+## 6. COMPARISON TABLE — SIGNIFICANT IMPROVEMENT
+
+The "How we stack up" table is better with the checkmarks but it's still hard to scan. The user should be able to glance at it for 3 seconds and immediately understand that GreyWhale wins on every row.
+
+Changes:
+- Make the GreyWhale column WIDER than the other two — it's the hero column, give it more visual weight
+- The GreyWhale column header should be more prominent — larger text, bolder weight
+- Add a subtle green background tint to the GreyWhale cells where there's a checkmark, and a subtle red/pink tint to cells with an X mark in the other columns. This creates an instant visual pattern: green column = good, red scattered in others = bad.
+- The row labels on the left should be slightly bolder so they're scannable
+- Add a "WINNER" or arrow indicator somewhere that makes it impossible to miss which column is the best choice
+- Reduce the overall height of the table — tighter row spacing so it's more compact and scannable
+- Below the table, change the line from "Same quality as an agency. Simpler than a builder. Fraction of the cost." to just: "Every check. No upfront. $149/month."
+
+---
+
+## 7. "MORE CALLS" SECTION — MORE CONVINCING
+
+The Get Found / Get Chosen / Get Booked section is good structurally but the cards feel flat and the copy could hit harder.
+
+Changes:
+- Make the numbered indicators (01, 02, 03) larger and bolder — they should be a visual anchor
+- Add a subtle arrow or flow indicator between the three cards suggesting progression (Found → Chosen → Booked)
+- Tighten the copy in each card — shorter sentences, more punch:
+
+**Get Found:**
+"Your customers are already searching. 'Dentist near me.' 'Barbershop Sacramento.' We put you at the top of those results. First page. Every time."
+
+**Get Chosen:**
+"Three seconds. That's how long someone takes to decide if your business is legit. A fast, clean, bespoke site makes you the obvious choice."
+
+**Get Booked:**
+"Click-to-call. Online booking. Forms that notify you instantly. Every site is built to turn a visitor into a paying customer."
+
+- Below all three cards, add a single bold line: "That's the entire funnel. We build all of it."
+
+---
+
+## 8. GENERAL CLEANUP
+
+- Remove the "We don't use templates. We don't use themes. We don't use page builders." line from the bespoke section subtext — it uses the "We don't... We don't... We don't..." repetition that sounds AI-written. Replace with: "No templates. No themes. No page builders. Drag the slider."
+- Check all "Get Started" buttons link to /start
+- Check "See Our Work" links to /portfolio
+- Verify the "Start Your Site →" nav button links to /start
+- Make sure the /start page exists and contains the sentence builder
+- Test mobile layout after all changes
