@@ -1,0 +1,223 @@
+# GreyWhale Homepage — Final Conversion Redesign — Replit Prompt
+
+Redesign the homepage with a new flow. The overall feel should be: premium, subminimal, confident, and animated. This site IS the portfolio — every interaction proves we can build something beautiful.
+
+## CRITICAL: THE INTERACTIVE SENTENCE BUILDER
+
+The existing interactive sentence builder (“I’m a [dropdown] looking for a [dropdown] located in [dropdown] interested in a [dropdown] plan”) must NOT be removed or changed. It is being RELOCATED. Move it from being the hero/opening element to being the FINAL action at the very bottom of the page. It becomes the “Get Started” experience. The entire page builds toward it. When someone clicks any “Get Started” button anywhere on the page, it smooth-scrolls down to the sentence builder section at the bottom. The sentence builder is the conversion moment — the last thing on the page after they’ve been sold.
+
+Do NOT modify the sentence builder’s functionality, design, or dropdowns. Just move its position to the bottom of the page.
+
+-----
+
+## OVERALL DESIGN DIRECTION
+
+- Subminimal. White space is the dominant design element.
+- Black and white with minimal accent. No colors competing for attention.
+- Premium micro-animations and scroll-triggered transitions throughout — elements fading in, sliding up, parallax effects, smooth reveals. The animations should feel intentional and weighted, not bouncy or playful. Think luxury brand, not startup.
+- Typography-driven. Large, bold headlines do the heavy lifting. No icons, no illustrations, no stock photos.
+- Every section transitions smoothly into the next. The page should feel like one continuous experience, not separate blocks stacked on top of each other.
+- Fast loading despite animations — use CSS animations and intersection observers, not heavy libraries.
+- The site itself is the pitch. If someone lands on this page and thinks “I want my website to feel like THIS” — you’ve already won.
+
+-----
+
+## SECTION 1: THE OPENING (above the fold)
+
+This is the bold statement. We’re new and we’re not hiding it.
+
+**Large animated headline** that fades or types in:
+
+“We’re the new agency in town.”
+
+**Second line, slightly muted or in a lighter weight:**
+
+“And that’s exactly why we outwork everyone.”
+
+**Small body text below, muted gray:**
+“GreyWhale is a web design studio for local businesses in Sacramento. Custom designed. SEO optimized. Live in 14 days.”
+
+**Single CTA button:**
+“See what we can do ↓” — this smooth-scrolls to the next section, NOT to the sentence builder. We’re inviting them into the experience, not asking them to buy yet.
+
+**Subtle scroll indicator** at the bottom of the viewport — a thin animated line or gentle downward arrow suggesting there’s more below.
+
+No navigation clutter above the fold. Just the GreyWhale wordmark top-left, and “Portfolio”, “Pricing”, “About” top-right. Clean.
+
+-----
+
+## SECTION 2: THE WORK
+
+This section should hit hard. No intro text, no explanation. Just the work.
+
+**Headline that animates in on scroll:**
+“Selected Work”
+
+Show 3 portfolio pieces in browser mockup cards. These should be large, beautifully presented, and scroll-triggered — each card fades or slides in as the user reaches it.
+
+Each card:
+
+- Browser chrome (dots + URL bar)
+- Site preview or clean placeholder with business name
+- Business name, category, and location below
+
+The cards can be stacked vertically (one per scroll section) for maximum impact, or displayed in the horizontal fan layout from the portfolio page — whichever looks better on the homepage. The goal is that each project gets a moment of full attention.
+
+Small link at the bottom: “View all projects →” linking to /portfolio
+
+No other text in this section. The work speaks for itself.
+
+-----
+
+## SECTION 3: THE COMPARISON
+
+Now they’ve seen the quality. Time to show the value.
+
+**Headline that animates in:**
+“How we stack up.”
+
+**Three columns side by side, clean and stark:**
+
+**Column 1 — “DIY Builders”**
+Squarespace, Wix, etc.
+$16–39/month
+You build it yourself
+Template design
+You handle SEO
+Basic support docs
+
+**Column 2 — “Traditional Agency”**
+$4,000–10,000 upfront
+6–12 week timeline
+Contract lock-in
+Maintenance costs extra
+$200–2,000/month ongoing
+
+**Column 3 — “GreyWhale” (visually emphasized — bolder text, subtle border or highlight)**
+$149/month, no upfront
+Custom design, not a template
+Live in 14 days
+SEO built in
+Cancel anytime
+Everything included
+
+The GreyWhale column should feel like the obvious choice. Not through flashy design but through the stark contrast of the numbers.
+
+Below the columns, one line centered in muted text:
+“Same quality as an agency. Simpler than a builder. Fraction of the cost.”
+
+-----
+
+## SECTION 4: WHAT’S INCLUDED
+
+Quick, scannable section showing what every GreyWhale client gets. No long descriptions.
+
+**Headline:**
+“Everything you need. Nothing you don’t.”
+
+**Six items in a clean 2x3 or 3x2 grid. Just the feature name and one short line:**
+
+Custom Design — “Built from scratch for your brand.”
+Mobile Optimized — “Perfect on every device.”
+SEO Built In — “Structured to rank locally.”
+Self-Service Edits — “Update text and images yourself.”
+Hosting Included — “Fast, secure, always online.”
+14-Day Launch — “First call to live site in two weeks.”
+
+Each item animates in with a subtle stagger as the user scrolls into view.
+
+-----
+
+## SECTION 5: PRICING
+
+**Headline:**
+“Simple pricing.”
+
+Three tier cards — same structure as the /pricing page but condensed. Show just the tier name, price, and 3-4 key differentiators per tier:
+
+**Starter — $149/month**
+Up to 5 pages
+Custom design
+SEO + hosting
+1 revision/month
+
+**Professional — $249/month** ← “Most popular” badge
+Up to 10 pages
+Booking + forms
+Advanced SEO
+2 revisions/month
+
+**Business — $349/month**
+Up to 20 pages
+E-commerce
+Custom integrations
+Unlimited revisions
+
+Below all three: “No upfront cost. No contract. Cancel anytime.”
+
+Each card has a “Get Started →” button that smooth-scrolls to the sentence builder at the bottom.
+
+Link below: “See full plan details →” linking to /pricing
+
+-----
+
+## SECTION 6: THE CLOSER + SENTENCE BUILDER (hero action)
+
+This is where the page lands. Everything above was building to this.
+
+**Headline, large and bold:**
+“Let’s build yours.”
+
+**The interactive sentence builder lives here.** Exactly as it exists now — “I’m a [dropdown] looking for a [dropdown] located in [dropdown] interested in a [dropdown] plan.” with the “Get Started →” button.
+
+This is the conversion moment. They’ve seen the work, they’ve seen the comparison, they’ve seen the pricing. Now they configure and commit.
+
+The sentence builder should have generous whitespace around it. It’s the star of this section. Nothing else competing for attention.
+
+Below the sentence builder, small muted text:
+“No upfront cost. Live in 14 days. Cancel anytime.”
+
+-----
+
+## SECTION 7: FOOTER
+
+Clean, minimal footer. GreyWhale wordmark, links to Portfolio, Pricing, About. Copyright 2026. That’s it.
+
+-----
+
+## ANIMATION GUIDELINES
+
+The animations are critical — they’re what makes this site feel premium and different from every other agency page.
+
+- **Scroll-triggered reveals:** Elements fade in and slide up slightly (translateY 20-30px to 0) as they enter the viewport. Use intersection observer, not scroll position.
+- **Staggered entrances:** When multiple elements appear together (like the feature grid or comparison columns), stagger them with 100-150ms delays so they cascade in rather than appearing all at once.
+- **Headline animations:** Large headlines can use a clip/reveal animation — text slides in from behind a mask, or characters fade in sequentially. Keep it subtle and fast (400-600ms).
+- **Smooth scrolling:** When CTA buttons scroll to the sentence builder, use smooth scroll behavior (800-1000ms ease-out).
+- **Hover states:** Buttons and cards should have subtle hover transitions — slight scale, color shift, or shadow change. 200ms ease.
+- **Parallax (subtle):** Section backgrounds or decorative elements can move at slightly different scroll speeds for depth. Very subtle — 5-10% parallax, not dramatic.
+- **No bounce, no wobble, no playfulness.** Every animation should feel like it has weight and intention. Think: a heavy glass door closing smoothly, not a rubber ball bouncing.
+
+All animations should be CSS-based or use lightweight intersection observer JS. No heavy animation libraries. Performance matters — the site should feel fast even with all the motion.
+
+-----
+
+## MOBILE BEHAVIOR
+
+- All sections stack vertically
+- Animations simplified — fade in only, no parallax, no staggered cascades
+- Comparison columns stack vertically (DIY first, Agency second, GreyWhale third and emphasized)
+- Sentence builder works as a full-width form on mobile
+- Pricing cards stack vertically with Professional on top
+- Hamburger menu for navigation
+- Touch-friendly tap targets on all buttons
+
+-----
+
+## WHAT TO CHANGE FROM CURRENT HOMEPAGE
+
+- MOVE the interactive sentence builder from the opening hero position to the bottom of the page as the final CTA section
+- REMOVE the sentence builder from the top/center of the page — it no longer lives there
+- ADD all new sections described above in the exact order specified
+- KEEP the sentence builder’s functionality, dropdowns, and design exactly as they are — just reposition it
+- KEEP the existing nav structure (Portfolio, Pricing, About) but add smooth-scroll behavior for homepage CTA buttons
+- The overall page should feel dramatically different — longer, more content, more animated, more persuasive — while maintaining the same minimal black/white design language
