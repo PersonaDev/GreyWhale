@@ -7,9 +7,11 @@ import Reveal from "@/components/Reveal";
 
 const homeProjects = [
   {
-    name: "Blue Oak Dental",
-    meta: "Healthcare · Folsom, CA",
-    url: "blueoakdental.com",
+    name: "Heritage Oak Dental",
+    meta: "Healthcare · Rocklin, CA",
+    url: "bluedental.greywhale.dev",
+    href: "https://bluedental.greywhale.dev",
+    thumbnail: "/work-bluedental.png",
     gradient: "from-stone-200 via-stone-100 to-amber-50",
     cardTextColor: "#1a1a1a",
     isDark: false,
@@ -18,6 +20,8 @@ const homeProjects = [
     name: "Maison Caldo",
     meta: "E-commerce · Sacramento, CA",
     url: "maisoncaldo.com",
+    href: "/portfolio",
+    thumbnail: null,
     gradient: "from-neutral-900 via-neutral-800 to-zinc-900",
     cardTextColor: "#ffffff",
     isDark: true,
@@ -422,36 +426,45 @@ function BeforeAfterSlider() {
 // ─── Browser card (compact with hover) ────────────────────────────────────────
 
 function BrowserCard({ project }: { project: (typeof homeProjects)[0] }) {
-  return (
-    <Link href="/portfolio">
-      <div className="w-full rounded-2xl overflow-hidden border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-[1.01] cursor-pointer">
-        <div
-          className={`flex items-center gap-3 px-4 py-3 border-b ${project.isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-gray-100"}`}
-        >
-          <div className="flex items-center gap-1.5 shrink-0">
-            <span className="w-3 h-3 rounded-full bg-red-400" />
-            <span className="w-3 h-3 rounded-full bg-amber-400" />
-            <span className="w-3 h-3 rounded-full bg-green-400" />
-          </div>
-          <div
-            className={`flex-1 flex items-center justify-center gap-1.5 text-xs rounded-md px-3 py-1.5 ${project.isDark ? "bg-zinc-700 text-zinc-400" : "bg-gray-100 text-gray-400"}`}
-          >
-            <svg
-              className="w-3 h-3 shrink-0 opacity-50"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              />
-            </svg>
-            <span className="tracking-wide">{project.url}</span>
-          </div>
+  const isExternal = project.href.startsWith("http");
+  const inner = (
+    <div className="w-full rounded-2xl overflow-hidden border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-[1.01] cursor-pointer">
+      <div
+        className={`flex items-center gap-3 px-4 py-3 border-b ${project.isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-gray-100"}`}
+      >
+        <div className="flex items-center gap-1.5 shrink-0">
+          <span className="w-3 h-3 rounded-full bg-red-400" />
+          <span className="w-3 h-3 rounded-full bg-amber-400" />
+          <span className="w-3 h-3 rounded-full bg-green-400" />
         </div>
+        <div
+          className={`flex-1 flex items-center justify-center gap-1.5 text-xs rounded-md px-3 py-1.5 ${project.isDark ? "bg-zinc-700 text-zinc-400" : "bg-gray-100 text-gray-400"}`}
+        >
+          <svg
+            className="w-3 h-3 shrink-0 opacity-50"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+            />
+          </svg>
+          <span className="tracking-wide">{project.url}</span>
+        </div>
+      </div>
+      {project.thumbnail ? (
+        <div className="aspect-video overflow-hidden">
+          <img
+            src={project.thumbnail}
+            alt={project.name}
+            className="w-full h-full object-cover object-top"
+          />
+        </div>
+      ) : (
         <div
           className={`flex items-center justify-center aspect-video bg-gradient-to-br ${project.gradient}`}
         >
@@ -466,6 +479,7 @@ function BrowserCard({ project }: { project: (typeof homeProjects)[0] }) {
             {project.name}
           </span>
         </div>
+      )}
         <div
           className={`px-5 py-4 border-t ${project.isDark ? "bg-zinc-900 border-zinc-800" : "bg-white border-gray-50"}`}
         >
@@ -481,7 +495,13 @@ function BrowserCard({ project }: { project: (typeof homeProjects)[0] }) {
           </p>
         </div>
       </div>
-    </Link>
+  );
+  return isExternal ? (
+    <a href={project.href} target="_blank" rel="noopener noreferrer">
+      {inner}
+    </a>
+  ) : (
+    <Link href={project.href}>{inner}</Link>
   );
 }
 
