@@ -400,3 +400,10 @@
   0%, 100% { opacity: 0.15; }
   50% { opacity: 0.5; }
 }
+
+body {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.032) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
