@@ -1,0 +1,55 @@
+# GreyWhale — Quick Fixes — Replit Prompt
+
+Three specific issues to fix right now. Nothing else.
+
+---
+
+## 1. TERMINAL WINDOW — FIX TEXT ALIGNMENT AND COLORS
+
+The text inside the terminal is misaligned and the colors don't look like real terminal output.
+
+Fix the alignment:
+- All text should be left-aligned with consistent indentation
+- The `$` prompt and command should be on one line, flush left with consistent padding from the terminal edge
+- Each status line (pulling config, compiling routes, etc.) should be indented the same amount
+- The dots between the label and "done" should be evenly spaced using a monospace font so they actually line up vertically
+- Use `font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace` for all terminal text
+- Every line should have the same left padding — nothing should be offset or floating
+
+Fix the colors:
+- Background: white or very light gray (#f8f9fa)
+- `$` symbol: medium gray (#6b7280)
+- `gw deploy --production`: bold black
+- Labels like `pulling config`, `compiling routes`, `schema injection`, `sitemap gen`, `mesh sync`: regular gray (#6b7280)
+- The dots `..........`: very light gray (#d1d5db)
+- `done`: green (#22c55e), regular weight not bold
+- `(14 nodes)`: teal (#06b6d4)
+- `98/100`: green (#22c55e), bold
+- `deployed →`: gray (#6b7280)
+- `client.greywhale.dev`: blue (#3b82f6)
+
+Make it look like actual terminal output — clean, monospaced, properly aligned.
+
+---
+
+## 2. FLOATING SIDE TEXT — REMOVE COMPLETELY
+
+The code text fragments floating in the left and right margins (schema: LocalBusiness, lighthouse: 98/100, className="hero-section", route: /contact → live, etc.) are currently appearing as black text on page load and then fading to gray. This looks broken, not decorative.
+
+REMOVE ALL OF THESE FLOATING TEXT ELEMENTS ENTIRELY. Delete them from the code. The white space on the sides is fine — the current implementation makes the site look buggy, not cool.
+
+We can revisit this concept later with a proper implementation but for now just remove them completely.
+
+---
+
+## 3. MESH NETWORK ANIMATION — REMOVE THE BLUE DOTS
+
+The small blue dot-and-line mesh visualization under the "Every new client makes your site rank higher" section looks cheap and out of place. Remove it entirely.
+
+The text in that section is strong enough on its own. It doesn't need a visual. Just let the two columns (Local SEO and Mesh Network) be clean text blocks with no illustrations or animations underneath.
+
+---
+
+## NOTHING ELSE
+
+Do not change anything else on the page. Only these three fixes. The rest of the site is good.

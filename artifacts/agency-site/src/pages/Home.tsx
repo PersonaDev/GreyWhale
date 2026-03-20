@@ -68,21 +68,21 @@ const homeTiers = [
 type TSpan = { t: string; c?: string; bold?: boolean; ul?: boolean };
 type TLine = TSpan[] | null;
 
+// label + dots = 28 chars each so "done" aligns vertically
 const TERMINAL_LINES: TLine[] = [
   [
-    { t: "$ ", c: "#9ca3af" },
-    { t: "gw", c: "#111827", bold: true },
-    { t: " deploy --production", c: "#374151" },
+    { t: "$ ", c: "#6b7280" },
+    { t: "gw deploy --production", c: "#111827", bold: true },
   ],
   null,
-  [{ t: "pulling config", c: "#9ca3af" }, { t: ".............", c: "#e5e7eb" }, { t: " done", c: "#22c55e" }],
-  [{ t: "compiling routes", c: "#9ca3af" }, { t: ".............", c: "#e5e7eb" }, { t: " done", c: "#22c55e" }],
-  [{ t: "schema injection", c: "#9ca3af" }, { t: ".............", c: "#e5e7eb" }, { t: " done", c: "#22c55e" }],
-  [{ t: "sitemap gen", c: "#9ca3af" }, { t: ".................", c: "#e5e7eb" }, { t: " done", c: "#22c55e" }],
-  [{ t: "mesh sync ", c: "#9ca3af" }, { t: "(14 nodes)", c: "#06b6d4" }, { t: ".....", c: "#e5e7eb" }, { t: " done", c: "#22c55e" }],
-  [{ t: "lighthouse", c: "#9ca3af" }, { t: ".................", c: "#e5e7eb" }, { t: " 98/100", c: "#22c55e", bold: true }],
+  [{ t: "pulling config", c: "#6b7280" }, { t: "..............", c: "#d1d5db" }, { t: " done", c: "#22c55e" }],
+  [{ t: "compiling routes", c: "#6b7280" }, { t: "............", c: "#d1d5db" }, { t: " done", c: "#22c55e" }],
+  [{ t: "schema injection", c: "#6b7280" }, { t: "............", c: "#d1d5db" }, { t: " done", c: "#22c55e" }],
+  [{ t: "sitemap gen", c: "#6b7280" }, { t: ".................", c: "#d1d5db" }, { t: " done", c: "#22c55e" }],
+  [{ t: "mesh sync ", c: "#6b7280" }, { t: "(14 nodes)", c: "#06b6d4" }, { t: "........", c: "#d1d5db" }, { t: " done", c: "#22c55e" }],
+  [{ t: "lighthouse", c: "#6b7280" }, { t: "..................", c: "#d1d5db" }, { t: " 98/100", c: "#22c55e", bold: true }],
   null,
-  [{ t: "deployed → ", c: "#9ca3af" }, { t: "client.greywhale.dev", c: "#3b82f6", ul: true }],
+  [{ t: "deployed → ", c: "#6b7280" }, { t: "client.greywhale.dev", c: "#3b82f6", ul: true }],
 ];
 
 function tFlat(line: TLine): string {
@@ -273,8 +273,11 @@ function FrontWindow() {
         </span>
       </div>
       <div
-        className="bg-white px-5 py-5 font-mono text-xs md:text-sm leading-7 overflow-hidden"
-        style={{ minHeight: "20rem" }}
+        className="bg-white px-5 py-5 text-xs md:text-sm leading-7 overflow-hidden"
+        style={{
+          minHeight: "20rem",
+          fontFamily: "'SF Mono', 'Fira Code', 'Courier New', monospace",
+        }}
       >
         {finishedLines.map((line, i) => (
           <div key={i}>{tRender(line)}</div>
@@ -642,41 +645,6 @@ function BrowserCard({ project }: { project: (typeof homeProjects)[0] }) {
   );
 }
 
-// ─── Floating background code elements ────────────────────────────────────────
-
-const FLOAT_SNIPPETS = [
-  { text: '<meta name="description"/>', side: "left", top: "17%", delay: 0, dur: 14 },
-  { text: "schema: LocalBusiness", side: "left", top: "32%", delay: 2, dur: 12 },
-  { text: "lighthouse: 98/100", side: "left", top: "50%", delay: 4.5, dur: 16 },
-  { text: "sitemap.xml → generated", side: "left", top: "65%", delay: 1, dur: 13 },
-  { text: "SEO: optimized ✓", side: "left", top: "80%", delay: 3, dur: 15 },
-  { text: "deploy: production", side: "right", top: "20%", delay: 1.5, dur: 15 },
-  { text: 'className="hero-section"', side: "right", top: "36%", delay: 3.5, dur: 13 },
-  { text: "mesh.connect(node_18)", side: "right", top: "53%", delay: 0.5, dur: 14 },
-  { text: "<section id='services'>", side: "right", top: "68%", delay: 2.5, dur: 12 },
-  { text: "route: /contact → live", side: "right", top: "83%", delay: 4, dur: 16 },
-];
-
-function FloatingCode() {
-  return (
-    <div className="hidden xl:block fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
-      {FLOAT_SNIPPETS.map((s, i) => (
-        <div
-          key={i}
-          className="absolute font-mono text-[11px] text-gray-500 whitespace-nowrap select-none"
-          style={{
-            [s.side]: "1.5%",
-            top: s.top,
-            animation: `floatCode ${s.dur}s ease-in-out ${s.delay}s infinite`,
-          }}
-        >
-          {s.text}
-        </div>
-      ))}
-    </div>
-  );
-}
-
 // ─── Comparison table ─────────────────────────────────────────────────────────
 
 const compFeatures = [
@@ -714,7 +682,6 @@ export default function Home() {
 
   return (
     <Layout>
-      <FloatingCode />
       {/* ── SECTION 1: HERO ─────────────────────────────────────────────── */}
       <section className="relative px-6 pt-12 pb-16 md:pt-18 md:pb-24 border-b border-gray-100 overflow-hidden">
         <div className="max-w-7xl mx-auto">
@@ -887,59 +854,6 @@ export default function Home() {
                     street and your dental practice climbs. Every new member
                     lifts the whole network.
                   </p>
-                  <svg
-                    className="mt-5 w-full"
-                    height="56"
-                    viewBox="0 0 320 56"
-                    fill="none"
-                  >
-                    {[
-                      { cx: 16, cy: 28, d: 0 },
-                      { cx: 80, cy: 10, d: 0.6 },
-                      { cx: 80, cy: 46, d: 1.4 },
-                      { cx: 160, cy: 18, d: 2.0 },
-                      { cx: 160, cy: 42, d: 2.8 },
-                      { cx: 240, cy: 28, d: 1.0 },
-                      { cx: 304, cy: 14, d: 3.5 },
-                      { cx: 304, cy: 42, d: 4.2 },
-                    ].map((n, i) => (
-                      <circle
-                        key={i}
-                        cx={n.cx}
-                        cy={n.cy}
-                        r="5"
-                        fill="#06b6d4"
-                        style={{
-                          animation: `mesh-pulse 3s ease-in-out ${n.d}s infinite`,
-                        }}
-                      />
-                    ))}
-                    {[
-                      [16, 28, 80, 10],
-                      [16, 28, 80, 46],
-                      [80, 10, 160, 18],
-                      [80, 46, 160, 42],
-                      [160, 18, 240, 28],
-                      [160, 42, 240, 28],
-                      [240, 28, 304, 14],
-                      [240, 28, 304, 42],
-                      [80, 10, 80, 46],
-                      [160, 18, 160, 42],
-                    ].map((l, i) => (
-                      <line
-                        key={i}
-                        x1={l[0]}
-                        y1={l[1]}
-                        x2={l[2]}
-                        y2={l[3]}
-                        stroke="#06b6d4"
-                        strokeWidth="1.5"
-                        style={{
-                          animation: `mesh-line 4s ease-in-out ${i * 0.25}s infinite`,
-                        }}
-                      />
-                    ))}
-                  </svg>
                 </div>
               </Reveal>
             </div>

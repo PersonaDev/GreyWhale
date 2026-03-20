@@ -26,38 +26,6 @@ function nicheStartUrl(slug: string): string {
   return `/start?role=${encodeURIComponent(role)}`;
 }
 
-// ─── Floating code background ─────────────────────────────────────────────────
-
-const NICHE_FLOAT = [
-  { text: '<meta name="description"/>', side: "left", top: "18%", delay: 0, dur: 14 },
-  { text: "schema: LocalBusiness", side: "left", top: "40%", delay: 2, dur: 12 },
-  { text: "lighthouse: 98/100", side: "left", top: "62%", delay: 4, dur: 16 },
-  { text: "SEO: optimized ✓", side: "left", top: "80%", delay: 1, dur: 15 },
-  { text: "deploy: production", side: "right", top: "22%", delay: 1.5, dur: 15 },
-  { text: "mesh.connect(node_18)", side: "right", top: "50%", delay: 0.5, dur: 14 },
-  { text: "route: /contact → live", side: "right", top: "72%", delay: 3, dur: 16 },
-];
-
-function FloatingCode() {
-  return (
-    <div className="hidden xl:block fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
-      {NICHE_FLOAT.map((s, i) => (
-        <div
-          key={i}
-          className="absolute font-mono text-[11px] text-gray-500 whitespace-nowrap select-none"
-          style={{
-            [s.side]: "1.5%",
-            top: s.top,
-            animation: `floatCode ${s.dur}s ease-in-out ${s.delay}s infinite`,
-          }}
-        >
-          {s.text}
-        </div>
-      ))}
-    </div>
-  );
-}
-
 // ─── SEO hook ────────────────────────────────────────────────────────────────
 
 function useSEO(niche: NicheData) {
@@ -189,8 +157,6 @@ export default function NicheTemplate({ niche }: { niche: NicheData }) {
 
   return (
     <Layout>
-      <FloatingCode />
-
       {/* ── SECTION 1: HERO ──────────────────────────────────────────────── */}
       <section className="px-6 py-20 md:py-28 border-b border-gray-100">
         <div className="max-w-4xl mx-auto text-center">
