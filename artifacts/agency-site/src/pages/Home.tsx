@@ -920,15 +920,74 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={80}>
-            <div className="overflow-x-auto -mx-6 px-6 md:overflow-visible md:mx-0 md:px-0">
-              <div
-                className="rounded-2xl overflow-hidden border border-gray-200"
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1.4fr 1fr 1fr 1.8fr",
-                  minWidth: "560px",
-                }}
-              >
+            {/* ── Mobile: transposed — competitors as rows, features as columns ── */}
+            <div className="md:hidden overflow-x-auto -mx-6 rounded-2xl border border-gray-200" style={{ WebkitOverflowScrolling: "touch" }}>
+              <table className="border-collapse" style={{ minWidth: "640px" }}>
+                <thead>
+                  <tr>
+                    <th className="sticky left-0 z-10 bg-white p-3 border-b border-r border-gray-200 text-left text-[11px] text-gray-400 font-medium min-w-[110px]" />
+                    {["Monthly", "Setup", "Custom", "No upfront", "SEO", "14 days", "No contract", "Updates", "Support"].map((col) => (
+                      <th key={col} className="p-3 border-b border-r border-gray-200 text-center text-[10px] text-gray-500 font-semibold whitespace-nowrap last:border-r-0 min-w-[72px]">
+                        {col}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* DIY row */}
+                  <tr>
+                    <td className="sticky left-0 z-10 bg-white p-3 border-b border-r border-gray-100">
+                      <p className="font-semibold text-gray-500 text-xs">DIY</p>
+                      <p className="text-[10px] text-gray-400 leading-tight">Squarespace, Wix</p>
+                    </td>
+                    <td className="p-3 border-b border-r border-gray-100 text-center text-xs text-gray-500">$16–39/mo</td>
+                    <td className="p-3 border-b border-r border-gray-100 text-center text-xs text-gray-500">None</td>
+                    {compFeatures.map((f) => (
+                      <td key={f.label} className={`p-3 border-b border-r border-gray-100 text-center last:border-r-0 ${!f.diy ? "bg-red-50" : ""}`}>
+                        <Check yes={f.diy} />
+                      </td>
+                    ))}
+                  </tr>
+                  {/* Agency row */}
+                  <tr className="bg-gray-50/60">
+                    <td className="sticky left-0 z-10 bg-gray-50 p-3 border-b border-r border-gray-100">
+                      <p className="font-semibold text-gray-500 text-xs">Agency</p>
+                      <p className="text-[10px] text-gray-400 leading-tight">Traditional studio</p>
+                    </td>
+                    <td className="p-3 border-b border-r border-gray-100 text-center text-xs text-gray-500">$200–2k/mo</td>
+                    <td className="p-3 border-b border-r border-gray-100 text-center text-xs text-red-400 font-semibold bg-red-50">$5K–10K</td>
+                    {compFeatures.map((f) => (
+                      <td key={f.label} className={`p-3 border-b border-r border-gray-100 text-center last:border-r-0 ${!f.agency ? "bg-red-50" : "bg-gray-50/60"}`}>
+                        <Check yes={f.agency} />
+                      </td>
+                    ))}
+                  </tr>
+                  {/* GreyWhale row */}
+                  <tr style={{ borderTop: "3px solid #10b981" }}>
+                    <td className="sticky left-0 z-10 bg-black p-3 border-r border-zinc-800" style={{ borderTop: "3px solid #10b981" }}>
+                      <span className="inline-block px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[9px] font-bold tracking-widest uppercase mb-1">✦ Best</span>
+                      <p className="font-bold text-white text-xs">GreyWhale</p>
+                      <p className="text-[10px] text-zinc-500 leading-tight">Sacramento</p>
+                    </td>
+                    <td className="p-3 border-r border-zinc-800 text-center text-sm font-bold text-white bg-black/95">$149/mo</td>
+                    <td className="p-3 border-r border-zinc-800 text-center text-xs text-emerald-400 font-semibold bg-black/95">None</td>
+                    {compFeatures.map((f) => (
+                      <td key={f.label} className="p-3 border-r border-zinc-800 text-center bg-black/95 last:border-r-0">
+                        <span className="text-emerald-400 font-bold text-lg">✓</span>
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* ── Desktop: original 4-column grid ── */}
+            <div
+              className="hidden md:grid rounded-2xl overflow-hidden border border-gray-200"
+              style={{
+                gridTemplateColumns: "1.4fr 1fr 1fr 1.8fr",
+              }}
+            >
                 {/* Header */}
                 <div className="p-4 border-b border-r border-gray-200" />
                 <div className="p-4 border-b border-r border-gray-200 text-center">
@@ -1013,7 +1072,6 @@ export default function Home() {
                   );
                 })}
               </div>
-            </div>
           </Reveal>
 
           <Reveal delay={200}>
