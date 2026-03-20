@@ -1,0 +1,268 @@
+# GreyWhale Homepage — Complete Overhaul — Replit Prompt
+
+Rebuild the homepage from scratch based on the following notes. The current homepage structure is being replaced. Keep the same minimal black/white design language but restructure the layout, messaging, and flow entirely.
+
+---
+
+## NAVIGATION BAR
+
+Top nav stays the same: GreyWhale wordmark left, Portfolio, Pricing, About right.
+
+**NEW: Add a hero action button in the top-right corner of the nav bar** — a filled black button that says "Get a Free Mockup →" or "Start Your Site →". This button should be visually prominent and grab attention. It should stand out from the regular nav links — solid black background, white text, slightly rounded, subtle hover animation. It stays fixed/sticky as the user scrolls so it's always accessible. This is the primary conversion action across the entire site. Clicking it smooth-scrolls to the sentence builder at the bottom of the page.
+
+---
+
+## SECTION 1: HERO (above the fold)
+
+**Split layout — text on the left, code window on the right.**
+
+**Left side (roughly 55% width):**
+
+Large bold headline:
+"We don't build websites. We 10x your business."
+
+Subheadline in muted gray:
+"Bespoke websites engineered to dominate local search. More visibility. More customers. More revenue. Every site we build is hand-coded, SEO-loaded, and designed to make your phone ring."
+
+Two CTA buttons stacked or side by side:
+- Primary (black, filled): "Get Started →" (smooth-scrolls to sentence builder)
+- Secondary (outlined/ghost): "See Our Work →" (smooth-scrolls to portfolio section or links to /portfolio)
+
+Small trust line below buttons in muted text:
+"No upfront cost · Live in 14 days · Cancel anytime"
+
+**Right side (roughly 45% width):**
+
+A browser/code window mockup — similar to the terminal window on the about page but styled as a code editor or browser dev tools window. Inside, a **typing animation** that simulates code being written in real-time. The animation should show snippets like:
+
+```
+$ greywhale build --client "your-business"
+
+✓ Custom design system created
+✓ SEO schema markup injected
+✓ Google Business Profile optimized
+✓ Backlink mesh network connected
+✓ Mobile responsive audit passed
+✓ Core Web Vitals: 98/100
+✓ Local search ranking: optimizing...
+
+$ Deploying to production...
+$ Your site is live. Customers are coming.
+```
+
+The typing animation should loop or complete once with the final line lingering. It should feel technical and impressive without being intimidating — like watching a machine work on your behalf.
+
+The code window should have the standard browser chrome (three dots, maybe a tab showing "greywhale — terminal") and overlap slightly with the left text content or extend beyond the section boundary for visual interest — similar to how the about page positions the terminal window.
+
+---
+
+## SECTION 2: VISIBILITY FIRST (scroll-triggered)
+
+This section is the #1 selling point. SEO and visibility before design.
+
+**Headline animates in on scroll:**
+"A gorgeous website means nothing if nobody sees it."
+
+**Subheadline:**
+"Most agencies hand you a pretty site and call it a day. We build you a machine that climbs Google rankings, captures local searches, and sends real customers to your door. Design is the surface. Visibility is the engine."
+
+**Three stat-style callouts in a row:**
+- "97% of consumers search online before visiting a local business"
+- "75% of users never scroll past the first page of Google"
+- "46% of all Google searches are looking for local businesses"
+
+**Below the stats, a brief explanation section with two columns:**
+
+**Column 1 — "Local SEO Built Into Every Page"**
+"Every site we build includes structured data markup, local schema, Google Business Profile optimization, meta tags targeting your city and services, XML sitemaps, and mobile-first indexing. This isn't an add-on. It's the foundation."
+
+**Column 2 — "Our Backlink Mesh Network"**
+"Every GreyWhale client is part of something bigger. When we build your site, we connect it to a growing network of real, local business websites — all linking to each other behind the scenes. Every new client we bring on makes YOUR site rank higher. Your SEO doesn't just start strong. It gets stronger every single month. Invisible to your visitors. Devastating for your competition."
+
+The tone here should be confident and bold — not corporate or buzzwordy. We're not selling a "solution." We're telling them their competitors are about to have a problem.
+
+---
+
+## SECTION 3: COMPLETELY BESPOKE (scroll-triggered)
+
+**Headline:**
+"Every site is bespoke. Every pixel is intentional."
+
+This section should have a scroll-driven animation or parallax effect that reveals the handcrafted nature of the work. Options:
+
+**Option A — Side-by-side comparison that animates in:**
+Left: a generic Squarespace/Wix template labeled "Template" with muted/gray treatment
+Right: a custom GreyWhale site labeled "Bespoke" with full color/vibrancy
+
+**Option B — Code morphing animation:**
+Show a block of code that "types" or transforms as the user scrolls, visually demonstrating that the site is built with real code, not dragged and dropped.
+
+**Option C — Before/after slider:**
+A horizontal slider showing a generic template on one side and a bespoke GreyWhale build on the other. The user can drag the handle to compare.
+
+Pick whichever is most visually impressive and technically feasible.
+
+**Supporting text below the animation:**
+"We don't use templates. We don't use themes. We don't use page builders. Every single site is coded by hand, designed from a blank canvas, and built around YOUR brand, YOUR customers, and YOUR goals. No two GreyWhale sites look alike. Ever. Because no two businesses are alike."
+
+---
+
+## SECTION 4: ONGOING SUPPORT & MAINTENANCE (justify the monthly model)
+
+This section justifies why monthly pricing makes sense vs a one-time fee.
+
+**Headline:**
+"A website isn't a project. It's a weapon. We keep it sharp."
+
+**Two-column layout:**
+
+**Left column — "The one-time build trap"**
+- You pay $5,000–10,000 upfront
+- Site launches and immediately starts aging
+- No security updates, no SEO adjustments
+- Google changes its algorithm — your rankings drop
+- Design looks dated within 18 months
+- Something breaks and you're hunting for a freelancer
+- You're paying for something that's slowly dying
+
+**Right column — "The GreyWhale way"**
+- No upfront cost — ever
+- Continuous design updates that keep your site modern
+- Ongoing SEO monitoring and optimization as Google evolves
+- Security patches and maintenance handled automatically
+- Your mesh network backlinks grow stronger every month
+- Direct support from the people who built your site
+- Your site doesn't age — it compounds
+
+The left column should feel slightly muted/negative (gray text, lighter weight). The right column should feel strong and present (bold text, darker weight). The visual contrast makes the message obvious.
+
+**Line below both columns:**
+"One-time builds decay. GreyWhale sites compound. That's why you pay monthly — because your site should get better every month, not worse."
+
+---
+
+## SECTION 5: SELECTED WORK
+
+**Headline:**
+"Selected Work"
+
+Show 2-3 portfolio pieces in large browser mockup cards stacked vertically. Each one takes up significant viewport space as you scroll. They should animate in — fade up or slide in — as the user scrolls to them.
+
+Each card shows:
+- Browser chrome with URL
+- Site preview or styled placeholder
+- Business name, category, location below
+
+"View all projects →" link to /portfolio
+
+---
+
+## SECTION 6: HOW WE COMPARE
+
+**Headline:**
+"How we stack up."
+
+Same three-column comparison as current site — DIY Builders vs Traditional Agency vs GreyWhale. Keep the existing design with GreyWhale column in black/highlighted. This is already working well on the current site, don't change it significantly.
+
+**Line below:**
+"Same quality as an agency. Simpler than a builder. Fraction of the cost."
+
+---
+
+## SECTION 7: CLIENT ACQUISITION FOCUS
+
+This is a NEW section that speaks directly to the business owner's real concern: getting more customers.
+
+**Headline:**
+"More calls. More bookings. More walk-ins. That's the point."
+
+**Three cards or blocks:**
+
+**Card 1 — "Get Found"**
+"Your customers are already searching. 'Dentist near me.' 'Best barbershop Sacramento.' 'Auto repair Roseville.' We engineer your site to own those searches. First page of Google. Every time."
+
+**Card 2 — "Get Chosen"**
+"A bespoke, lightning-fast, mobile-perfect site builds trust in seconds. When a customer lands on your site, they decide instantly whether you're legit. We make sure you look like the only option."
+
+**Card 3 — "Get Booked"**
+"Click-to-call. Online booking. Contact forms that actually notify you. Google Maps. Every site is built to turn a visitor into a customer — not just an impression on a screen."
+
+---
+
+## SECTION 8: SIMPLE PRICING
+
+**Headline:**
+"Simple pricing."
+
+Same three-tier pricing cards as current site: Starter $149, Professional $249, Business $349. Keep the "Most popular" badge on Professional. Keep the condensed feature lists.
+
+All "Get Started" buttons smooth-scroll to the sentence builder.
+
+"No upfront cost. No contract. Cancel anytime."
+"See full plan details →" linking to /pricing
+
+---
+
+## SECTION 9: THE CLOSER — SENTENCE BUILDER
+
+**Headline:**
+"Let's build yours."
+
+The interactive sentence builder lives here — EXACTLY as it currently exists. "I'm a [dropdown] looking for a [dropdown] located in [dropdown] interested in a [dropdown] plan." with the "Get Started →" button.
+
+DO NOT modify the sentence builder's functionality, dropdowns, or design. Just keep it positioned here at the bottom as the final conversion action.
+
+Below the sentence builder:
+"No upfront cost. Live in 14 days. Cancel anytime."
+
+---
+
+## SECTION 10: FOOTER
+
+Clean minimal footer. GreyWhale wordmark left.
+
+**PAGES column:** Portfolio, Pricing, About
+**INDUSTRIES column:** Dentists, Barbershops, Restaurants, Plumbers, "View all →" linking to /for
+
+Copyright 2026.
+
+---
+
+## ANIMATION AND INTERACTION GUIDELINES
+
+- All sections use scroll-triggered animations — elements fade in and slide up as they enter the viewport
+- The hero code window has a continuous typing animation
+- The nav bar hero action button ("Get a Free Mockup →" or "Start Your Site →") pulses subtly or has a gentle glow on page load to draw attention, then settles into a static state
+- The sticky nav should have a slight background blur/opacity change when the user scrolls past the hero
+- Transitions between sections should feel smooth and continuous
+- All animations CSS-based or lightweight JS — no heavy libraries
+- Performance first — fast loading is non-negotiable since we're selling speed and SEO
+
+## MOBILE BEHAVIOR
+
+- Hero splits to stacked layout — text on top, code window below (smaller)
+- Nav hero action button stays visible in mobile nav or as a floating bottom bar
+- All sections stack vertically
+- Comparison columns stack with GreyWhale column last (and emphasized)
+- Pricing cards stack with Professional on top
+- Sentence builder full-width
+- Animations simplified — fade only, no parallax
+
+## KEY MESSAGING PRIORITIES (in order)
+
+1. VISIBILITY — SEO, Google ranking, being found by customers, dominating local search
+2. CUSTOMER ACQUISITION — more calls, more bookings, more walk-ins, 10x your business
+3. BESPOKE DESIGN — every site hand-coded from a blank canvas, no two sites alike, not a template
+4. ONGOING SUPPORT — justifies monthly pricing, site improves over time, never degrades
+5. MESH NETWORK — backlink system that gets stronger with every client, invisible to visitors, devastating for competitors
+6. PRICING — simple, no upfront, cancel anytime
+
+The overall tone should be confident, bold, and slightly aggressive — not corporate, not salesy, not buzzwordy. We're not "offering solutions" or "leveraging synergies." We're building weapons for local businesses. Every sentence should make the reader think "these guys are serious and I want them on my side."
+
+Use the word BESPOKE wherever you would have said "custom" or "tailored." It's the GreyWhale word. Every site is bespoke. Every design is bespoke. The experience is bespoke.
+
+## WHAT TO REMOVE FROM CURRENT HOMEPAGE
+
+- The current hero with "We're the new agency in town" as the MAIN homepage hero (this line can stay on the About page where it already lives)
+- The "Everything you need. Nothing you don't." section in its current position — it's been restructured into the new flow
+- Any layout where the sentence builder appears at the top of the page — it lives at the bottom only
