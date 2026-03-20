@@ -921,7 +921,10 @@ export default function Home() {
 
           <Reveal delay={80}>
             {/* ── Mobile: transposed — competitors as rows, features as columns ── */}
-            <div className="md:hidden overflow-x-auto -mx-6 rounded-2xl border border-gray-200" style={{ WebkitOverflowScrolling: "touch" }}>
+            <div className="md:hidden relative">
+              {/* right-edge fade — signals more content */}
+              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-14 rounded-r-2xl z-20" style={{ background: "linear-gradient(to left, rgba(255,255,255,0.95) 0%, transparent 100%)" }} />
+              <div className="overflow-x-auto rounded-2xl border border-gray-200" style={{ WebkitOverflowScrolling: "touch" }}>
               <table className="border-collapse" style={{ minWidth: "640px" }}>
                 <thead>
                   <tr>
@@ -979,6 +982,8 @@ export default function Home() {
                   </tr>
                 </tbody>
               </table>
+              </div>
+              <p className="mt-2 text-right text-[11px] text-gray-400 tracking-wide select-none">swipe to compare →</p>
             </div>
 
             {/* ── Desktop: original 4-column grid ── */}
