@@ -10,6 +10,8 @@ type Project = {
   year: number;
   tags: string[];
   url: string;
+  href?: string;
+  thumbnail?: string | null;
   imgBg: string;
   gradient: string;
   cardBg: string;
@@ -18,12 +20,14 @@ type Project = {
 
 const projects: Project[] = [
   {
-    name: "Blue Oak Dental",
+    name: "Heritage Oak Dental",
     category: "Healthcare",
-    location: "Folsom, CA",
+    location: "Rocklin, CA",
     year: 2025,
     tags: ["Web Design", "Forms", "SEO"],
-    url: "blueoakdental.com",
+    url: "bluedental.greywhale.dev",
+    href: "https://bluedental.greywhale.dev",
+    thumbnail: "/work-bluedental.png",
     imgBg: "#ffffff",
     gradient: "from-stone-200 via-stone-100 to-amber-50",
     cardBg: "#ffffff",
@@ -104,6 +108,18 @@ function BrowserChrome({ url, isDark }: { url: string; isDark: boolean }) {
 }
 
 function CardContent({ project }: { project: Project }) {
+  if (project.thumbnail) {
+    return (
+      <div className="flex-1 overflow-hidden rounded-b-xl">
+        <img
+          src={project.thumbnail}
+          alt={project.name}
+          className="w-full h-full object-cover object-top"
+          draggable={false}
+        />
+      </div>
+    );
+  }
   return (
     <div
       className="flex-1 flex items-center justify-center overflow-hidden rounded-b-xl"
@@ -146,24 +162,35 @@ function MobileProjectCard({ project, active }: { project: Project; active: bool
       style={{ height: "100%", width: "100%" }}
     >
       <BrowserChrome url={project.url} isDark={isDark} />
-      <div className={`flex-1 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 gap-3">
-          <div className={`w-3/5 h-2.5 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"}`} />
-          <div className={`w-2/5 h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"}`} />
-          <div className="flex gap-2 mt-2">
-            <div className={`w-16 h-7 rounded-lg ${isDark ? "bg-white/15" : "bg-black/10"}`} />
-            <div className={`w-12 h-7 rounded-lg ${isDark ? "bg-white/8" : "bg-black/6"}`} />
-          </div>
-          <div className={`w-full mt-2 h-px ${isDark ? "bg-white/8" : "bg-black/6"}`} />
-          <div className="flex items-start gap-3 w-full">
-            <div className={`w-8 h-8 rounded-lg shrink-0 ${isDark ? "bg-white/10" : "bg-black/8"}`} />
-            <div className="flex-1 space-y-1.5">
-              <div className={`h-2 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"} w-full`} />
-              <div className={`h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"} w-4/5`} />
+      {project.thumbnail ? (
+        <div className="flex-1 overflow-hidden">
+          <img
+            src={project.thumbnail}
+            alt={project.name}
+            className="w-full h-full object-cover object-top"
+            draggable={false}
+          />
+        </div>
+      ) : (
+        <div className={`flex-1 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 gap-3">
+            <div className={`w-3/5 h-2.5 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"}`} />
+            <div className={`w-2/5 h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"}`} />
+            <div className="flex gap-2 mt-2">
+              <div className={`w-16 h-7 rounded-lg ${isDark ? "bg-white/15" : "bg-black/10"}`} />
+              <div className={`w-12 h-7 rounded-lg ${isDark ? "bg-white/8" : "bg-black/6"}`} />
+            </div>
+            <div className={`w-full mt-2 h-px ${isDark ? "bg-white/8" : "bg-black/6"}`} />
+            <div className="flex items-start gap-3 w-full">
+              <div className={`w-8 h-8 rounded-lg shrink-0 ${isDark ? "bg-white/10" : "bg-black/8"}`} />
+              <div className="flex-1 space-y-1.5">
+                <div className={`h-2 rounded-full ${isDark ? "bg-white/12" : "bg-black/10"} w-full`} />
+                <div className={`h-2 rounded-full ${isDark ? "bg-white/7" : "bg-black/6"} w-4/5`} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -364,7 +391,7 @@ function PeekCarousel({
                   return;
                 }
                 if (isActive) {
-                  window.open(`https://${project.url}`, "_blank", "noopener,noreferrer");
+                  window.open(project.href ?? `https://${project.url}`, "_blank", "noopener,noreferrer");
                 } else {
                   setActiveIndex(i);
                   animate(x, -i * stepSize, {
@@ -378,7 +405,7 @@ function PeekCarousel({
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   if (isActive) {
-                    window.open(`https://${project.url}`, "_blank", "noopener,noreferrer");
+                    window.open(project.href ?? `https://${project.url}`, "_blank", "noopener,noreferrer");
                   } else {
                     setActiveIndex(i);
                     animate(x, -i * stepSize, {
