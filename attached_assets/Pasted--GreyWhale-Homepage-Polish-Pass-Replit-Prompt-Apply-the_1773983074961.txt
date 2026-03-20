@@ -1,0 +1,181 @@
+# GreyWhale Homepage — Polish Pass — Replit Prompt
+
+Apply the following specific changes to the current homepage. Do NOT rebuild from scratch — adjust what's there based on these notes.
+
+---
+
+## 1. "START YOUR SITE" BUTTON BEHAVIOR
+
+The "Start Your Site →" button in the top-right nav should NOT smooth-scroll to the sentence builder at the bottom. Instead, it should link to its own dedicated page at /start. 
+
+Create a new page at /start that contains:
+- The "Let's build yours." headline
+- The interactive sentence builder ("I'm a [dropdown] looking for a [dropdown]...")
+- The "Get Started →" button
+- "No upfront cost. Live in 14 days. Cancel anytime." below
+- Clean, minimal page — just the sentence builder, nothing else. White background, centered content, lots of breathing room.
+
+All "Get Started →" buttons across the entire site (pricing cards, homepage CTAs, etc.) should also link to /start instead of smooth-scrolling.
+
+The sentence builder at the bottom of the homepage should be REPLACED with a simpler closing CTA section:
+- Headline: "Let's build yours."
+- Button: "Start Your Site →" linking to /start
+- Subtext: "No upfront cost. Live in 14 days. Cancel anytime."
+
+---
+
+## 2. REWRITE THE HERO HEADLINE
+
+The current "We don't build websites. We 10x your business." uses the "We don't... We..." structure that reads as AI-generated. Rewrite it.
+
+New headline — pick ONE of these or something in the same spirit that feels human and punchy:
+
+Option A:
+"Your next customer is Googling you right now."
+"Let's make sure they find you."
+
+Option B:
+"Built to rank. Designed to convert."
+"Bespoke websites for local businesses in Sacramento."
+
+Option C:
+"Forget templates. Forget agencies."
+"This is something different."
+
+The headline needs to SELL immediately. Not explain. Not describe. Sell. The person should feel something in the first two seconds — urgency, curiosity, or desire. The subheadline below can do the explaining.
+
+Update the subheadline to match whatever headline is chosen. Keep it one or two lines max. Focus on outcomes: visibility, customers, revenue.
+
+---
+
+## 3. TERMINAL ANIMATION — LIGHT MODE, OVERLAPPING TABS
+
+The black terminal window on the right side of the hero needs three changes:
+
+**A. Switch to light mode.** White/light gray background, dark text. The current dark terminal looks flat against the white page. A light terminal with subtle gray chrome will feel more integrated and modern.
+
+**B. Add overlapping windows.** Show TWO terminal/code windows slightly overlapping — like multiple browser tabs or app windows open on a desktop. The front window has the typing animation. The back window (peeking out behind, offset maybe 20px right and 20px up) shows a static snippet — maybe some HTML/CSS code or a completed deployment log. This creates depth and visual interest.
+
+**C. Keep the typing animation** but make sure the text colors work on a light background. Green checkmarks can stay green. Command text in dark gray/black. URLs and technical terms in a subtle blue or teal.
+
+---
+
+## 4. "SEE OUR WORK" BUTTON
+
+The "See Our Work →" button in the hero should link to /portfolio, NOT smooth-scroll to the Selected Work section on the homepage. Open in same tab.
+
+---
+
+## 5. VERIFY AND UPDATE STATISTICS
+
+The three stats (97%, 75%, 46%) need to be accurate and sourced. Update to these verified figures:
+
+- "97% of consumers search online before visiting a local business" — Source: BIA/Kelsey, widely cited and accurate
+- "75% of users never scroll past the first page of Google" — Source: HubSpot/Backlinko research, widely cited
+- "46% of all Google searches have local intent" — Source: GoGulf/Safari Digital, widely cited
+
+These are all commonly cited and defensible. Keep them as-is if they match, or adjust if the current text is different.
+
+---
+
+## 6. IMPROVE LANGUAGE THROUGHOUT — SELL, DON'T DESCRIBE
+
+Go through EVERY section and tighten the copy. The rule: if it reads like a brochure, rewrite it to read like a pitch. People scan, they don't read. Every line needs to either create urgency, build desire, or remove an objection.
+
+Specific rewrites:
+
+**Visibility section subheadline:**
+CURRENT: "Most agencies hand you a pretty site and call it a day. We build you a machine that climbs Google rankings, captures local searches, and sends real customers to your door. Design is the surface. Visibility is the engine."
+BETTER: "Other agencies hand you a pretty site and disappear. We build a machine that climbs Google, captures searches, and sends customers through your door."
+(Shorter. Punchier. Cut the last line — it's explaining something the reader already gets.)
+
+**Local SEO section:**
+CURRENT: "Every site we build includes structured data markup, local schema, Google Business Profile optimization, meta tags targeting your city and services, XML sitemaps, and mobile-first indexing. This isn't an add-on. It's the foundation."
+BETTER: "Structured data. Local schema. Google Business Profile optimization. City-targeted meta tags. XML sitemaps. Mobile-first indexing. All standard. All included. All built to get you found."
+(Punchy list format. Reads faster. Hits harder.)
+
+**Mesh network section:**
+CURRENT text is good but tighten it:
+BETTER: "Every GreyWhale client is part of something bigger. We connect your site to a growing network of real local business websites — all linking to each other behind the scenes. Every new client makes YOUR rankings stronger. Your SEO doesn't just start strong. It compounds."
+(Cut "Invisible to your visitors. Devastating for your competition." — it's trying too hard.)
+
+**One-time build trap closing line:**
+CURRENT: "One-time builds decay. GreyWhale sites compound. That's why you pay monthly — because your site should get better every month, not worse."
+BETTER: "One-time builds decay. GreyWhale sites compound."
+(Kill the explanation. The two sentences say it all. Let them land.)
+
+---
+
+## 7. FIRST TWO SECTIONS ARE EVERYTHING
+
+Most visitors will decide based on the hero and the visibility section alone. These two sections need to be FLAWLESS.
+
+The hero should feel like a punch — bold headline, clear value, immediate CTA, impressive terminal animation. No wasted words.
+
+The visibility section should feel like a wake-up call — "you're invisible on Google and losing money every day." The stats should animate in with impact (count up from 0 to the final number as they enter viewport, not just appear statically).
+
+Everything after these two sections is supporting evidence. If the first two don't hook them, nothing else matters.
+
+---
+
+## 8. COMPARISON SECTION — MATCH PRICING PAGE STYLE
+
+The current "How we stack up" comparison section looks flat. It should match the visual style of the pricing page's comparison table — the one with the more detailed, cleaner layout.
+
+Specifically:
+- Give each column more visual structure — clearer borders or card-style containers
+- The GreyWhale column should have a stronger visual treatment — not just a black box but something that clearly reads as "this is the winner"
+- Add checkmarks (✓) and X marks (✗) for quick scanning instead of just text lines
+- Tighten the spacing — the current version has too much vertical space between items
+
+Reference the pricing page's comparison table design and bring that same energy to the homepage version.
+
+---
+
+## 9. SELECTED WORK — LESS FLAT
+
+The current Selected Work section shows browser mockups stacked vertically with placeholder content. It looks unfinished.
+
+Changes:
+- Reduce the size of each mockup card — they're too tall and take up too much scroll distance
+- Show only 2 cards on the homepage, not all 5
+- Add a subtle hover effect — slight scale up or shadow increase
+- Each card should link to the live demo or portfolio detail page
+- Add "View all projects →" link to /portfolio below the cards
+- Once real screenshots are available, swap them in immediately — the placeholders with just business names are the weakest part of the site right now
+
+---
+
+## 10. MOBILE IMPROVEMENTS
+
+The mobile version needs specific attention:
+
+- Hero: stack text above terminal. Terminal should be smaller but still visible — it's a key visual. Don't hide it on mobile.
+- Stats section: stack the three stats vertically, not in a cramped row
+- Bespoke slider: make it full-width and increase the drag handle size for touch
+- Comparison section: stack columns vertically. Show GreyWhale column LAST so it's the final thing they see (and remember)
+- Pricing cards: stack vertically with Professional first (most popular)
+- All buttons should be full-width on mobile for easy thumb tapping
+- Reduce font sizes slightly on headlines — they're probably too large on small screens
+- Test that the nav "Start Your Site →" button doesn't get cut off on small screens — it might need to collapse into the hamburger menu on mobile
+
+---
+
+## 11. BESPOKE SLIDER SECTION
+
+The template vs bespoke slider comparison is the weakest visual on the page. Both sides currently look like gray wireframes — there's no real contrast.
+
+Fix:
+- The TEMPLATE side should look obviously generic and bad — use a recognizable Squarespace-style layout with generic stock photo placeholders, a boring grid, generic "Lorem ipsum" style text blocks. Make it look like every other template site. Maybe show "genericbusiness.squarespace.com" in the URL bar.
+- The BESPOKE side should look obviously premium and custom — show something that looks like a real GreyWhale build. Clean typography, unique layout, real-looking content structure. Show "yourbusiness.com" in the URL bar.
+- The contrast between the two sides should be IMMEDIATELY obvious even without dragging the slider. Left = boring and generic. Right = premium and intentional.
+
+---
+
+## GENERAL RULES
+
+- Do NOT rebuild the page from scratch — modify what's there
+- Keep all existing sections in their current order unless specifically noted above
+- Maintain the black/white minimal design language
+- All animations should be smooth and performant
+- Test on mobile after every change
