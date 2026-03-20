@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, Fragment } from "react";
+import React, { useState, useRef, useEffect, useCallback, Fragment } from "react";
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
 import Reveal from "@/components/Reveal";
@@ -63,18 +63,73 @@ const homeTiers = [
   },
 ];
 
-const CODE_LINES = [
-  "$ gw deploy --production",
-  "",
-  "pulling config.............. done",
-  "compiling routes............ done",
-  "schema injection............ done",
-  "sitemap gen................. done",
-  "mesh sync (14 nodes)........ done",
-  "lighthouse.................. 98/100",
-  "",
-  "deployed → client.greywhale.dev",
+// ─── Terminal span types ──────────────────────────────────────────────────────
+
+type TSpan = { t: string; c?: string; bold?: boolean; ul?: boolean };
+type TLine = TSpan[] | null;
+
+const TERMINAL_LINES: TLine[] = [
+  [
+    { t: "$ ", c: "#9ca3af" },
+    { t: "gw", c: "#111827", bold: true },
+    { t: " deploy --production", c: "#374151" },
+  ],
+  null,
+  [{ t: "pulling config", c: "#9ca3af" }, { t: ".............", c: "#e5e7eb" }, { t: " done", c: "#22c55e" }],
+  [{ t: "compiling routes", c: "#9ca3af" }, { t: ".............", c: "#e5e7eb" }, { t: " done", c: "#22c55e" }],
+  [{ t: "schema injection", c: "#9ca3af" }, { t: ".............", c: "#e5e7eb" }, { t: " done", c: "#22c55e" }],
+  [{ t: "sitemap gen", c: "#9ca3af" }, { t: ".................", c: "#e5e7eb" }, { t: " done", c: "#22c55e" }],
+  [{ t: "mesh sync ", c: "#9ca3af" }, { t: "(14 nodes)", c: "#06b6d4" }, { t: ".....", c: "#e5e7eb" }, { t: " done", c: "#22c55e" }],
+  [{ t: "lighthouse", c: "#9ca3af" }, { t: ".................", c: "#e5e7eb" }, { t: " 98/100", c: "#22c55e", bold: true }],
+  null,
+  [{ t: "deployed → ", c: "#9ca3af" }, { t: "client.greywhale.dev", c: "#3b82f6", ul: true }],
 ];
+
+function tFlat(line: TLine): string {
+  if (!line) return "";
+  return line.map((s) => s.t).join("");
+}
+
+function tSpeed(line: TLine, idx: number): number {
+  if (!line) return 80;
+  let rem = idx;
+  for (const span of line) {
+    if (rem < span.t.length) {
+      if (/^\.+$/.test(span.t)) return 5;
+      if (span.c === "#22c55e" || span.c === "#06b6d4") return 16;
+      if (span.bold && span.c === "#111827") return 55;
+      return 20;
+    }
+    rem -= span.t.length;
+  }
+  return 20;
+}
+
+function tRender(line: TLine, upTo?: number): React.ReactNode {
+  if (!line) return "\u00A0";
+  const parts: React.ReactNode[] = [];
+  let rem = upTo !== undefined ? upTo : Infinity;
+  for (let i = 0; i < line.length; i++) {
+    if (rem <= 0) break;
+    const span = line[i];
+    const visible = upTo !== undefined ? span.t.slice(0, rem) : span.t;
+    rem -= span.t.length;
+    if (!visible) break;
+    parts.push(
+      <span
+        key={i}
+        style={{
+          color: span.c,
+          fontWeight: span.bold ? "bold" : undefined,
+          textDecoration: span.ul ? "underline" : undefined,
+        }}
+      >
+        {visible}
+      </span>,
+    );
+  }
+  return <>{parts}</>;
+}
 
 const BACK_LINES = [
   "<!-- index.html — Heritage Oak Dental -->",
@@ -177,18 +232,19 @@ function BackWindow() {
 function FrontWindow() {
   const [lineIdx, setLineIdx] = useState(0);
   const [charIdx, setCharIdx] = useState(0);
-  const [finishedLines, setFinishedLines] = useState<string[]>([]);
+  const [finishedLines, setFinishedLines] = useState<TLine[]>([]);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
     if (done) return;
-    if (lineIdx >= CODE_LINES.length) {
+    if (lineIdx >= TERMINAL_LINES.length) {
       setDone(true);
       return;
     }
-    const line = CODE_LINES[lineIdx];
-    if (charIdx >= line.length) {
-      const delay = line === "" ? 80 : line.startsWith("$") ? 360 : 190;
+    const line = TERMINAL_LINES[lineIdx];
+    const text = tFlat(line);
+    if (charIdx >= text.length) {
+      const delay = !line ? 80 : text.startsWith("$ ") ? 400 : 180;
       const t = setTimeout(() => {
         setFinishedLines((p) => [...p, line]);
         setLineIdx((p) => p + 1);
@@ -196,21 +252,13 @@ function FrontWindow() {
       }, delay);
       return () => clearTimeout(t);
     }
-    const speed = line.startsWith("✓") ? 18 : line.startsWith("$") ? 52 : 28;
+    const speed = tSpeed(line, charIdx);
     const t = setTimeout(() => setCharIdx((p) => p + 1), speed);
     return () => clearTimeout(t);
   }, [lineIdx, charIdx, done]);
 
-  function lineColor(line: string): string {
-    if (line.startsWith("✓")) return "#16a34a";
-    if (line.startsWith("$")) return "#111827";
-    if (line.startsWith("→")) return "#1e40af";
-    if (line.startsWith("  ")) return "#059669";
-    return "#6b7280";
-  }
-
   const currentLine =
-    !done && lineIdx < CODE_LINES.length ? CODE_LINES[lineIdx] : null;
+    !done && lineIdx < TERMINAL_LINES.length ? TERMINAL_LINES[lineIdx] : null;
 
   return (
     <div className="rounded-xl overflow-hidden border border-gray-200 shadow-xl bg-white">
@@ -229,13 +277,11 @@ function FrontWindow() {
         style={{ minHeight: "20rem" }}
       >
         {finishedLines.map((line, i) => (
-          <div key={i} style={{ color: lineColor(line) }}>
-            {line || "\u00A0"}
-          </div>
+          <div key={i}>{tRender(line)}</div>
         ))}
         {currentLine !== null && (
-          <div style={{ color: lineColor(currentLine) }}>
-            {currentLine.slice(0, charIdx)}
+          <div>
+            {tRender(currentLine, charIdx)}
             <span className="text-gray-300">█</span>
           </div>
         )}
@@ -297,7 +343,7 @@ function BeforeAfterSlider() {
       <div
         ref={containerRef}
         className="relative overflow-hidden rounded-2xl select-none cursor-col-resize border border-gray-100 shadow-sm"
-        style={{ height: "22rem" }}
+        style={{ aspectRatio: "16/9" }}
         onMouseDown={(e) => {
           dragging.current = true;
           updatePct(e.clientX);
@@ -564,7 +610,7 @@ function BrowserCard({ project }: { project: (typeof homeProjects)[0] }) {
           </div>
         </div>
         <div
-          className={`flex items-center justify-center aspect-[16/10] bg-gradient-to-br ${project.gradient}`}
+          className={`flex items-center justify-center aspect-video bg-gradient-to-br ${project.gradient}`}
         >
           <span
             className="text-2xl md:text-3xl tracking-tight"
@@ -593,6 +639,41 @@ function BrowserCard({ project }: { project: (typeof homeProjects)[0] }) {
         </div>
       </div>
     </Link>
+  );
+}
+
+// ─── Floating background code elements ────────────────────────────────────────
+
+const FLOAT_SNIPPETS = [
+  { text: '<meta name="description"/>', side: "left", top: "17%", delay: 0, dur: 14 },
+  { text: "schema: LocalBusiness", side: "left", top: "32%", delay: 2, dur: 12 },
+  { text: "lighthouse: 98/100", side: "left", top: "50%", delay: 4.5, dur: 16 },
+  { text: "sitemap.xml → generated", side: "left", top: "65%", delay: 1, dur: 13 },
+  { text: "SEO: optimized ✓", side: "left", top: "80%", delay: 3, dur: 15 },
+  { text: "deploy: production", side: "right", top: "20%", delay: 1.5, dur: 15 },
+  { text: 'className="hero-section"', side: "right", top: "36%", delay: 3.5, dur: 13 },
+  { text: "mesh.connect(node_18)", side: "right", top: "53%", delay: 0.5, dur: 14 },
+  { text: "<section id='services'>", side: "right", top: "68%", delay: 2.5, dur: 12 },
+  { text: "route: /contact → live", side: "right", top: "83%", delay: 4, dur: 16 },
+];
+
+function FloatingCode() {
+  return (
+    <div className="hidden xl:block fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
+      {FLOAT_SNIPPETS.map((s, i) => (
+        <div
+          key={i}
+          className="absolute font-mono text-[11px] text-gray-500 whitespace-nowrap select-none"
+          style={{
+            [s.side]: "1.5%",
+            top: s.top,
+            animation: `floatCode ${s.dur}s ease-in-out ${s.delay}s infinite`,
+          }}
+        >
+          {s.text}
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -633,6 +714,7 @@ export default function Home() {
 
   return (
     <Layout>
+      <FloatingCode />
       {/* ── SECTION 1: HERO ─────────────────────────────────────────────── */}
       <section className="relative px-6 pt-12 pb-16 md:pt-18 md:pb-24 border-b border-gray-100 overflow-hidden">
         <div className="max-w-7xl mx-auto">
@@ -777,38 +859,90 @@ export default function Home() {
           </div>
 
           {/* Two columns */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-gray-100">
-            <Reveal>
-              <div className="bg-white p-8">
-                <p className="font-bold text-black text-lg mb-4 tracking-tight">
-                  Local SEO Built Into Every Page
-                </p>
-                <p className="text-sm text-gray-500 leading-relaxed">
-                  Structured data. Local schema. Google Business Profile
-                  optimization. City-targeted meta tags. XML sitemaps.
-                  Mobile-first indexing. All standard. All included. All built
-                  to get you found.
-                </p>
-              </div>
-            </Reveal>
-            <Reveal delay={100}>
-              <div className="bg-white p-8">
-                <p className="font-bold text-black text-lg mb-4 tracking-tight">
-                  Every new client makes your site rank higher.
-                </p>
-                <p className="text-sm text-gray-500 leading-relaxed">
-                  When Google decides where to rank your site, one of the
-                  biggest signals is how many other websites link to yours. More
-                  links from real, relevant sites = higher rankings. Every
-                  business that joins GreyWhale gets connected to every other
-                  GreyWhale client's site through links built into the backend —
-                  invisible to visitors, but Google sees them. So when we sign a
-                  new restaurant down the street, your dental practice climbs
-                  higher. Every new client is a rising tide that lifts every
-                  boat in the network.
-                </p>
-              </div>
-            </Reveal>
+          <div className="rounded-xl border border-gray-100 overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-100 items-start">
+              <Reveal>
+                <div className="bg-white p-8">
+                  <p className="font-bold text-black text-lg mb-4 tracking-tight">
+                    Local SEO Built Into Every Page
+                  </p>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    Structured data. Local schema. Google Business Profile
+                    optimization. City-targeted meta tags. XML sitemaps.
+                    Mobile-first indexing. All standard. All included. All built
+                    to get you found.
+                  </p>
+                </div>
+              </Reveal>
+              <Reveal delay={100}>
+                <div className="bg-white p-8">
+                  <p className="font-bold text-black text-lg mb-4 tracking-tight">
+                    Every new client makes your site rank higher.
+                  </p>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    When Google ranks sites, one of its biggest signals is how
+                    many other sites link to yours. Every GreyWhale client gets
+                    woven into a private link mesh — invisible to visitors, but
+                    Google reads it clearly. Sign a new restaurant down the
+                    street and your dental practice climbs. Every new member
+                    lifts the whole network.
+                  </p>
+                  <svg
+                    className="mt-5 w-full"
+                    height="56"
+                    viewBox="0 0 320 56"
+                    fill="none"
+                  >
+                    {[
+                      { cx: 16, cy: 28, d: 0 },
+                      { cx: 80, cy: 10, d: 0.6 },
+                      { cx: 80, cy: 46, d: 1.4 },
+                      { cx: 160, cy: 18, d: 2.0 },
+                      { cx: 160, cy: 42, d: 2.8 },
+                      { cx: 240, cy: 28, d: 1.0 },
+                      { cx: 304, cy: 14, d: 3.5 },
+                      { cx: 304, cy: 42, d: 4.2 },
+                    ].map((n, i) => (
+                      <circle
+                        key={i}
+                        cx={n.cx}
+                        cy={n.cy}
+                        r="5"
+                        fill="#06b6d4"
+                        style={{
+                          animation: `mesh-pulse 3s ease-in-out ${n.d}s infinite`,
+                        }}
+                      />
+                    ))}
+                    {[
+                      [16, 28, 80, 10],
+                      [16, 28, 80, 46],
+                      [80, 10, 160, 18],
+                      [80, 46, 160, 42],
+                      [160, 18, 240, 28],
+                      [160, 42, 240, 28],
+                      [240, 28, 304, 14],
+                      [240, 28, 304, 42],
+                      [80, 10, 80, 46],
+                      [160, 18, 160, 42],
+                    ].map((l, i) => (
+                      <line
+                        key={i}
+                        x1={l[0]}
+                        y1={l[1]}
+                        x2={l[2]}
+                        y2={l[3]}
+                        stroke="#06b6d4"
+                        strokeWidth="1.5"
+                        style={{
+                          animation: `mesh-line 4s ease-in-out ${i * 0.25}s infinite`,
+                        }}
+                      />
+                    ))}
+                  </svg>
+                </div>
+              </Reveal>
+            </div>
           </div>
         </div>
       </section>
@@ -831,8 +965,7 @@ export default function Home() {
           </Reveal>
           <Reveal delay={80}>
             <p className="text-center text-gray-400 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-12">
-              We don't use templates. We don't use themes. We don't use page
-              builders. Drag the slider to see the difference.
+              No templates. No themes. No page builders. Drag the slider.
             </p>
           </Reveal>
 
@@ -867,9 +1000,16 @@ export default function Home() {
             </h2>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-gray-200">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
             <Reveal>
-              <div className="bg-white p-8 md:p-10">
+              <div
+                className="bg-white p-8 md:p-10 rounded-xl border border-gray-200"
+                style={{
+                  transform: "rotate(-0.5deg)",
+                  opacity: 0.72,
+                  filter: "saturate(0.7)",
+                }}
+              >
                 <p
                   className="text-sm text-gray-400 tracking-widest uppercase mb-6"
                   style={{ letterSpacing: "0.12em" }}
@@ -897,7 +1037,10 @@ export default function Home() {
               </div>
             </Reveal>
             <Reveal delay={120}>
-              <div className="bg-black p-8 md:p-10">
+              <div
+                className="bg-black p-8 md:p-10 rounded-xl"
+                style={{ boxShadow: "0 8px 40px rgba(0,0,0,0.35)" }}
+              >
                 <p
                   className="text-sm text-zinc-500 tracking-widest uppercase mb-6"
                   style={{ letterSpacing: "0.12em" }}
@@ -941,7 +1084,7 @@ export default function Home() {
 
       {/* ── SECTION 5: SELECTED WORK ────────────────────────────────────── */}
       <section className="px-6 py-24 md:py-32 border-b border-gray-100">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <Reveal>
             <h2
               className="font-bold text-black tracking-tight mb-14"
@@ -1024,7 +1167,10 @@ export default function Home() {
                   Traditional studio
                 </p>
               </div>
-              <div className="p-4 border-b border-gray-200 text-center bg-black flex flex-col items-center justify-center gap-1">
+              <div
+                className="py-6 px-4 border-b border-gray-200 text-center bg-black flex flex-col items-center justify-center gap-1"
+                style={{ borderTop: "3px solid #10b981" }}
+              >
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold tracking-widest uppercase mb-0.5">
                   ✦ Best Value
                 </span>
@@ -1060,32 +1206,36 @@ export default function Home() {
               </div>
 
               {/* Feature rows */}
-              {compFeatures.map((row, i) => (
-                <Fragment key={row.label}>
-                  <div
-                    className={`p-3 border-r border-gray-100 text-xs text-gray-700 font-semibold flex items-center ${i < compFeatures.length - 1 ? "border-b" : ""}`}
-                  >
-                    {row.label}
-                  </div>
-                  <div
-                    className={`p-3 border-r border-gray-100 flex items-center justify-center ${i < compFeatures.length - 1 ? "border-b" : ""} ${!row.diy ? "bg-red-50" : ""}`}
-                  >
-                    <Check yes={row.diy} />
-                  </div>
-                  <div
-                    className={`p-3 border-r border-gray-100 flex items-center justify-center ${i < compFeatures.length - 1 ? "border-b" : ""} ${!row.agency ? "bg-red-50" : ""}`}
-                  >
-                    <Check yes={row.agency} />
-                  </div>
-                  <div
-                    className={`p-3 flex items-center justify-center bg-black/95 ${i < compFeatures.length - 1 ? "border-b border-zinc-800" : ""}`}
-                  >
-                    <span className="text-emerald-400 font-bold text-base">
-                      ✓
-                    </span>
-                  </div>
-                </Fragment>
-              ))}
+              {compFeatures.map((row, i) => {
+                const alt = i % 2 !== 0;
+                const notLast = i < compFeatures.length - 1;
+                return (
+                  <Fragment key={row.label}>
+                    <div
+                      className={`p-3 border-r border-gray-100 text-xs text-gray-700 font-semibold flex items-center ${notLast ? "border-b" : ""} ${alt ? "bg-gray-50/60" : ""}`}
+                    >
+                      {row.label}
+                    </div>
+                    <div
+                      className={`p-3 border-r border-gray-100 flex items-center justify-center ${notLast ? "border-b" : ""} ${!row.diy ? "bg-red-50" : alt ? "bg-gray-50/60" : ""}`}
+                    >
+                      <Check yes={row.diy} />
+                    </div>
+                    <div
+                      className={`p-3 border-r border-gray-100 flex items-center justify-center ${notLast ? "border-b" : ""} ${!row.agency ? "bg-red-50" : alt ? "bg-gray-50/60" : ""}`}
+                    >
+                      <Check yes={row.agency} />
+                    </div>
+                    <div
+                      className={`p-3 flex items-center justify-center bg-black/95 ${notLast ? "border-b border-zinc-800" : ""}`}
+                    >
+                      <span className="text-emerald-400 font-bold text-xl">
+                        ✓
+                      </span>
+                    </div>
+                  </Fragment>
+                );
+              })}
             </div>
           </Reveal>
 

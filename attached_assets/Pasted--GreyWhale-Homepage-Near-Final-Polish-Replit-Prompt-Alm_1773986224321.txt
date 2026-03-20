@@ -1,0 +1,147 @@
+# GreyWhale Homepage — Near-Final Polish — Replit Prompt
+
+Almost there. Apply these specific fixes to get the site to launch-ready.
+
+---
+
+## 1. TERMINAL TEXT — ADD SYNTAX COLORING
+
+The terminal typing animation needs proper syntax highlighting on the light background. Color the text like a real terminal output:
+
+- `$ gw deploy --production` → the `$` in muted gray, `gw` in bold black, `deploy --production` in regular black
+- `pulling config..............` → the label text in muted gray, `done` in green (#22c55e)
+- `compiling routes............` → same pattern, label gray, `done` in green
+- `schema injection............` → gray label, `done` in green
+- `sitemap gen.................` → gray label, `done` in green
+- `mesh sync (14 nodes)........` → gray label, `(14 nodes)` in a teal/cyan (#06b6d4), `done` in green
+- `lighthouse..................` → gray label, `98/100` in bold green
+- `deployed →` in gray, `client.greywhale.dev` in blue (#3b82f6) styled as a clickable link (underlined)
+
+The dots between the label and the status should be a very light gray, almost invisible — they're just visual padding. The green `done` markers should feel satisfying as they appear one by one during the typing animation.
+
+---
+
+## 2. LOCAL SEO SECTION — FIX THE GRAY BOX AND BALANCE
+
+There's a large ugly gray empty box below the "Local SEO Built Into Every Page" text. REMOVE IT completely.
+
+Make both columns ("Local SEO Built Into Every Page" and "Every new client makes your site rank higher") the same height by equalizing the amount of text. Trim the mesh network text slightly if needed so both columns are visually balanced.
+
+For the mesh network column specifically — add a subtle animated visual element. Options:
+
+**Option A — Mesh animation:** A small SVG or CSS animation showing dots (representing websites) connected by lines, with new dots occasionally appearing and connecting. Think of a constellation or network graph that slowly grows. Keep it subtle — it sits behind or beside the text, not competing with it.
+
+**Option B — Pulse rings:** Concentric rings that pulse outward from a center point, suggesting a network signal expanding. Very subtle, very slow.
+
+**Option C — Counter:** A small live-looking counter that says "14 active nodes" with occasional subtle increments, making the network feel alive and growing.
+
+Pick whichever is most visually interesting and lightweight.
+
+---
+
+## 3. BESPOKE SLIDER — 16:9 ASPECT RATIO
+
+The template vs bespoke comparison slider container should be 16:9 aspect ratio, not the current nearly-square shape. This makes it look like an actual browser viewport and feels more realistic.
+
+Set the slider container to `aspect-ratio: 16/9` or use padding-bottom trick for browser compatibility. Both the template and bespoke mockups inside should fill this wider frame.
+
+---
+
+## 4. WEAPON SECTION — MAKE IT HIT HARDER
+
+"A website isn't a project. It's a weapon. We keep it sharp." — the headline is great but the section below it is bland and gets skimmed.
+
+Redesign this section:
+
+Instead of two side-by-side text blocks that look like a boring comparison list, make it more visual and scannable:
+
+**Option A — Timeline/progression style:**
+Show it as a visual timeline. Left side shows year 1, year 2, year 3 of a one-time build — each step showing degradation (design ages, SEO drops, site breaks). Right side shows the same timeline for GreyWhale — each step showing improvement (design refreshed, SEO climbing, mesh growing). The visual contrast of decline vs growth is more impactful than bullet points.
+
+**Option B — Animated counter comparison:**
+Two counters side by side. Left counter: "Site value after 12 months: declining" with a downward trending number or graph. Right counter: "Site value after 12 months: compounding" with an upward trending number. Make the decay vs compound visual and visceral.
+
+**Option C — Keep the current structure but redesign the cards:**
+Make the "One-time build trap" side literally look like it's decaying — slightly rotated, faded, maybe a subtle crack or aging effect on the card. Make the "GreyWhale way" side look sharp, clean, modern. The visual treatment of the cards themselves tells the story before anyone reads the text.
+
+The closing line stays: "One-time builds decay. GreyWhale sites compound."
+
+---
+
+## 5. SELECTED WORK — LARGER, 16:9 RATIO
+
+The portfolio mockup cards are too small. Make them significantly larger and use 16:9 aspect ratio for the browser preview area (not the entire card — just the screenshot/preview portion above the label).
+
+Each card should take up roughly 45-48% of the page width so they sit side by side with a small gap. The preview area inside each card should be 16:9 ratio, making them look like real browser windows showing real websites.
+
+The cards should have subtle hover effects — slight scale up (1.02) and shadow increase on hover.
+
+---
+
+## 6. COMPARISON TABLE — SMALL IMPROVEMENTS
+
+The table is already good. Minor tweaks:
+
+- Add alternating row backgrounds — very subtle, every other row gets a barely-there gray tint for easier scanning
+- Make the GreyWhale column header row slightly taller/more prominent
+- The green checkmarks in the GreyWhale column could be slightly larger than the checkmarks/X marks in other columns — subtle visual weight toward the winning column
+- Add a thin green/teal top border on the GreyWhale column header to make it pop more against the black background
+
+---
+
+## 7. FLOATING BACKGROUND ELEMENTS — FILL THE WHITE SPACE
+
+The left and right margins of the page have too much empty white space. Add floating decorative elements in these margins that create visual interest and reinforce the tech/code aesthetic.
+
+**What to add:**
+
+Scattered, semi-transparent code snippets and terminal fragments floating in the margins. They should be:
+
+- Very low opacity (8-12%) so they don't compete with content
+- Different sizes — some small fragments, some longer blocks
+- Slowly floating/drifting with subtle CSS animation — gentle vertical movement (translateY oscillating 10-20px over 10-15 seconds), maybe slight rotation
+- Fixed position or parallax-scroll so they move at a slightly different speed than the content
+- Content should look like real code fragments:
+  - `<meta name="description" content="..."/>`
+  - `schema: LocalBusiness`
+  - `lighthouse: 98`
+  - `deploy: production`
+  - `mesh.connect(node_15)`
+  - `sitemap.xml generated`
+  - `route: /services`
+  - `SEO: optimized`
+  - HTML tag fragments like `<section>`, `</div>`, `className="hero"`
+
+- Use a monospace font at small sizes (11-13px)
+- Mix of light gray text on white background sections and slightly lighter on the tinted sections
+- They should appear on DESKTOP ONLY — hide completely on mobile/tablet
+- Position them in the gutters — the space between the page content and the browser edge
+- They should NOT overlap with or interfere with any actual content
+- Think of it like looking at the page and seeing the "source code" of the site bleeding through the edges
+
+This creates the feeling that the whole site is built on real technology — the code is literally visible in the background. It's a subtle flex that reinforces the technical credibility without saying a word.
+
+---
+
+## 8. NICHE INDUSTRY PAGES — MATCH THIS HOMEPAGE
+
+All industry pages at /for/dentists, /for/barbershops, /for/restaurants, /for/plumbers, etc. should follow the same visual structure as this homepage but with niche-specific content:
+
+- Same floating code elements in the margins
+- Same terminal animation but with niche-specific deploy output (e.g., `$ gw deploy --client-type "dental"`)
+- Same section flow: hero → visibility → bespoke → weapon → selected work → comparison → acquisition → pricing → CTA
+- But all copy is customized for the niche (dental pain points, dental stats, dental portfolio piece, dental-specific SEO terms)
+- The bespoke slider should show a generic dental template on the left vs a GreyWhale dental build on the right
+- The sentence builder on /start should pre-select the industry based on which /for/ page referred the visitor (pass it as a URL parameter)
+
+Each page should feel like GreyWhale built an entire agency just for that industry — but it's actually the same template with different copy and styling accents.
+
+---
+
+## GENERAL
+
+- Do NOT rebuild from scratch — modify what exists
+- Test the scroll-blocking bug is fully fixed — the page must scroll freely at all times
+- Test on mobile after changes
+- All animations should be performant — no jank, no lag
+- The floating code elements should not affect page performance
