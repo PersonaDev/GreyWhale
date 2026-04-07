@@ -35,10 +35,10 @@ const homeTiers = [
     price: "$149",
     popular: false,
     features: [
-      "Up to 5 pages",
-      "Custom design",
-      "SEO + hosting",
-      "1 revision/month",
+      "Custom-built website (up to 5 pages)",
+      "Hosting, SSL & on-page SEO",
+      "Client portal — view leads & request edits",
+      "1 revision round/month",
     ],
   },
   {
@@ -47,10 +47,10 @@ const homeTiers = [
     price: "$249",
     popular: true,
     features: [
-      "Up to 10 pages",
-      "Booking + forms",
-      "Advanced SEO",
-      "2 revisions/month",
+      "Everything in Starter",
+      "Booking, scheduling & lead forms",
+      "CRM dashboard — every lead tracked & organised",
+      "Full local SEO suite + 2 revisions/month",
     ],
   },
   {
@@ -59,10 +59,10 @@ const homeTiers = [
     price: "$349",
     popular: false,
     features: [
-      "Up to 20 pages",
-      "E-commerce",
-      "Custom integrations",
-      "Unlimited revisions",
+      "Everything in Professional",
+      "E-commerce, integrations & up to 20 pages",
+      "Advanced CRM with pipeline & automations",
+      "Unlimited revisions + dedicated account manager",
     ],
   },
 ];
