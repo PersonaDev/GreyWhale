@@ -12,8 +12,8 @@ function getResend(): Resend | null {
 
 export async function sendLeadNotification(lead: {
   role: string | null;
-  service: string;
-  location: string;
+  service: string | null;
+  location: string | null;
   plan: string;
   name?: string | null;
   email?: string | null;
