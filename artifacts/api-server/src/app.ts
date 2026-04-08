@@ -4,7 +4,14 @@ import router from "./routes";
 
 const app: Express = express();
 
-app.use(cors({ origin: "*" }));
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "stripe-signature"],
+  credentials: false,
+}));
+
+app.options("*", cors());
 
 declare global {
   namespace Express {
