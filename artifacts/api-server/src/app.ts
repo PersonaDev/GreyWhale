@@ -11,7 +11,6 @@ app.use(cors({
   credentials: false,
 }));
 
-app.options("*", cors());
 
 declare global {
   namespace Express {
