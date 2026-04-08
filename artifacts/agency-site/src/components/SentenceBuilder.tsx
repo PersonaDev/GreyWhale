@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useLocation } from "wouter";
-import { apiPost } from "@/lib/api";
 
 type Option = { label: string; value: string };
 
@@ -402,7 +401,6 @@ export default function SentenceBuilder({ initialRole = "business owner" }: { in
   const [location, setLocation] = useState("sacramento");
   const [plan, setPlan] = useState("essential");
   const [, navigate] = useLocation();
-  const [starting, setStarting] = useState(false);
 
   function handleSiteChange(v: string) {
     setSite(v);
@@ -411,31 +409,12 @@ export default function SentenceBuilder({ initialRole = "business owner" }: { in
 
   const excludeEssential = COMPLEX_SITES.includes(site);
 
-  async function handleGetStarted() {
-    setStarting(true);
-    try {
-      const { id } = await apiPost("/leads", { role, service: site, location, plan });
-      const contactParams = `lead=${id}&plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`;
-
-      if (plan === "bespoke") {
-        navigate(`/contact?${contactParams}`);
-        return;
-      }
-
-      const base = window.location.origin + import.meta.env.BASE_URL.replace(/\/$/, "");
-      const successUrl = `${base}/checkout/success?lead=${id}`;
-      const cancelUrl = window.location.href;
-
-      const { url } = await apiPost("/stripe/checkout", { leadId: id, plan, successUrl, cancelUrl }) as { url: string };
-      if (url) {
-        window.location.href = url;
-      } else {
-        navigate(`/checkout?${contactParams}`);
-      }
-    } catch {
-      navigate(`/checkout?plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`);
-    } finally {
-      setStarting(false);
+  function handleGetStarted() {
+    const params = `plan=${plan}&role=${encodeURIComponent(role)}&service=${encodeURIComponent(site)}&location=${encodeURIComponent(location)}`;
+    if (plan === "bespoke") {
+      navigate(`/contact?${params}`);
+    } else {
+      navigate(`/checkout?${params}`);
     }
   }
 
@@ -482,10 +461,9 @@ export default function SentenceBuilder({ initialRole = "business owner" }: { in
       <div className="mt-10 text-center">
         <button
           onClick={handleGetStarted}
-          disabled={starting}
-          className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black text-white text-base font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black text-white text-base font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide"
         >
-          {starting ? "Creating…" : "Get Started"}
+          Get Started
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
