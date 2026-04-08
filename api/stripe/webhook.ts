@@ -1,10 +1,10 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
 import Stripe from "stripe";
 import { Resend } from "resend";
 import { drizzle } from "drizzle-orm/node-postgres";
 import pkg from "pg";
 import { pgTable, text, serial, integer, timestamp } from "drizzle-orm/pg-core";
 import { eq } from "drizzle-orm";
+import type { IncomingMessage } from "http";
 
 const { Pool } = pkg;
 
@@ -51,7 +51,7 @@ function getDb() {
   return drizzle(pool);
 }
 
-async function getRawBody(req: VercelRequest): Promise<Buffer> {
+async function getRawBody(req: IncomingMessage): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
     req.on("data", (chunk: Buffer) => chunks.push(chunk));
@@ -60,19 +60,43 @@ async function getRawBody(req: VercelRequest): Promise<Buffer> {
   });
 }
 
-async function sendNotification(lead: { role: string | null; service: string | null; location: string | null; plan: string; name?: string | null; email?: string | null; phone?: string | null; status: string }) {
+async function sendNotification(lead: {
+  role: string | null;
+  service: string | null;
+  location: string | null;
+  plan: string;
+  name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  status: string;
+}) {
   const notifyEmail = process.env.NOTIFY_EMAIL;
   const resendKey = process.env.RESEND_API_KEY;
   if (!notifyEmail || !resendKey) return;
 
   const resend = new Resend(resendKey);
-  const subject = lead.status === "paid" ? `New payment received — ${lead.plan} plan` : `New contact inquiry — ${lead.plan}`;
-  const body = [`Status: ${lead.status.toUpperCase()}`, `Plan: ${lead.plan}`, `Role: ${lead.role}`, `Service: ${lead.service}`, `Location: ${lead.location}`, lead.name ? `Name: ${lead.name}` : null, lead.email ? `Email: ${lead.email}` : null, lead.phone ? `Phone: ${lead.phone}` : null].filter(Boolean).join("\n");
+  const subject = `New payment received — ${lead.plan} plan`;
+  const body = [
+    `Status: ${lead.status.toUpperCase()}`,
+    `Plan: ${lead.plan}`,
+    `Role: ${lead.role}`,
+    `Service: ${lead.service}`,
+    `Location: ${lead.location}`,
+    lead.name ? `Name: ${lead.name}` : null,
+    lead.email ? `Email: ${lead.email}` : null,
+    lead.phone ? `Phone: ${lead.phone}` : null,
+  ].filter(Boolean).join("\n");
 
-  await resend.emails.send({ from: "GreyWhale <onboarding@resend.dev>", to: notifyEmail, subject, text: body });
+  await resend.emails.send({
+    from: "GreyWhale <onboarding@resend.dev>",
+    to: notifyEmail,
+    subject,
+    text: body,
+  });
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
@@ -93,7 +117,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   let event: Stripe.Event;
   try {
-    const rawBody = await getRawBody(req);
+    const rawBody = await getRawBody(req as IncomingMessage);
     const stripe = new Stripe(stripeKey);
     event = stripe.webhooks.constructEvent(rawBody, sig as string, webhookSecret);
   } catch (err) {
