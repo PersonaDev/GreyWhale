@@ -96,6 +96,9 @@ function useTypingAnimation(lines: TypingLine[], isActive: boolean, charDelay = 
         setCurrentChar(0);
         setCurrentLine((l) => l + 1);
       }, lineDelay);
+      return () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      };
     }
   }, [currentLine, currentChar, lines.length, charDelay, lineDelay]);
 
