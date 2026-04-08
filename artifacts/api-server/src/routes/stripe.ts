@@ -20,31 +20,39 @@ const PLAN_NAMES: Record<string, string> = {
 };
 
 function getStripe(): Stripe | null {
-  if (!process.env.STRIPE_SECRET_KEY) return null;
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error("[stripe] STRIPE_SECRET_KEY is not set");
+    return null;
+  }
   return new Stripe(process.env.STRIPE_SECRET_KEY);
 }
 
 router.post("/stripe/checkout", async (req, res) => {
+  const rid = req.requestId;
+  console.log(`[${rid}] [stripe] POST /stripe/checkout — plan=${req.body.plan} leadId=${req.body.leadId}`);
   try {
     const stripe = getStripe();
     if (!stripe) {
+      console.error(`[${rid}] [stripe] Stripe not configured — missing STRIPE_SECRET_KEY`);
       res.status(503).json({ error: "Stripe is not configured. Please add STRIPE_SECRET_KEY." });
       return;
     }
 
     const { leadId, plan, successUrl, cancelUrl, customerEmail } = req.body;
     if (!leadId || !plan || !successUrl || !cancelUrl) {
+      console.warn(`[${rid}] [stripe] missing fields — leadId=${leadId} plan=${plan} successUrl=${successUrl} cancelUrl=${cancelUrl}`);
       res.status(400).json({ error: "Missing required fields: leadId, plan, successUrl, cancelUrl" });
       return;
     }
 
     const monthlyAmount = PLAN_MONTHLY[plan];
     if (!monthlyAmount) {
+      console.warn(`[${rid}] [stripe] invalid plan "${plan}" — valid: ${Object.keys(PLAN_MONTHLY).join(", ")}`);
       res.status(400).json({ error: `Invalid plan: ${plan}` });
       return;
     }
 
-    const planLabel = PLAN_NAMES[plan] || plan;
+    console.log(`[${rid}] [stripe] creating Stripe checkout session — plan=${plan} amount=${monthlyAmount} email=${customerEmail ?? "none"}`);
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
@@ -53,7 +61,7 @@ router.post("/stripe/checkout", async (req, res) => {
           price_data: {
             currency: "usd",
             product_data: {
-              name: planLabel,
+              name: PLAN_NAMES[plan],
               description: `Monthly subscription — hosting, support & maintenance`,
             },
             unit_amount: monthlyAmount,
@@ -68,18 +76,22 @@ router.post("/stripe/checkout", async (req, res) => {
       metadata: { leadId: String(leadId) },
     });
 
+    console.log(`[${rid}] [stripe] session created id=${session.id} url=${session.url}`);
+
     await db.update(leadsTable)
       .set({ stripeSessionId: session.id, updatedAt: new Date() })
       .where(eq(leadsTable.id, leadId));
 
     res.json({ url: session.url });
   } catch (err) {
-    console.error("[stripe] Error creating checkout session:", err);
+    console.error(`[${rid}] [stripe] error creating checkout session:`, err);
     res.status(500).json({ error: "Failed to create checkout session" });
   }
 });
 
 router.post("/stripe/webhook", async (req, res) => {
+  const rid = req.requestId;
+  console.log(`[${rid}] [stripe] POST /stripe/webhook`);
   try {
     const stripe = getStripe();
     if (!stripe) {
@@ -91,12 +103,13 @@ router.post("/stripe/webhook", async (req, res) => {
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     if (!webhookSecret) {
-      console.error("[stripe] STRIPE_WEBHOOK_SECRET not set — rejecting webhook for security");
+      console.error(`[${rid}] [stripe] STRIPE_WEBHOOK_SECRET not set`);
       res.status(503).json({ error: "Webhook secret not configured" });
       return;
     }
 
     if (!sig) {
+      console.warn(`[${rid}] [stripe] missing stripe-signature header`);
       res.status(400).json({ error: "Missing stripe-signature header" });
       return;
     }
@@ -105,8 +118,9 @@ router.post("/stripe/webhook", async (req, res) => {
     try {
       const rawBody = req.rawBody;
       event = stripe.webhooks.constructEvent(rawBody || JSON.stringify(req.body), sig as string, webhookSecret);
+      console.log(`[${rid}] [stripe] webhook verified — type=${event.type}`);
     } catch (err) {
-      console.error("[stripe] Webhook signature verification failed:", err);
+      console.error(`[${rid}] [stripe] webhook signature verification failed:`, err);
       res.status(400).json({ error: "Webhook signature verification failed" });
       return;
     }
@@ -114,6 +128,7 @@ router.post("/stripe/webhook", async (req, res) => {
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
       const leadId = session.metadata?.leadId ? parseInt(session.metadata.leadId, 10) : null;
+      console.log(`[${rid}] [stripe] checkout.session.completed — sessionId=${session.id} leadId=${leadId}`);
 
       if (leadId) {
         const [lead] = await db.update(leadsTable)
@@ -122,14 +137,11 @@ router.post("/stripe/webhook", async (req, res) => {
           .returning();
 
         if (lead) {
+          console.log(`[${rid}] [stripe] lead id=${leadId} marked paid`);
           const monthlyAmount = PLAN_MONTHLY[lead.plan] ?? 0;
 
-          const paymentIntentId = typeof session.payment_intent === "string"
-            ? session.payment_intent
-            : null;
-          const subscriptionId = typeof session.subscription === "string"
-            ? session.subscription
-            : null;
+          const paymentIntentId = typeof session.payment_intent === "string" ? session.payment_intent : null;
+          const subscriptionId = typeof session.subscription === "string" ? session.subscription : null;
 
           await db.insert(paymentsTable).values({
             leadId,
@@ -142,14 +154,18 @@ router.post("/stripe/webhook", async (req, res) => {
             customerEmail: session.customer_details?.email ?? lead.email ?? null,
           });
 
+          console.log(`[${rid}] [stripe] payment record inserted — sending lead notification email`);
           await sendLeadNotification(lead);
+          console.log(`[${rid}] [stripe] notification sent`);
+        } else {
+          console.warn(`[${rid}] [stripe] lead id=${leadId} not found in DB`);
         }
       }
     }
 
     res.json({ received: true });
   } catch (err) {
-    console.error("[stripe] Webhook error:", err);
+    console.error(`[${rid}] [stripe] webhook error:`, err);
     res.status(500).json({ error: "Webhook processing failed" });
   }
 });
