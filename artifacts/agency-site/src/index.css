@@ -409,7 +409,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: pro-orange-shift 2.4s ease infinite;
+  animation: pro-orange-shift 8s ease infinite;
 }
 
 @keyframes ultra-apple-shift {
@@ -424,7 +424,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: ultra-apple-shift 4s ease infinite;
+  animation: ultra-apple-shift 12s ease infinite;
 }
 
 @keyframes scrollNudge {

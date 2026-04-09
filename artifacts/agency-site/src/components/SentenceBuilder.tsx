@@ -174,25 +174,6 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
               </>
             );
 
-            if (plan.bordered) {
-              return (
-                <div
-                  key={plan.id}
-                  className="animated-border-wrapper"
-                  style={{ borderRadius: 20 }}
-                  onMouseEnter={() => setHovered(plan.id)}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  <button
-                    onClick={() => { onChange(plan.id); onClose(); }}
-                    className="animated-border-inner w-full text-left relative"
-                    style={{ padding: 18, background: cardBg, transition: "background 140ms ease" }}
-                  >
-                    {cardContent}
-                  </button>
-                </div>
-              );
-            }
             return (
               <button
                 key={plan.id}
