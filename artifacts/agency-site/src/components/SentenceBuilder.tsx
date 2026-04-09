@@ -5,29 +5,33 @@ type Option = { label: string; value: string };
 
 const plans = [
   {
+    id: "essential",
     name: "Essential",
     monthly: "$149/month",
     features: ["Up to 5 pages", "Custom design", "Mobile responsive", "Basic SEO", "CMS access", "Hosting & SSL"],
     bestFor: "Barbershops, cafes, food trucks, solo shops",
     subtext: "Best for solo shops & new businesses",
-    dark: true,
   },
   {
-    name: "Growth",
+    id: "growth",
+    name: "Pro",
     monthly: "$249/month",
     features: ["Up to 10 pages", "Everything in Essential", "Contact forms", "Google Analytics", "Priority support"],
     bestFor: "Tattoo shops, dental, auto shops, studios",
     recommended: true,
     subtext: "Most popular with Sacramento service businesses",
     urgency: "Limited spots this month",
+    meshAccess: true,
   },
   {
-    name: "Premium",
+    id: "premium",
+    name: "Ultra",
     monthly: "$349/month",
-    features: ["Up to 20 pages", "Everything in Growth", "E-commerce", "Custom integrations", "Advanced SEO"],
+    features: ["Up to 20 pages", "Everything in Pro", "E-commerce", "Custom integrations", "Advanced SEO"],
     bestFor: "Med spas, multi-location, dealerships",
     bordered: true,
     subtext: "Best for multi-location & e-commerce",
+    meshAccess: true,
   },
 ];
 
@@ -94,49 +98,14 @@ function SlideUpModal({ onClose, children, className }: { onClose: () => void; c
   );
 }
 
-function SelectRing({ selected }: { selected: boolean }) {
-  return (
-    <div
-      style={{
-        width: 22, height: 22, borderRadius: "50%", flexShrink: 0,
-        border: selected ? "none" : "1.5px solid #d1d5db",
-        background: selected ? "#111" : "transparent",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        transition: "background 150ms ease, border 150ms ease",
-      }}
-    >
-      {selected && (
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M5 13l4 4L19 7" />
-        </svg>
-      )}
-    </div>
-  );
-}
-
-function MeshBadge() {
-  return (
-    <span style={{
-      display: "inline-flex", alignItems: "center", gap: 6,
-      background: "#111", borderRadius: 999, padding: "3px 10px",
-      alignSelf: "flex-start",
-    }}>
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M5 13l4 4L19 7" />
-      </svg>
-      <span className="mesh-rainbow-text" style={{ fontSize: 11, fontWeight: 600, lineHeight: 1 }}>
-        Access to our backlink mesh network
-      </span>
-    </span>
-  );
-}
-
 function PlanModal({ value, onChange, onClose, excludeEssential }: {
   value: string;
   onChange: (v: string) => void;
   onClose: () => void;
   excludeEssential?: boolean;
 }) {
+  const [hovered, setHovered] = useState<string | null>(null);
+
   return (
     <SlideUpModal onClose={onClose} className="md:max-w-4xl">
       <div className="overflow-y-auto overscroll-contain flex-1 p-6" style={{ paddingBottom: "max(2.5rem, calc(env(safe-area-inset-bottom) + 5rem))" }}>
@@ -144,22 +113,30 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
         <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-5" style={{ letterSpacing: "0.14em" }}>Choose your plan</p>
         {excludeEssential && (
           <p className="text-xs text-amber-600 bg-amber-50 rounded-xl px-3 py-2 mb-4">
-            E-commerce and booking sites require Growth or Premium.
+            E-commerce and booking sites require Pro or Ultra.
           </p>
         )}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-5">
-          {plans.filter((p) => !(excludeEssential && p.dark)).map((plan) => {
-            const isSelected = plan.name.toLowerCase() === value;
-            const cardStyle: React.CSSProperties = {
-              borderRadius: 18,
-              border: isSelected ? "2px solid #111" : "1.5px solid #e5e7eb",
-              boxShadow: isSelected ? "0 8px 32px rgba(0,0,0,0.12)" : "none",
-              background: "#fff",
-              transition: "border 150ms ease, box-shadow 150ms ease",
-            };
-            const cardInner = (
+          {plans.filter((p) => !(excludeEssential && p.id === "essential")).map((plan) => {
+            const isSelected = plan.id === value;
+            const isHovered = hovered === plan.id && !isSelected;
+            const dark = isSelected;
+
+            const cardBg = dark ? "#111" : isHovered ? "#f5f5f5" : "#fff";
+            const subColor = dark ? "rgba(255,255,255,0.45)" : "#9ca3af";
+            const featColor = dark ? "rgba(255,255,255,0.65)" : "#6b7280";
+            const iconColor = dark ? "rgba(255,255,255,0.45)" : "#9ca3af";
+            const bestForColor = dark ? "rgba(255,255,255,0.35)" : "#9ca3af";
+
+            const planNameEl = plan.id === "growth"
+              ? <span className="pro-orange-text" style={{ fontWeight: 700, fontSize: 17, letterSpacing: "-0.01em", display: "block" }}>{plan.name}</span>
+              : plan.id === "premium"
+                ? <span className="ultra-apple-text" style={{ fontWeight: 700, fontSize: 17, letterSpacing: "-0.01em", display: "block" }}>{plan.name}</span>
+                : <span style={{ fontWeight: 700, fontSize: 17, color: dark ? "#fff" : "#111", letterSpacing: "-0.01em", display: "block" }}>{plan.name}</span>;
+
+            const cardContent = (
               <>
-                {plan.recommended && (
+                {plan.recommended && !dark && (
                   <span style={{
                     position: "absolute", top: -13, left: "50%", transform: "translateX(-50%)",
                     background: "#111", color: "#fff",
@@ -169,75 +146,90 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
                     RECOMMENDED
                   </span>
                 )}
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8 }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontWeight: 700, fontSize: 17, color: "#111", letterSpacing: "-0.01em", marginBottom: 2 }}>{plan.name}</p>
-                    <p style={{ fontSize: 12, color: "#9ca3af" }}>{plan.monthly}</p>
-                    <p style={{ fontSize: 11, color: "#b0b5be", marginTop: 2, lineHeight: 1.4 }}>{(plan as any).subtext}</p>
-                    {(plan as any).urgency && (
-                      <p style={{ fontSize: 10, color: "#c8ccd2", fontStyle: "italic", marginTop: 3 }}>{(plan as any).urgency}</p>
-                    )}
-                  </div>
-                  <SelectRing selected={isSelected} />
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 7, margin: "12px 0 10px" }}>
-                  <MeshBadge />
+                {planNameEl}
+                <p style={{ fontSize: 12, color: subColor, marginTop: 2 }}>{plan.monthly}</p>
+                <p style={{ fontSize: 11, color: subColor, marginTop: 3, lineHeight: 1.4 }}>{plan.subtext}</p>
+                {plan.urgency && (
+                  <p style={{ fontSize: 10, color: dark ? "rgba(255,255,255,0.25)" : "#d1d5db", fontStyle: "italic", marginTop: 3 }}>{plan.urgency}</p>
+                )}
+                <div style={{ display: "flex", flexDirection: "column", gap: 6, margin: "12px 0 10px" }}>
+                  {plan.meshAccess && (
+                    <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#f97316", fontWeight: 500 }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 13l4 4L19 7" />
+                      </svg>
+                      Access to our backlink mesh network
+                    </span>
+                  )}
                   {plan.features.map((f) => (
-                    <span key={f} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#6b7280" }}>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <span key={f} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: featColor }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 13l4 4L19 7" />
                       </svg>
                       {f}
                     </span>
                   ))}
                 </div>
-                <p style={{ fontSize: 11, color: "#9ca3af" }}>Best for: {plan.bestFor}</p>
+                <p style={{ fontSize: 11, color: bestForColor }}>Best for: {plan.bestFor}</p>
               </>
             );
 
             if (plan.bordered) {
               return (
                 <div
-                  key={plan.name}
+                  key={plan.id}
                   className="animated-border-wrapper"
-                  style={{ borderRadius: 20, boxShadow: isSelected ? "0 8px 32px rgba(0,0,0,0.12)" : "none" }}
+                  style={{ borderRadius: 20 }}
+                  onMouseEnter={() => setHovered(plan.id)}
+                  onMouseLeave={() => setHovered(null)}
                 >
                   <button
-                    onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
-                    className="animated-border-inner w-full text-left"
-                    style={{ padding: 18 }}
+                    onClick={() => { onChange(plan.id); onClose(); }}
+                    className="animated-border-inner w-full text-left relative"
+                    style={{ padding: 18, background: cardBg, transition: "background 140ms ease" }}
                   >
-                    {cardInner}
+                    {cardContent}
                   </button>
                 </div>
               );
             }
             return (
               <button
-                key={plan.name}
-                onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
+                key={plan.id}
+                onClick={() => { onChange(plan.id); onClose(); }}
                 className="w-full text-left relative"
-                style={{ ...cardStyle, padding: 18 }}
+                style={{
+                  borderRadius: 18,
+                  border: dark ? "2px solid #111" : `1.5px solid ${isHovered ? "#d1d5db" : "#e5e7eb"}`,
+                  background: cardBg,
+                  boxShadow: dark ? "0 8px 32px rgba(0,0,0,0.15)" : isHovered ? "0 4px 16px rgba(0,0,0,0.07)" : "none",
+                  transition: "background 140ms ease, border-color 140ms ease, box-shadow 140ms ease",
+                  padding: 18,
+                }}
+                onMouseEnter={() => setHovered(plan.id)}
+                onMouseLeave={() => setHovered(null)}
               >
-                {cardInner}
+                {cardContent}
               </button>
             );
           })}
           <button
             onClick={() => { onChange("bespoke"); onClose(); }}
-            className={`w-full text-left rounded-2xl p-4 transition-colors md:col-span-3 ${
-              value === "bespoke"
-                ? "border-2 border-black"
-                : "border border-dashed border-gray-300 hover:border-gray-400"
-            }`}
+            onMouseEnter={() => setHovered("bespoke")}
+            onMouseLeave={() => setHovered(null)}
+            className="w-full text-left rounded-2xl p-4 md:col-span-3"
+            style={{
+              border: value === "bespoke" ? "2px solid #111" : `1.5px dashed ${hovered === "bespoke" ? "#9ca3af" : "#d1d5db"}`,
+              background: value === "bespoke" ? "#111" : hovered === "bespoke" ? "#f5f5f5" : "#fff",
+              transition: "background 140ms ease, border-color 140ms ease",
+            }}
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="font-semibold text-lg text-black tracking-wide">Bespoke</p>
-                <p className="text-xs mt-0.5 text-gray-400">Custom quote</p>
-                <p className="text-xs text-gray-400 mt-2">Need something more tailored? Let's talk about your project.</p>
+                <p style={{ fontWeight: 600, fontSize: 18, color: value === "bespoke" ? "#fff" : "#111", letterSpacing: "-0.01em" }}>Bespoke</p>
+                <p style={{ fontSize: 12, color: value === "bespoke" ? "rgba(255,255,255,0.5)" : "#9ca3af", marginTop: 2 }}>Custom quote</p>
+                <p style={{ fontSize: 12, color: value === "bespoke" ? "rgba(255,255,255,0.4)" : "#9ca3af", marginTop: 6 }}>Need something more tailored? Let's talk about your project.</p>
               </div>
-              <SelectRing selected={value === "bespoke"} />
             </div>
           </button>
         </div>
@@ -401,7 +393,7 @@ function InlineDropdown({ options, value, onChange, isPlan, excludeEssential }: 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const displayLabel = isPlan
-    ? (plans.find((p) => p.name.toLowerCase() === value)?.name ?? value)
+    ? (plans.find((p) => p.id === value)?.name ?? value)
     : (options.find((o) => o.value === value)?.label ?? value);
 
   const close = useCallback(() => setOpen(false), []);
@@ -476,8 +468,8 @@ export const locationOptions: Option[] = [
 
 export const planOptions: Option[] = [
   { label: "Essential", value: "essential" },
-  { label: "Growth", value: "growth" },
-  { label: "Premium", value: "premium" },
+  { label: "Pro", value: "growth" },
+  { label: "Ultra", value: "premium" },
   { label: "Bespoke", value: "bespoke" },
 ];
 

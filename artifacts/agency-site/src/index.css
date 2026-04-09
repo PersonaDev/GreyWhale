@@ -397,6 +397,36 @@
   animation: mesh-rainbow-shift 6s ease infinite;
 }
 
+@keyframes pro-orange-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.pro-orange-text {
+  background: linear-gradient(90deg, #f97316, #fbbf24, #f97316, #ef4444, #fb923c, #f97316);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pro-orange-shift 2.4s ease infinite;
+}
+
+@keyframes ultra-apple-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.ultra-apple-text {
+  background: linear-gradient(90deg, #ff375f, #ff9f0a, #ffd60a, #34c759, #30d5c8, #007aff, #bf5af2, #ff375f);
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: ultra-apple-shift 4s ease infinite;
+}
+
 @keyframes scrollNudge {
   0%, 100% { opacity: 0.35; transform: translateY(0); }
   50% { opacity: 0.8; transform: translateY(7px); }
