@@ -9,6 +9,7 @@ const plans = [
     monthly: "$149/month",
     features: ["Up to 5 pages", "Custom design", "Mobile responsive", "Basic SEO", "CMS access", "Hosting & SSL"],
     bestFor: "Barbershops, cafes, food trucks, solo shops",
+    subtext: "Best for solo shops & new businesses",
     dark: true,
   },
   {
@@ -17,6 +18,8 @@ const plans = [
     features: ["Up to 10 pages", "Everything in Essential", "Contact forms", "Google Analytics", "Priority support"],
     bestFor: "Tattoo shops, dental, auto shops, studios",
     recommended: true,
+    subtext: "Most popular with Sacramento service businesses",
+    urgency: "Limited spots this month",
   },
   {
     name: "Premium",
@@ -24,23 +27,43 @@ const plans = [
     features: ["Up to 20 pages", "Everything in Growth", "E-commerce", "Custom integrations", "Advanced SEO"],
     bestFor: "Med spas, multi-location, dealerships",
     bordered: true,
+    subtext: "Best for multi-location & e-commerce",
   },
 ];
 
+type ModalPhase = "entering" | "open" | "leaving";
+
 function SlideUpModal({ onClose, children, className }: { onClose: () => void; children: React.ReactNode; className?: string }) {
-  const [open, setOpen] = useState(false);
+  const [phase, setPhase] = useState<ModalPhase>("entering");
   const isMd = useRef(typeof window !== "undefined" && window.innerWidth >= 768).current;
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
-    requestAnimationFrame(() => requestAnimationFrame(() => setOpen(true)));
+    requestAnimationFrame(() => requestAnimationFrame(() => setPhase("open")));
     return () => { document.body.style.overflow = ""; };
   }, []);
 
   function close() {
-    setOpen(false);
-    setTimeout(onClose, 320);
+    setPhase("leaving");
+    setTimeout(onClose, isMd ? 220 : 340);
   }
+
+  const isOpen = phase === "open";
+  const isLeaving = phase === "leaving";
+
+  const modalTransform = isMd
+    ? isOpen ? "scale(1)" : "scale(0.96)"
+    : isOpen ? "translateY(0)" : "translateY(100%)";
+
+  const modalOpacity = isMd ? (isOpen ? 1 : 0) : 1;
+
+  const modalTransition = isMd
+    ? isLeaving
+      ? "transform 200ms ease, opacity 200ms ease"
+      : "transform 320ms cubic-bezier(0.22,1,0.36,1), opacity 240ms ease"
+    : isLeaving
+      ? "transform 340ms cubic-bezier(0.4,0,1,1)"
+      : "transform 380ms cubic-bezier(0.22,1,0.36,1)";
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
@@ -48,7 +71,7 @@ function SlideUpModal({ onClose, children, className }: { onClose: () => void; c
         className="absolute inset-0"
         style={{
           background: "rgba(8,8,8,0.62)",
-          opacity: open ? 1 : 0,
+          opacity: isOpen ? 1 : 0,
           transition: "opacity 260ms ease",
         }}
         onClick={close}
@@ -60,20 +83,51 @@ function SlideUpModal({ onClose, children, className }: { onClose: () => void; c
           maxHeight: isMd ? "min(760px, calc(100vh - 80px))" : "92dvh",
           margin: isMd ? "0 20px" : "0",
           boxShadow: isMd ? "0 8px 40px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.1)" : "none",
-          transform: open
-            ? "translateY(0) scale(1)"
-            : isMd
-              ? "translateY(28px) scale(0.95)"
-              : "translateY(100%)",
-          opacity: open ? 1 : isMd ? 0 : 1,
-          transition: isMd
-            ? "transform 320ms cubic-bezier(0.22,1,0.36,1), opacity 250ms ease"
-            : "transform 360ms cubic-bezier(0.22,1,0.36,1)",
+          transform: modalTransform,
+          opacity: modalOpacity,
+          transition: modalTransition,
         }}
       >
         {children}
       </div>
     </div>
+  );
+}
+
+function SelectRing({ selected }: { selected: boolean }) {
+  return (
+    <div
+      style={{
+        width: 22, height: 22, borderRadius: "50%", flexShrink: 0,
+        border: selected ? "none" : "1.5px solid #d1d5db",
+        background: selected ? "#111" : "transparent",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        transition: "background 150ms ease, border 150ms ease",
+      }}
+    >
+      {selected && (
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 13l4 4L19 7" />
+        </svg>
+      )}
+    </div>
+  );
+}
+
+function MeshBadge() {
+  return (
+    <span style={{
+      display: "inline-flex", alignItems: "center", gap: 6,
+      background: "#111", borderRadius: 999, padding: "3px 10px",
+      alignSelf: "flex-start",
+    }}>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 13l4 4L19 7" />
+      </svg>
+      <span className="mesh-rainbow-text" style={{ fontSize: 11, fontWeight: 600, lineHeight: 1 }}>
+        Access to our backlink mesh network
+      </span>
+    </span>
   );
 }
 
@@ -96,48 +150,64 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-5">
           {plans.filter((p) => !(excludeEssential && p.dark)).map((plan) => {
             const isSelected = plan.name.toLowerCase() === value;
-            const meshBullet = (
-              <span key="mesh" className="w-full text-xs flex items-center gap-1.5 mb-1">
-                <svg className="w-3 h-3 shrink-0" style={{ color: plan.dark ? "#c084fc" : "#8b5cf6" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="mesh-rainbow-text font-semibold">Access to our backlink mesh network</span>
-              </span>
-            );
-            const checkBadge = (dark?: boolean) => (
-              <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${dark ? "bg-white" : "bg-black"}`}>
-                <svg className={`w-4 h-4 ${dark ? "text-black" : "text-white"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
+            const cardStyle: React.CSSProperties = {
+              borderRadius: 18,
+              border: isSelected ? "2px solid #111" : "1.5px solid #e5e7eb",
+              boxShadow: isSelected ? "0 8px 32px rgba(0,0,0,0.12)" : "none",
+              background: "#fff",
+              transition: "border 150ms ease, box-shadow 150ms ease",
+            };
+            const cardInner = (
+              <>
+                {plan.recommended && (
+                  <span style={{
+                    position: "absolute", top: -13, left: "50%", transform: "translateX(-50%)",
+                    background: "#111", color: "#fff",
+                    fontSize: 10, fontWeight: 600, letterSpacing: "0.06em",
+                    padding: "3px 10px", borderRadius: 999, whiteSpace: "nowrap",
+                  }}>
+                    RECOMMENDED
+                  </span>
+                )}
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontWeight: 700, fontSize: 17, color: "#111", letterSpacing: "-0.01em", marginBottom: 2 }}>{plan.name}</p>
+                    <p style={{ fontSize: 12, color: "#9ca3af" }}>{plan.monthly}</p>
+                    <p style={{ fontSize: 11, color: "#b0b5be", marginTop: 2, lineHeight: 1.4 }}>{(plan as any).subtext}</p>
+                    {(plan as any).urgency && (
+                      <p style={{ fontSize: 10, color: "#c8ccd2", fontStyle: "italic", marginTop: 3 }}>{(plan as any).urgency}</p>
+                    )}
+                  </div>
+                  <SelectRing selected={isSelected} />
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 7, margin: "12px 0 10px" }}>
+                  <MeshBadge />
+                  {plan.features.map((f) => (
+                    <span key={f} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#6b7280" }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 13l4 4L19 7" />
+                      </svg>
+                      {f}
+                    </span>
+                  ))}
+                </div>
+                <p style={{ fontSize: 11, color: "#9ca3af" }}>Best for: {plan.bestFor}</p>
+              </>
             );
 
             if (plan.bordered) {
               return (
-                <div key={plan.name} className="animated-border-wrapper" style={{ boxShadow: isSelected ? "0 0 0 2px #000" : "none", borderRadius: "1rem" }}>
+                <div
+                  key={plan.name}
+                  className="animated-border-wrapper"
+                  style={{ borderRadius: 20, boxShadow: isSelected ? "0 8px 32px rgba(0,0,0,0.12)" : "none" }}
+                >
                   <button
                     onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
-                    className="animated-border-inner w-full text-left p-5"
+                    className="animated-border-inner w-full text-left"
+                    style={{ padding: 18 }}
                   >
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <p className="font-semibold text-lg text-black tracking-tight">{plan.name}</p>
-                        <p className="text-xs mt-0.5 text-gray-400">{plan.monthly}</p>
-                      </div>
-                      {isSelected && checkBadge(false)}
-                    </div>
-                    <div className="flex flex-col gap-1.5 mb-3 mt-1">
-                      {meshBullet}
-                      {plan.features.map((f) => (
-                        <span key={f} className="text-xs flex items-center gap-1.5 text-gray-500">
-                          <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                          </svg>
-                          {f}
-                        </span>
-                      ))}
-                    </div>
-                    <p className="text-xs text-gray-400">Best for: {plan.bestFor}</p>
+                    {cardInner}
                   </button>
                 </div>
               );
@@ -146,42 +216,10 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
               <button
                 key={plan.name}
                 onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
-                className={`w-full text-left p-5 relative transition-all duration-150 ${
-                  plan.dark
-                    ? "bg-black text-white"
-                    : isSelected
-                      ? "bg-white border-2 border-black"
-                      : "bg-white border border-gray-200"
-                }`}
-                style={{
-                  borderRadius: "18px",
-                  boxShadow: isSelected && plan.dark ? "0 0 0 3px rgba(255,255,255,0.5), 0 0 0 5px #000" : "none",
-                }}
+                className="w-full text-left relative"
+                style={{ ...cardStyle, padding: 18 }}
               >
-                {plan.recommended && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-black text-white text-xs font-semibold px-3.5 py-1 rounded-full tracking-wide whitespace-nowrap">
-                    RECOMMENDED
-                  </span>
-                )}
-                <div className="flex items-start justify-between mb-2">
-                  <div>
-                    <p className={`font-semibold text-lg tracking-tight ${plan.dark ? "text-white" : "text-black"}`}>{plan.name}</p>
-                    <p className="text-xs mt-0.5 text-gray-400">{plan.monthly}</p>
-                  </div>
-                  {isSelected && checkBadge(plan.dark)}
-                </div>
-                <div className="flex flex-col gap-1.5 mb-3 mt-3">
-                  {meshBullet}
-                  {plan.features.map((f) => (
-                    <span key={f} className={`text-xs flex items-center gap-1.5 ${plan.dark ? "text-gray-300" : "text-gray-500"}`}>
-                      <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                      {f}
-                    </span>
-                  ))}
-                </div>
-                <p className={`text-xs ${plan.dark ? "text-gray-500" : "text-gray-400"}`}>Best for: {plan.bestFor}</p>
+                {cardInner}
               </button>
             );
           })}
@@ -199,13 +237,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
                 <p className="text-xs mt-0.5 text-gray-400">Custom quote</p>
                 <p className="text-xs text-gray-400 mt-2">Need something more tailored? Let's talk about your project.</p>
               </div>
-              {value === "bespoke" && (
-                <div className="w-7 h-7 rounded-full bg-black flex items-center justify-center shrink-0 ml-3 mt-0.5">
-                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-              )}
+              <SelectRing selected={value === "bespoke"} />
             </div>
           </button>
         </div>
