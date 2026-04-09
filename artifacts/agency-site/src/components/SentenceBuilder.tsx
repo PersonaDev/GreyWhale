@@ -28,32 +28,51 @@ const plans = [
 ];
 
 function SlideUpModal({ onClose, children, className }: { onClose: () => void; children: React.ReactNode; className?: string }) {
-  const [visible, setVisible] = useState(false);
-  const isMd = typeof window !== "undefined" && window.innerWidth >= 768;
+  const [open, setOpen] = useState(false);
+  const isMd = useRef(typeof window !== "undefined" && window.innerWidth >= 768).current;
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
-    requestAnimationFrame(() => setVisible(true));
+    requestAnimationFrame(() => requestAnimationFrame(() => setOpen(true)));
     return () => { document.body.style.overflow = ""; };
   }, []);
 
   function close() {
-    setVisible(false);
-    setTimeout(onClose, 280);
+    setOpen(false);
+    setTimeout(onClose, 320);
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+    <div
+      className="fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center"
+      style={{ padding: isMd ? "20px" : "0" }}
+    >
       <div
-        className="absolute inset-0 bg-black/25 backdrop-blur-sm transition-opacity duration-300"
-        style={{ opacity: visible ? 1 : 0 }}
+        className="absolute inset-0"
+        style={{
+          background: "rgba(0,0,0,0.3)",
+          backdropFilter: "blur(4px)",
+          WebkitBackdropFilter: "blur(4px)",
+          opacity: open ? 1 : 0,
+          transition: "opacity 250ms ease",
+        }}
         onClick={close}
       />
       <div
-        className={`relative bg-white rounded-t-3xl md:rounded-3xl w-full ${className || "md:max-w-lg"} shadow-2xl max-h-[90vh] overflow-y-auto transition-[transform,opacity] duration-300 ease-out`}
+        className={`relative bg-white w-full ${className || "md:max-w-lg"} flex flex-col`}
         style={{
-          transform: visible ? "translateY(0)" : isMd ? "translateY(12px)" : "translateY(100%)",
-          opacity: visible ? 1 : isMd ? 0 : 1,
+          borderRadius: isMd ? "16px" : "20px 20px 0 0",
+          maxHeight: isMd ? "calc(100vh - 40px)" : "92dvh",
+          boxShadow: "0 32px 80px -8px rgba(0,0,0,0.28), 0 8px 24px -4px rgba(0,0,0,0.1)",
+          transform: open
+            ? "translateY(0) scale(1)"
+            : isMd
+              ? "translateY(20px) scale(0.97)"
+              : "translateY(100%)",
+          opacity: open ? 1 : isMd ? 0 : 1,
+          transition: isMd
+            ? "transform 300ms cubic-bezier(0.32,0.72,0,1), opacity 240ms ease"
+            : "transform 340ms cubic-bezier(0.32,0.72,0,1)",
         }}
       >
         {children}
@@ -70,7 +89,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
 }) {
   return (
     <SlideUpModal onClose={onClose} className="md:max-w-4xl">
-      <div className="p-6 pb-10">
+      <div className="overflow-y-auto overscroll-contain flex-1 p-6 pb-10">
         <div className="w-10 h-1 rounded bg-gray-200 mx-auto mb-6 md:hidden" />
         <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-5" style={{ letterSpacing: "0.12em" }}>Choose your plan</p>
         {excludeEssential && (
@@ -78,7 +97,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
             E-commerce and booking sites require Growth or Premium.
           </p>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-5">
           {plans.filter((p) => !(excludeEssential && p.dark)).map((plan) => {
             if (plan.bordered) {
               return (
@@ -174,7 +193,7 @@ function OptionSheet({ options, value, onChange, onClose }: {
 
   return (
     <SlideUpModal onClose={onClose}>
-      <div className="pb-8 pt-1">
+      <div className="flex-1 overflow-y-auto overscroll-contain pb-8 pt-1">
         <div className="w-10 h-1 rounded bg-gray-200 mx-auto mt-3 mb-4" />
         <div className="px-2">
           {options.map((opt) => {
