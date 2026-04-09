@@ -43,36 +43,32 @@ function SlideUpModal({ onClose, children, className }: { onClose: () => void; c
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center"
-      style={{ padding: isMd ? "20px" : "0" }}
-    >
+    <div className="fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
       <div
         className="absolute inset-0"
         style={{
-          background: "rgba(0,0,0,0.3)",
-          backdropFilter: "blur(4px)",
-          WebkitBackdropFilter: "blur(4px)",
+          background: "rgba(8,8,8,0.62)",
           opacity: open ? 1 : 0,
-          transition: "opacity 250ms ease",
+          transition: "opacity 260ms ease",
         }}
         onClick={close}
       />
       <div
         className={`relative bg-white w-full ${className || "md:max-w-lg"} flex flex-col`}
         style={{
-          borderRadius: isMd ? "16px" : "20px 20px 0 0",
-          maxHeight: isMd ? "calc(100vh - 40px)" : "92dvh",
-          boxShadow: "0 32px 80px -8px rgba(0,0,0,0.28), 0 8px 24px -4px rgba(0,0,0,0.1)",
+          borderRadius: isMd ? "28px" : "26px 26px 0 0",
+          maxHeight: isMd ? "min(760px, calc(100vh - 80px))" : "92dvh",
+          margin: isMd ? "0 20px" : "0",
+          boxShadow: isMd ? "0 8px 40px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.1)" : "none",
           transform: open
             ? "translateY(0) scale(1)"
             : isMd
-              ? "translateY(20px) scale(0.97)"
+              ? "translateY(28px) scale(0.95)"
               : "translateY(100%)",
           opacity: open ? 1 : isMd ? 0 : 1,
           transition: isMd
-            ? "transform 300ms cubic-bezier(0.32,0.72,0,1), opacity 240ms ease"
-            : "transform 340ms cubic-bezier(0.32,0.72,0,1)",
+            ? "transform 320ms cubic-bezier(0.22,1,0.36,1), opacity 250ms ease"
+            : "transform 360ms cubic-bezier(0.22,1,0.36,1)",
         }}
       >
         {children}
@@ -89,28 +85,38 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
 }) {
   return (
     <SlideUpModal onClose={onClose} className="md:max-w-4xl">
-      <div className="overflow-y-auto overscroll-contain flex-1 p-6 pb-10">
-        <div className="w-10 h-1 rounded bg-gray-200 mx-auto mb-6 md:hidden" />
-        <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-5" style={{ letterSpacing: "0.12em" }}>Choose your plan</p>
+      <div className="overflow-y-auto overscroll-contain flex-1 p-6" style={{ paddingBottom: "max(2.5rem, calc(env(safe-area-inset-bottom) + 5rem))" }}>
+        <div className="w-10 h-1 rounded-full bg-gray-200 mx-auto mb-6 md:hidden" />
+        <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-5" style={{ letterSpacing: "0.14em" }}>Choose your plan</p>
         {excludeEssential && (
-          <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2 mb-4">
+          <p className="text-xs text-amber-600 bg-amber-50 rounded-xl px-3 py-2 mb-4">
             E-commerce and booking sites require Growth or Premium.
           </p>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-5">
           {plans.filter((p) => !(excludeEssential && p.dark)).map((plan) => {
+            const meshBullet = (
+              <span key="mesh" className="w-full text-xs flex items-center gap-1.5 mb-1">
+                <svg className="w-3 h-3 shrink-0" style={{ color: plan.dark ? "#c084fc" : "#8b5cf6" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="mesh-rainbow-text font-semibold">Access to our backlink mesh network</span>
+              </span>
+            );
+
             if (plan.bordered) {
               return (
                 <div key={plan.name} className="animated-border-wrapper">
                   <button
                     onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
-                    className="animated-border-inner w-full text-left p-4"
+                    className="animated-border-inner w-full text-left p-5"
                   >
-                    <p className="font-semibold text-lg text-black tracking-wide">{plan.name}</p>
-                    <p className="text-xs mt-0.5 text-gray-400">{plan.monthly}</p>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 my-3">
+                    <p className="font-semibold text-lg text-black tracking-tight">{plan.name}</p>
+                    <p className="text-xs mt-0.5 mb-3 text-gray-400">{plan.monthly}</p>
+                    <div className="flex flex-col gap-1.5 mb-3">
+                      {meshBullet}
                       {plan.features.map((f) => (
-                        <span key={f} className="text-xs flex items-center gap-1 text-gray-500">
+                        <span key={f} className="text-xs flex items-center gap-1.5 text-gray-500">
                           <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                           </svg>
@@ -127,18 +133,19 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
               <button
                 key={plan.name}
                 onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
-                className={`w-full text-left rounded-2xl p-4 relative transition-all duration-150 ${
+                className={`w-full text-left p-5 relative transition-all duration-150 ${
                   plan.dark ? "bg-black text-white" : "bg-white border border-gray-200"
                 }`}
+                style={{ borderRadius: "18px" }}
               >
                 {plan.recommended && (
-                  <span className="absolute -top-3 right-4 bg-black text-white text-xs font-medium px-3 py-1 rounded-full tracking-wide">
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-black text-white text-xs font-semibold px-3.5 py-1 rounded-full tracking-wide whitespace-nowrap">
                     RECOMMENDED
                   </span>
                 )}
                 <div className="flex items-start justify-between mb-2">
                   <div>
-                    <p className={`font-semibold text-lg tracking-wide ${plan.dark ? "text-white" : "text-black"}`}>{plan.name}</p>
+                    <p className={`font-semibold text-lg tracking-tight ${plan.dark ? "text-white" : "text-black"}`}>{plan.name}</p>
                     <p className="text-xs mt-0.5 text-gray-400">{plan.monthly}</p>
                   </div>
                   {plan.dark && (
@@ -149,9 +156,10 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
                     </div>
                   )}
                 </div>
-                <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
+                <div className="flex flex-col gap-1.5 mb-3 mt-3">
+                  {meshBullet}
                   {plan.features.map((f) => (
-                    <span key={f} className={`text-xs flex items-center gap-1 ${plan.dark ? "text-gray-300" : "text-gray-500"}`}>
+                    <span key={f} className={`text-xs flex items-center gap-1.5 ${plan.dark ? "text-gray-300" : "text-gray-500"}`}>
                       <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
