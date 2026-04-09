@@ -95,6 +95,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
         )}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-5">
           {plans.filter((p) => !(excludeEssential && p.dark)).map((plan) => {
+            const isSelected = plan.name.toLowerCase() === value;
             const meshBullet = (
               <span key="mesh" className="w-full text-xs flex items-center gap-1.5 mb-1">
                 <svg className="w-3 h-3 shrink-0" style={{ color: plan.dark ? "#c084fc" : "#8b5cf6" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -103,17 +104,29 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
                 <span className="mesh-rainbow-text font-semibold">Access to our backlink mesh network</span>
               </span>
             );
+            const checkBadge = (dark?: boolean) => (
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${dark ? "bg-white" : "bg-black"}`}>
+                <svg className={`w-4 h-4 ${dark ? "text-black" : "text-white"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            );
 
             if (plan.bordered) {
               return (
-                <div key={plan.name} className="animated-border-wrapper">
+                <div key={plan.name} className="animated-border-wrapper" style={{ boxShadow: isSelected ? "0 0 0 2px #000" : "none", borderRadius: "1rem" }}>
                   <button
                     onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
                     className="animated-border-inner w-full text-left p-5"
                   >
-                    <p className="font-semibold text-lg text-black tracking-tight">{plan.name}</p>
-                    <p className="text-xs mt-0.5 mb-3 text-gray-400">{plan.monthly}</p>
-                    <div className="flex flex-col gap-1.5 mb-3">
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <p className="font-semibold text-lg text-black tracking-tight">{plan.name}</p>
+                        <p className="text-xs mt-0.5 text-gray-400">{plan.monthly}</p>
+                      </div>
+                      {isSelected && checkBadge(false)}
+                    </div>
+                    <div className="flex flex-col gap-1.5 mb-3 mt-1">
                       {meshBullet}
                       {plan.features.map((f) => (
                         <span key={f} className="text-xs flex items-center gap-1.5 text-gray-500">
@@ -134,9 +147,16 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
                 key={plan.name}
                 onClick={() => { onChange(plan.name.toLowerCase()); onClose(); }}
                 className={`w-full text-left p-5 relative transition-all duration-150 ${
-                  plan.dark ? "bg-black text-white" : "bg-white border border-gray-200"
+                  plan.dark
+                    ? "bg-black text-white"
+                    : isSelected
+                      ? "bg-white border-2 border-black"
+                      : "bg-white border border-gray-200"
                 }`}
-                style={{ borderRadius: "18px" }}
+                style={{
+                  borderRadius: "18px",
+                  boxShadow: isSelected && plan.dark ? "0 0 0 3px rgba(255,255,255,0.5), 0 0 0 5px #000" : "none",
+                }}
               >
                 {plan.recommended && (
                   <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-black text-white text-xs font-semibold px-3.5 py-1 rounded-full tracking-wide whitespace-nowrap">
@@ -148,13 +168,7 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
                     <p className={`font-semibold text-lg tracking-tight ${plan.dark ? "text-white" : "text-black"}`}>{plan.name}</p>
                     <p className="text-xs mt-0.5 text-gray-400">{plan.monthly}</p>
                   </div>
-                  {plan.dark && (
-                    <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0">
-                      <svg className="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                  )}
+                  {isSelected && checkBadge(plan.dark)}
                 </div>
                 <div className="flex flex-col gap-1.5 mb-3 mt-3">
                   {meshBullet}
@@ -173,11 +187,26 @@ function PlanModal({ value, onChange, onClose, excludeEssential }: {
           })}
           <button
             onClick={() => { onChange("bespoke"); onClose(); }}
-            className="w-full text-left rounded-2xl p-4 border border-dashed border-gray-300 hover:border-gray-400 transition-colors md:col-span-3"
+            className={`w-full text-left rounded-2xl p-4 transition-colors md:col-span-3 ${
+              value === "bespoke"
+                ? "border-2 border-black"
+                : "border border-dashed border-gray-300 hover:border-gray-400"
+            }`}
           >
-            <p className="font-semibold text-lg text-black tracking-wide">Bespoke</p>
-            <p className="text-xs mt-0.5 text-gray-400">Custom quote</p>
-            <p className="text-xs text-gray-400 mt-2">Need something more tailored? Let's talk about your project.</p>
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="font-semibold text-lg text-black tracking-wide">Bespoke</p>
+                <p className="text-xs mt-0.5 text-gray-400">Custom quote</p>
+                <p className="text-xs text-gray-400 mt-2">Need something more tailored? Let's talk about your project.</p>
+              </div>
+              {value === "bespoke" && (
+                <div className="w-7 h-7 rounded-full bg-black flex items-center justify-center shrink-0 ml-3 mt-0.5">
+                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+              )}
+            </div>
           </button>
         </div>
       </div>
