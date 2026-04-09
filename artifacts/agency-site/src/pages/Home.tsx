@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback, Fragment } from "react";
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import Reveal from "@/components/Reveal";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -365,7 +366,8 @@ function BeforeAfterSlider() {
         <div className="absolute inset-0">
           <img
             src="/slider-bespoke.png"
-            alt="GreyWhale bespoke website"
+            alt="Custom Sacramento small business website designed by GreyWhale"
+            loading="lazy"
             className="w-full h-full object-cover object-top select-none"
             draggable={false}
           />
@@ -384,7 +386,8 @@ function BeforeAfterSlider() {
         >
           <img
             src="/slider-template.png"
-            alt="Generic template website"
+            alt="Generic template website — not what GreyWhale builds for Sacramento businesses"
+            loading="lazy"
             className="w-full h-full object-cover object-top select-none"
             draggable={false}
           />
@@ -460,7 +463,8 @@ function BrowserCard({ project }: { project: (typeof homeProjects)[0] }) {
         <div className="aspect-video overflow-hidden">
           <img
             src={project.thumbnail}
-            alt={project.name}
+            alt={`${project.name} — Sacramento web design by GreyWhale`}
+            loading="lazy"
             className="w-full h-full object-cover object-top"
           />
         </div>
@@ -528,6 +532,7 @@ function Check({ yes }: { yes: boolean }) {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function Home() {
+  usePageTitle("GreyWhale | Sacramento Web Design for Small Businesses");
   const [heroReady, setHeroReady] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setHeroReady(true), 60);

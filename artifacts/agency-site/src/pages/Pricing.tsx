@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 type Feature = { text: string; highlight?: boolean };
 
@@ -167,6 +168,7 @@ function Chevron({ open }: { open: boolean }) {
 }
 
 export default function Pricing() {
+  usePageTitle("Pricing | Sacramento Web Design — GreyWhale");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   function scrollTo(id: string) {

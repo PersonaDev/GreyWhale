@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
@@ -294,6 +295,7 @@ function ChangelogTerminal() {
 }
 
 export default function About() {
+  usePageTitle("About GreyWhale | Sacramento Web Designer");
   return (
     <Layout>
       <section className="pt-10 pb-20">

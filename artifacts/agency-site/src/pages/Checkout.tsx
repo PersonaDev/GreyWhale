@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useSearch } from "wouter";
 import Layout from "@/components/Layout";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { apiPost, apiPatch } from "@/lib/api";
 
 const PLAN_INFO: Record<string, { name: string; monthly: string; features: string[] }> = {
@@ -22,6 +23,7 @@ const PLAN_INFO: Record<string, { name: string; monthly: string; features: strin
 };
 
 export default function Checkout() {
+  usePageTitle("Get Started | GreyWhale");
   const search = useSearch();
   const [, navigate] = useLocation();
   const params = new URLSearchParams(search);

@@ -1,0 +1,67 @@
+Master SEO optimization for GreyWhale — local authority, backlink mesh, and technical SEO.
+1. HEAD / META (index.html)
+<title>GreyWhale | Sacramento Web Design for Small Businesses</title>
+<meta name="description" content="GreyWhale builds clean, fast websites for small businesses in Sacramento. No upfront cost. Live in 14 days. Cancel anytime." />
+<meta name="keywords" content="web design sacramento, small business website sacramento, sacramento web designer, affordable web design sacramento, local business website design" />
+<link rel="canonical" href="https://www.greywhale.dev" />
+
+<meta property="og:title" content="GreyWhale | Sacramento Web Design for Small Businesses" />
+<meta property="og:description" content="Clean, fast websites for Sacramento small businesses. $149/mo, no setup fee, live in 14 days." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.greywhale.dev" />
+<meta property="og:image" content="https://www.greywhale.dev/og-image.png" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="GreyWhale | Sacramento Web Design" />
+<meta name="twitter:description" content="Clean, fast websites for Sacramento small businesses." />
+2. PER-PAGE TITLES — update via react-helmet or equivalent:
+
+/ → GreyWhale | Sacramento Web Design for Small Businesses
+/pricing → Pricing | Sacramento Web Design — GreyWhale
+/about → About GreyWhale | Sacramento Web Designer
+/portfolio → Portfolio | GreyWhale Web Design Sacramento
+/checkout → Get Started | GreyWhale
+
+3. SCHEMA MARKUP — add this JSON-LD block to index.html inside a <script type="application/ld+json"> tag:
+json{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "GreyWhale",
+  "description": "Web design agency serving small businesses in Sacramento, CA.",
+  "url": "https://www.greywhale.dev",
+  "areaServed": {
+    "@type": "City",
+    "name": "Sacramento"
+  },
+  "serviceType": "Web Design",
+  "priceRange": "$149/mo",
+  "sameAs": [
+    "https://bluedental.greywhale.dev",
+    "https://landscaping.greywhale.dev",
+    "https://edhlandscaping.com"
+  ]
+}
+4. BACKLINK FOOTER — add a "Clients & Work" section to the site footer with real followed links to client sites. Use natural anchor text, not generic "click here":
+<a href="https://bluedental.greywhale.dev" rel="follow">Blue Dental — Sacramento Dentist</a>
+<a href="https://landscaping.greywhale.dev" rel="follow">Sacramento Landscaping Services</a>
+<a href="https://edhlandscaping.com" rel="follow">EDH Landscaping — El Dorado Hills</a>
+5. SITEMAP — create /public/sitemap.xml:
+xml<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.greywhale.dev/</loc><priority>1.0</priority></url>
+  <url><loc>https://www.greywhale.dev/pricing</loc><priority>0.8</priority></url>
+  <url><loc>https://www.greywhale.dev/portfolio</loc><priority>0.8</priority></url>
+  <url><loc>https://www.greywhale.dev/about</loc><priority>0.6</priority></url>
+</urlset>
+6. ROBOTS.TXT — create /public/robots.txt:
+User-agent: *
+Allow: /
+Sitemap: https://www.greywhale.dev/sitemap.xml
+7. PERFORMANCE — do the following without changing any UI:
+
+Add loading="lazy" to all <img> tags that are below the fold
+Ensure all images have descriptive alt text referencing Sacramento or the service shown
+Add rel="preconnect" to any external font or CDN domains in the head
+
+8. RECIPROCAL SEO NOTE — on the EDH Landscaping site (edhlandscaping.com) and the two greywhale subdomains, make sure each site footer includes a "Site by GreyWhale" link back to https://www.greywhale.dev with rel="follow". This closes the backlink mesh and passes authority in both directions.
+Do not change any visible UI outside of the footer clients section and alt text. All changes are either in the HTML head, JSON-LD, or new static files.

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "wouter";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { motion, useMotionValue, animate, AnimatePresence } from "framer-motion";
 import Layout from "@/components/Layout";
 
@@ -115,7 +116,8 @@ function CardContent({ project }: { project: Project }) {
       <div className="flex-1 overflow-hidden rounded-b-xl">
         <img
           src={project.thumbnail}
-          alt={project.name}
+          alt={`${project.name} — Sacramento web design by GreyWhale`}
+          loading="lazy"
           className="w-full h-full object-cover object-top"
           draggable={false}
         />
@@ -168,7 +170,8 @@ function MobileProjectCard({ project, active }: { project: Project; active: bool
         <div className="flex-1 overflow-hidden">
           <img
             src={project.thumbnail}
-            alt={project.name}
+            alt={`${project.name} — Sacramento web design by GreyWhale`}
+            loading="lazy"
             className="w-full h-full object-cover object-top"
             draggable={false}
           />
@@ -429,6 +432,7 @@ function PeekCarousel({
 }
 
 export default function Portfolio() {
+  usePageTitle("Portfolio | GreyWhale Web Design Sacramento");
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeIndex, setActiveIndex] = useState(0);
   const [desktopActiveIndex, setDesktopActiveIndex] = useState(0);
