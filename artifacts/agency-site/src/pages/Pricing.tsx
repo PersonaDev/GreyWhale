@@ -9,7 +9,7 @@ const tiers = [
   {
     id: "starter",
     name: "Starter",
-    price: "$149",
+    price: "$49",
     label: "Get found online",
     features: [
       { text: "Custom-designed website (up to 5 pages)" },
@@ -27,7 +27,7 @@ const tiers = [
   {
     id: "professional",
     name: "Professional",
-    price: "$249",
+    price: "$149",
     label: "Turn visitors into customers",
     features: [
       { text: "Everything in Starter" },
@@ -49,7 +49,7 @@ const tiers = [
   {
     id: "business",
     name: "Business",
-    price: "$349",
+    price: "$249",
     label: "Scale without limits",
     features: [
       { text: "Everything in Professional" },
@@ -73,8 +73,8 @@ const tiers = [
 
 const comparisonRows: { label: string; diy: string; freelancer: string; agency: string; gw: string }[] = [
   { label: "Upfront cost", diy: "$0", freelancer: "$1,500–$5,000", agency: "$4,000–$10,000", gw: "$0" },
-  { label: "Monthly cost", diy: "$16–$39", freelancer: "$0–$100", agency: "$200–$2,000", gw: "$149" },
-  { label: "Year 1 total", diy: "$192–$468", freelancer: "$1,500–$6,200", agency: "$6,400–$34,000", gw: "$1,788" },
+  { label: "Monthly cost", diy: "$16–$39", freelancer: "$0–$100", agency: "$200–$2,000", gw: "$49" },
+  { label: "Year 1 total", diy: "$192–$468", freelancer: "$1,500–$6,200", agency: "$6,400–$34,000", gw: "$588" },
   { label: "Custom design", diy: "no", freelancer: "yes", agency: "yes", gw: "yes" },
   { label: "You build it", diy: "Yes", freelancer: "No", agency: "No", gw: "No" },
   { label: "Hosting included", diy: "yes", freelancer: "Rarely", agency: "Sometimes", gw: "yes" },

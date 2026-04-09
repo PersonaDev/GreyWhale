@@ -7,17 +7,17 @@ import { apiPost, apiPatch } from "@/lib/api";
 const PLAN_INFO: Record<string, { name: string; monthly: string; features: string[] }> = {
   essential: {
     name: "Essential",
-    monthly: "$149/mo",
+    monthly: "$49/mo",
     features: ["Up to 5 pages", "Custom design", "Mobile responsive", "Basic SEO", "CMS access", "Hosting & SSL"],
   },
   growth: {
     name: "Growth",
-    monthly: "$249/mo",
+    monthly: "$149/mo",
     features: ["Up to 10 pages", "Everything in Essential", "Contact forms", "Google Analytics", "Priority support"],
   },
   premium: {
     name: "Premium",
-    monthly: "$349/mo",
+    monthly: "$249/mo",
     features: ["Up to 20 pages", "Everything in Growth", "E-commerce ready", "Custom integrations", "Advanced SEO", "Dedicated support"],
   },
 };

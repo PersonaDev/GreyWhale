@@ -33,7 +33,7 @@ const homeTiers = [
   {
     id: "essential",
     name: "Starter",
-    price: "$149",
+    price: "$49",
     popular: false,
     features: [
       "Custom-built website (up to 5 pages)",
@@ -45,7 +45,7 @@ const homeTiers = [
   {
     id: "growth",
     name: "Professional",
-    price: "$249",
+    price: "$149",
     popular: true,
     features: [
       "Everything in Starter",
@@ -57,7 +57,7 @@ const homeTiers = [
   {
     id: "premium",
     name: "Business",
-    price: "$349",
+    price: "$249",
     popular: false,
     features: [
       "Everything in Professional",
@@ -996,7 +996,7 @@ export default function Home() {
                       <p className="font-bold text-white text-xs">GreyWhale</p>
                       <p className="text-[10px] text-zinc-500 leading-tight">Sacramento</p>
                     </td>
-                    <td className="p-3 border-r border-zinc-800 text-center text-sm font-bold text-white bg-black/95">$149/mo</td>
+                    <td className="p-3 border-r border-zinc-800 text-center text-sm font-bold text-white bg-black/95">$49/mo</td>
                     <td className="p-3 border-r border-zinc-800 text-center text-xs text-emerald-400 font-semibold bg-black/95">None</td>
                     {compFeatures.map((f) => (
                       <td key={f.label} className="p-3 border-r border-zinc-800 text-center bg-black/95 last:border-r-0">
@@ -1055,7 +1055,7 @@ export default function Home() {
                   $200–2,000/mo
                 </div>
                 <div className="p-3 border-b border-gray-100 text-center text-sm font-bold text-white flex items-center justify-center bg-black/95">
-                  $149/mo
+                  $49/mo
                 </div>
 
                 <div className="p-3 border-b border-r border-gray-100 text-xs text-gray-600 font-semibold flex items-center">
@@ -1107,7 +1107,7 @@ export default function Home() {
 
           <Reveal delay={200}>
             <p className="text-center text-sm font-semibold text-black mt-7 tracking-tight">
-              Every check. No upfront. $149/month.
+              Every check. No upfront. $49/month.
             </p>
           </Reveal>
         </div>

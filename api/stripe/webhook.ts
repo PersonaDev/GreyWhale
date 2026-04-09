@@ -40,9 +40,9 @@ const paymentsTable = pgTable("payments", {
 });
 
 const PLAN_MONTHLY: Record<string, number> = {
-  essential: 14900,
-  growth: 24900,
-  premium: 34900,
+  essential: 4900,
+  growth: 14900,
+  premium: 24900,
 };
 
 function getDb() {

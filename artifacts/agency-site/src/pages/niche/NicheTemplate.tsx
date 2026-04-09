@@ -63,7 +63,7 @@ function useSEO(niche: NicheData) {
       "url": canonicalHref,
       "areaServed": ["Sacramento", "Rocklin", "Roseville", "Folsom", "Granite Bay", "Lincoln", "Citrus Heights", "Elk Grove", "Davis", "Rancho Cordova"],
       "serviceType": `${niche.nameSingular} Website Design`,
-      "priceRange": "$149–$349/month",
+      "priceRange": "$49–$249/month",
     });
     document.head.appendChild(ldScript);
 
@@ -117,21 +117,21 @@ const homeTiers = [
   {
     id: "essential",
     name: "Starter",
-    price: "$149",
+    price: "$49",
     popular: false,
     features: ["Up to 5 pages", "Custom design", "SEO + hosting", "1 revision/month"],
   },
   {
     id: "growth",
     name: "Professional",
-    price: "$249",
+    price: "$149",
     popular: true,
     features: ["Up to 10 pages", "Booking + forms", "Advanced SEO", "2 revisions/month"],
   },
   {
     id: "premium",
     name: "Business",
-    price: "$349",
+    price: "$249",
     popular: false,
     features: ["Up to 20 pages", "E-commerce", "Custom integrations", "Unlimited revisions"],
   },
@@ -289,7 +289,7 @@ export default function NicheTemplate({ niche }: { niche: NicheData }) {
             <Reveal delay={240} className="p-8 bg-black">
               <p className="font-semibold text-white text-base mb-1">GreyWhale</p>
               <p className="text-xs text-gray-500 mb-6">Sacramento's new studio</p>
-              {["$149/month, no upfront", "Custom design, not a template", "Live in 14 days", "SEO built in", "Cancel anytime"].map((item) => (
+              {["$49/month, no upfront", "Custom design, not a template", "Live in 14 days", "SEO built in", "Cancel anytime"].map((item) => (
                 <p key={item} className="text-sm text-gray-300 py-2.5 border-b border-white/10 last:border-0 tracking-wide">{item}</p>
               ))}
             </Reveal>

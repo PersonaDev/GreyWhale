@@ -7,7 +7,7 @@ const plans = [
   {
     id: "essential",
     name: "Essential",
-    monthly: "$149/month",
+    monthly: "$49/month",
     features: ["Up to 5 pages", "Custom design", "Mobile responsive", "Basic SEO", "CMS access", "Hosting & SSL"],
     bestFor: "Barbershops, cafes, food trucks, solo shops",
     subtext: "Best for solo shops & new businesses",
@@ -15,7 +15,7 @@ const plans = [
   {
     id: "growth",
     name: "Pro",
-    monthly: "$249/month",
+    monthly: "$149/month",
     features: ["Up to 10 pages", "Everything in Essential", "Contact forms", "Google Analytics", "Priority support"],
     bestFor: "Tattoo shops, dental, auto shops, studios",
     recommended: true,
@@ -26,7 +26,7 @@ const plans = [
   {
     id: "premium",
     name: "Ultra",
-    monthly: "$349/month",
+    monthly: "$249/month",
     features: ["Up to 20 pages", "Everything in Pro", "E-commerce", "Custom integrations", "Advanced SEO"],
     bestFor: "Med spas, multi-location, dealerships",
     bordered: true,
