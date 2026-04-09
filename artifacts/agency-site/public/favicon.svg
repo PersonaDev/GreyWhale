@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#000"/>
+  <!-- Whale body: head left, tail flukes right -->
+  <path fill="white" d="
+    M 13,50
+    C 11,43 17,36 27,34
+    C 40,31 58,33 74,42
+    L 91,34
+    C 94,32 95,35 93,39
+    L 85,49
+    L 93,61
+    C 95,65 94,68 91,66
+    L 74,58
+    C 58,67 40,69 27,66
+    C 17,64 11,57 13,50
+    Z
+  "/>
+  <!-- Pectoral fin -->
+  <path fill="white" d="
+    M 38,64
+    L 25,77
+    C 22,80 19,78 21,75
+    L 36,64
+    Z
+  "/>
+</svg>
