@@ -159,9 +159,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div>
                 <p className="text-xs text-gray-400 tracking-widest uppercase mb-4" style={{ letterSpacing: "0.12em" }}>Clients & Work</p>
                 <div className="flex flex-col gap-3">
-                  <a href="https://bluedental.greywhale.dev" rel="follow" className="text-sm text-gray-600 hover:text-black transition-colors">Blue Dental — Sacramento Dentist</a>
+                  <a href="https://bluedental.greywhale.dev" rel="follow" className="text-sm text-gray-600 hover:text-black transition-colors">Blue Dental, Sacramento</a>
                   <a href="https://landscaping.greywhale.dev" rel="follow" className="text-sm text-gray-600 hover:text-black transition-colors">Sacramento Landscaping Services</a>
-                  <a href="https://edhlandscaping.com" rel="follow" className="text-sm text-gray-600 hover:text-black transition-colors">EDH Landscaping — El Dorado Hills</a>
+                  <a href="https://edhlandscaping.com" rel="follow" className="text-sm text-gray-600 hover:text-black transition-colors">EDH Landscaping, El Dorado Hills</a>
                 </div>
               </div>
             </div>

@@ -15,9 +15,9 @@ const tiers = [
       { text: "Custom-designed website (up to 5 pages)" },
       { text: "Mobile-first, pixel-perfect build" },
       { text: "Hosting, SSL & 99.9% uptime included" },
-      { text: "On-page SEO — titles, meta, schema markup" },
+      { text: "On-page SEO: titles, meta, schema markup" },
       { text: "Contact form with instant lead email alerts" },
-      { text: "GreyWhale client portal — view every lead, request changes" },
+      { text: "GreyWhale client portal: view every lead, request changes" },
       { text: "1 revision round per month" },
       { text: "48-hour support response" },
     ] as Feature[],
@@ -34,7 +34,7 @@ const tiers = [
       { text: "Up to 10 pages", highlight: true },
       { text: "Online booking or scheduling integration", highlight: true },
       { text: "Lead capture forms with CRM auto-import", highlight: true },
-      { text: "GreyWhale CRM dashboard — pipeline view, lead history & follow-up tracking", highlight: true },
+      { text: "GreyWhale CRM dashboard: pipeline view, lead history & follow-up tracking", highlight: true },
       { text: "Google Analytics 4 + heatmap setup", highlight: true },
       { text: "Google Business Profile optimisation", highlight: true },
       { text: "Full local SEO: schema, FAQ rich results, structured data, geo-targeting", highlight: true },
@@ -54,8 +54,8 @@ const tiers = [
     features: [
       { text: "Everything in Professional" },
       { text: "Up to 20 pages", highlight: true },
-      { text: "E-commerce — product pages, cart, checkout & inventory", highlight: true },
-      { text: "Advanced CRM — pipeline stages, lead scoring, automated follow-up sequences", highlight: true },
+      { text: "E-commerce: product pages, cart, checkout & inventory", highlight: true },
+      { text: "Advanced CRM: pipeline stages, lead scoring, automated follow-up sequences", highlight: true },
       { text: "Custom API integrations (Zapier, webhooks, third-party tools)", highlight: true },
       { text: "Blog & full content management system", highlight: true },
       { text: "Monthly performance report with ranking data & conversion metrics", highlight: true },
@@ -90,27 +90,27 @@ const comparisonRows: { label: string; diy: string; freelancer: string; agency: 
 const faqs = [
   {
     q: "Which plan is right for me?",
-    a: "Starter gets you a fast, beautiful site that shows up on Google and converts visitors. Professional is our most popular — it adds a CRM, booking integration, full local SEO, and Google Analytics so your site actively brings in new customers every month. Business is for companies that need e-commerce, custom tool integrations, or a larger multi-page presence with a dedicated account manager.",
+    a: "Starter gets you a fast, beautiful site that shows up on Google and converts visitors. Professional is our most popular, and it adds a CRM, booking integration, full local SEO, and Google Analytics so your site actively brings in new customers every month. Business is for companies that need e-commerce, custom tool integrations, or a larger multi-page presence with a dedicated account manager.",
   },
   {
     q: "What is the GreyWhale CRM?",
-    a: "It's a private dashboard we build and hand you alongside your website. Every lead that fills out a form, calls through your site, or books an appointment lands automatically in your CRM. You get a pipeline view, full lead history, and (on Business) automated follow-up sequences — so no enquiry ever falls through the cracks.",
+    a: "It's a private dashboard we build and hand you alongside your website. Every lead that fills out a form, calls through your site, or books an appointment lands automatically in your CRM. You get a pipeline view, full lead history, and (on Business) automated follow-up sequences, so no lead ever falls through the cracks.",
   },
   {
     q: "Can I upgrade later?",
-    a: "Yes. You can move up to a higher plan anytime. We layer the new features directly onto your existing site — no rebuild, no downtime, and your SEO progress stays intact.",
+    a: "Yes. You can move up to a higher plan anytime. We layer the new features directly onto your existing site, no rebuild, no downtime, and your SEO progress stays intact.",
   },
   {
     q: "Is there a contract?",
-    a: "No. All plans are month-to-month. Cancel anytime — and if you leave, you take your site and all your data with you.",
+    a: "No. All plans are month-to-month. Cancel anytime, and if you leave, you take your site and all your data with you.",
   },
   {
     q: "What does a revision round include?",
-    a: "Anything beyond simple text and image swaps — new sections, layout changes, additional pages, design tweaks. Starter includes 1 round/month, Professional includes 2, and Business is unlimited. Most clients use far fewer than they expect because we get it right the first time.",
+    a: "Anything beyond simple text and image swaps: new sections, layout changes, additional pages, design tweaks. Starter includes 1 round/month, Professional includes 2, and Business is unlimited. Most clients use far fewer than they expect because we get it right the first time.",
   },
   {
     q: "Do I own my website?",
-    a: "Yes — fully. Your site is custom-built code that belongs to you. If you ever leave GreyWhale, we hand over the full codebase, CRM data export, and domain transfer at no charge.",
+    a: "Yes, fully. Your site is custom-built code that belongs to you. If you ever leave GreyWhale, we hand over the full codebase, CRM data export, and domain transfer at no charge.",
   },
 ];
 
@@ -168,7 +168,7 @@ function Chevron({ open }: { open: boolean }) {
 }
 
 export default function Pricing() {
-  usePageTitle("Pricing | Sacramento Web Design — GreyWhale");
+  usePageTitle("Pricing | Sacramento Web Design, GreyWhale");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   function scrollTo(id: string) {

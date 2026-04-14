@@ -193,7 +193,7 @@ function ProcessTerminal() {
         <span className="w-3 h-3 rounded-full bg-red-400" />
         <span className="w-3 h-3 rounded-full bg-yellow-400" />
         <span className="w-3 h-3 rounded-full bg-green-400" />
-        <span className="ml-2 text-xs text-gray-400 font-mono">greywhale — zsh</span>
+        <span className="ml-2 text-xs text-gray-400 font-mono">greywhale - zsh</span>
       </div>
       <div className="p-5 font-mono text-sm text-gray-700 leading-loose" style={{ minHeight: "280px" }}>
         {lines.map((_, idx) => {
@@ -219,7 +219,7 @@ function ChangelogTerminal() {
 
   const entries = [
     { hash: "a1b2c3d", date: "Jan 2025", msg: "init: greywhale.dev registered, first designs sketched" },
-    { hash: "e4f5g6h", date: "Feb 2025", msg: "feat: first client signed — Blue Oak Dental, Folsom" },
+    { hash: "e4f5g6h", date: "Feb 2025", msg: "feat: first client signed, Blue Oak Dental, Folsom" },
     { hash: "i7j8k9l", date: "Mar 2025", msg: "ship: blueoakdental.com live in 12 days" },
     { hash: "m0n1o2p", date: "Now", msg: "wip: taking new clients, building the portfolio" },
   ];
@@ -329,7 +329,7 @@ export default function About() {
           <FadeInSection delay={0.4}>
             <div className="md:flex md:justify-end">
               <p className="text-sm text-gray-400 max-w-sm leading-relaxed tracking-wide md:text-right">
-                GreyWhale is a creative agency founded in 2025 in Sacramento. Local businesses deserve real design and real craft — not templates. We're small on purpose and hungry to prove it.
+                GreyWhale is a creative agency founded in 2025 in Sacramento. Local businesses deserve real design and real craft. Not templates. We're small on purpose and hungry to prove it.
               </p>
             </div>
           </FadeInSection>

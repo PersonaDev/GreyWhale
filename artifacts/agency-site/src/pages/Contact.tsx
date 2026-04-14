@@ -241,7 +241,7 @@ export default function Contact() {
                 onChange={(e) => setMessage(e.target.value)}
                 rows={4}
                 className="w-full px-0 py-3 border-b-2 border-gray-200 text-lg text-gray-900 bg-transparent focus:outline-none focus:border-black transition-colors resize-none placeholder:text-gray-300"
-                placeholder="Tell us about your project, goals, timeline — anything helps…"
+                placeholder="Tell us about your project, goals, timeline. Anything helps."
               />
             </div>
 

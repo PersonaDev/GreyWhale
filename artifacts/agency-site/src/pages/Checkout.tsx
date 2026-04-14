@@ -123,7 +123,7 @@ export default function Checkout() {
                     <span className="font-semibold text-black">Monthly subscription</span>
                     <span className="font-semibold text-black">{info.monthly}</span>
                   </div>
-                  <p className="text-xs text-gray-400 pt-1">No setup fee — cancel anytime</p>
+                  <p className="text-xs text-gray-400 pt-1">No setup fee. Cancel anytime.</p>
                 </div>
               </div>
 

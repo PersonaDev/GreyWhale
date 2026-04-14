@@ -28,7 +28,7 @@ const homeProjects = [
     isDark: false,
     achievement: {
       headline: "New domain. Top 3 on Google in 7 days.",
-      sub: "For 'landscaping near me' in El Dorado Hills — results that typically take months or years.",
+      sub: "For 'landscaping near me' in El Dorado Hills. Results that typically take months or years.",
     },
   },
 ];
@@ -42,7 +42,7 @@ const homeTiers = [
     features: [
       "Custom-built website (up to 5 pages)",
       "Hosting, SSL & on-page SEO",
-      "Client portal — view leads & request edits",
+      "Client portal: view leads and request edits",
       "1 revision round/month",
     ],
   },
@@ -54,7 +54,7 @@ const homeTiers = [
     features: [
       "Everything in Starter",
       "Booking, scheduling & lead forms",
-      "CRM dashboard — every lead tracked & organised",
+      "CRM dashboard: every lead tracked and organized",
       "Full local SEO suite + 2 revisions/month",
     ],
   },
@@ -750,7 +750,7 @@ export default function Home() {
                   <p className="text-sm text-gray-500 leading-relaxed">
                     When Google ranks sites, one of its biggest signals is how
                     many other sites link to yours. Every GreyWhale client gets
-                    woven into a private link mesh — invisible to visitors, but
+                    woven into a private link mesh. Invisible to visitors, but
                     Google reads it clearly. Sign a new restaurant down the
                     street and your dental practice climbs. Every new member
                     lifts the whole network.
@@ -817,9 +817,9 @@ export default function Home() {
                 lineHeight: 1.08,
               }}
             >
-              A website isn't a project.
+              Not a project you finish.
               <br />
-              It's a weapon. We keep it sharp.
+              A presence that keeps improving.
             </h2>
           </Reveal>
 
@@ -841,10 +841,10 @@ export default function Home() {
                 </p>
                 <div className="space-y-3.5">
                   {[
-                    "You pay $5,000–10,000 upfront",
+                    "You pay $5,000 to $10,000 upfront",
                     "Site launches and immediately starts aging",
                     "No security updates, no SEO adjustments",
-                    "Google changes its algorithm — your rankings drop",
+                    "Google updates its algorithm. Your rankings drop.",
                     "Design looks dated within 18 months",
                     "Something breaks and you're hunting for a freelancer",
                     "You're paying for something that's slowly dying",
@@ -872,13 +872,13 @@ export default function Home() {
                 </p>
                 <div className="space-y-3.5">
                   {[
-                    "No upfront cost — ever",
+                    "No upfront cost. Ever.",
                     "Continuous design updates that keep your site modern",
                     "Ongoing SEO monitoring as Google evolves",
                     "Security patches and maintenance handled automatically",
                     "Your mesh network backlinks grow stronger every month",
                     "Direct support from the people who built your site",
-                    "Your site doesn't age — it compounds",
+                    "Your site gets sharper over time",
                   ].map((item) => (
                     <div key={item} className="flex items-start gap-3">
                       <span className="text-emerald-400 mt-0.5 shrink-0">
@@ -899,7 +899,7 @@ export default function Home() {
               className="text-center text-base font-semibold text-black mt-10 tracking-tight"
               style={{ letterSpacing: "-0.01em" }}
             >
-              One-time builds decay. GreyWhale sites compound.
+              A GreyWhale site doesn't stand still. It gets better.
             </p>
           </Reveal>
         </div>
@@ -928,7 +928,7 @@ export default function Home() {
             </p>
           </Reveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 max-w-2xl">
             {homeProjects.map((project, i) => (
               <Reveal key={project.name} delay={i * 120}>
                 <BrowserCard project={project} />
