@@ -23,9 +23,13 @@ const homeProjects = [
     url: "landscaping.greywhale.dev",
     href: "https://landscaping.greywhale.dev",
     thumbnail: "/work-landscaping.png",
-    gradient: "from-green-900 via-emerald-900 to-green-950",
-    cardTextColor: "#ffffff",
-    isDark: true,
+    gradient: "from-emerald-50 via-green-50 to-teal-50",
+    cardTextColor: "#1a1a1a",
+    isDark: false,
+    achievement: {
+      headline: "New domain. Top 3 on Google in 7 days.",
+      sub: "For 'landscaping near me' in El Dorado Hills — results that typically take months or years.",
+    },
   },
 ];
 
@@ -497,6 +501,19 @@ function BrowserCard({ project }: { project: (typeof homeProjects)[0] }) {
           >
             {project.meta}
           </p>
+          {project.achievement && (
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <p className="text-[11px] font-bold tracking-widest uppercase text-emerald-600 mb-1" style={{ letterSpacing: "0.1em" }}>
+                ✦ Result
+              </p>
+              <p className="text-sm font-semibold text-black leading-snug tracking-tight" style={{ letterSpacing: "-0.01em" }}>
+                {project.achievement.headline}
+              </p>
+              <p className="text-xs text-gray-400 mt-1 leading-relaxed">
+                {project.achievement.sub}
+              </p>
+            </div>
+          )}
         </div>
       </div>
   );
@@ -565,23 +582,27 @@ export default function Home() {
             {/* Left — text */}
             <div className="w-full md:w-[52%] text-center md:text-left">
               <div style={heroStyle(0)}>
+                <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-5" style={{ letterSpacing: "0.15em" }}>
+                  Sacramento Web Design
+                </p>
                 <h1
-                  className="font-bold text-black tracking-tight leading-none"
+                  className="font-bold text-black leading-none"
                   style={{
-                    fontSize: "clamp(2.2rem, 5.5vw, 4.2rem)",
-                    letterSpacing: "-0.03em",
+                    fontSize: "clamp(2.6rem, 6vw, 4.8rem)",
+                    letterSpacing: "-0.04em",
+                    lineHeight: 1.04,
                   }}
                 >
                   Your next customer
                   <br />
                   is Googling you
                   <br />
-                  right now.
+                  <span style={{ color: "#111" }}>right now.</span>
                 </h1>
               </div>
 
               <div style={heroStyle(180)}>
-                <p className="mt-6 text-base md:text-lg leading-relaxed text-gray-400 max-w-lg mx-auto md:mx-0">
+                <p className="mt-7 text-base md:text-[1.125rem] leading-relaxed max-w-lg mx-auto md:mx-0" style={{ color: "#6b7280" }}>
                   Let's make sure they find you. SEO-loaded, bespoke websites
                   built to rank on Google and turn searchers into paying
                   customers.
@@ -647,11 +668,15 @@ export default function Home() {
       <section className="px-6 py-24 md:py-32 border-b border-gray-100">
         <div className="max-w-5xl mx-auto">
           <Reveal>
+            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+              Search Visibility
+            </p>
             <h2
-              className="font-bold text-black tracking-tight text-center mb-5"
+              className="font-bold text-black text-center mb-5"
               style={{
-                fontSize: "clamp(1.9rem, 4.5vw, 3.2rem)",
-                letterSpacing: "-0.025em",
+                fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+                letterSpacing: "-0.035em",
+                lineHeight: 1.08,
               }}
             >
               A gorgeous website means nothing
@@ -659,7 +684,7 @@ export default function Home() {
             </h2>
           </Reveal>
           <Reveal delay={100}>
-            <p className="text-center text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-16">
+            <p className="text-center text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-16" style={{ color: "#6b7280" }}>
               Other agencies hand you a pretty site and disappear. We build a
               machine that climbs Google, captures searches, and sends customers
               through your door.
@@ -741,11 +766,15 @@ export default function Home() {
       <section className="px-6 py-24 md:py-32 border-b border-gray-100">
         <div className="max-w-4xl mx-auto">
           <Reveal>
+            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+              Design
+            </p>
             <h2
-              className="font-bold text-black tracking-tight text-center mb-5"
+              className="font-bold text-black text-center mb-5"
               style={{
-                fontSize: "clamp(1.9rem, 4.5vw, 3.2rem)",
-                letterSpacing: "-0.025em",
+                fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+                letterSpacing: "-0.035em",
+                lineHeight: 1.08,
               }}
             >
               Every site is bespoke.
@@ -754,7 +783,7 @@ export default function Home() {
             </h2>
           </Reveal>
           <Reveal delay={80}>
-            <p className="text-center text-gray-400 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-12">
+            <p className="text-center text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-12" style={{ color: "#6b7280" }}>
               No templates. No themes. No page builders. Drag the slider.
             </p>
           </Reveal>
@@ -777,11 +806,15 @@ export default function Home() {
       <section className="px-6 py-24 md:py-32 border-b border-gray-100 bg-gray-50">
         <div className="max-w-5xl mx-auto">
           <Reveal>
+            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+              The Model
+            </p>
             <h2
-              className="font-bold text-black tracking-tight text-center mb-16"
+              className="font-bold text-black text-center mb-16"
               style={{
-                fontSize: "clamp(1.9rem, 4.5vw, 3.2rem)",
-                letterSpacing: "-0.025em",
+                fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+                letterSpacing: "-0.035em",
+                lineHeight: 1.08,
               }}
             >
               A website isn't a project.
@@ -876,15 +909,23 @@ export default function Home() {
       <section className="px-6 py-24 md:py-32 border-b border-gray-100">
         <div className="max-w-5xl mx-auto">
           <Reveal>
+            <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+              Selected Work
+            </p>
             <h2
-              className="font-bold text-black tracking-tight mb-14"
+              className="font-bold text-black mb-3"
               style={{
-                fontSize: "clamp(2rem, 5vw, 3.5rem)",
-                letterSpacing: "-0.025em",
+                fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
+                letterSpacing: "-0.04em",
+                lineHeight: 1.05,
               }}
             >
-              Selected Work
+              Results that speak
+              <br className="hidden sm:block" /> for themselves.
             </h2>
+            <p className="text-base md:text-lg mb-14 mt-4" style={{ color: "#6b7280" }}>
+              Real businesses. Real rankings. No stock photos.
+            </p>
           </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -924,11 +965,15 @@ export default function Home() {
       <section className="px-6 py-24 md:py-32 border-b border-gray-100">
         <div className="max-w-4xl mx-auto">
           <Reveal>
+            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+              The Comparison
+            </p>
             <h2
-              className="font-bold text-black tracking-tight text-center mb-14"
+              className="font-bold text-black text-center mb-14"
               style={{
-                fontSize: "clamp(2rem, 5vw, 3.5rem)",
-                letterSpacing: "-0.025em",
+                fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
+                letterSpacing: "-0.04em",
+                lineHeight: 1.05,
               }}
             >
               How we stack up.
@@ -1117,16 +1162,19 @@ export default function Home() {
       <section className="px-6 py-24 md:py-32 border-b border-gray-100">
         <div className="max-w-5xl mx-auto">
           <Reveal>
+            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+              How It Works
+            </p>
             <h2
-              className="font-bold text-black tracking-tight text-center mb-14"
+              className="font-bold text-black text-center mb-14"
               style={{
-                fontSize: "clamp(1.9rem, 4.5vw, 3.2rem)",
-                letterSpacing: "-0.025em",
+                fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
+                letterSpacing: "-0.04em",
+                lineHeight: 1.05,
               }}
             >
               More calls. More bookings.
-              <br className="hidden md:block" /> More walk-ins. That's the
-              point.
+              <br className="hidden md:block" /> More walk-ins.
             </h2>
           </Reveal>
 
@@ -1200,11 +1248,15 @@ export default function Home() {
       <section className="px-6 py-24 md:py-32 border-b border-gray-100 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <Reveal>
+            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+              Pricing
+            </p>
             <h2
-              className="font-bold text-black tracking-tight text-center mb-14"
+              className="font-bold text-black text-center mb-14"
               style={{
-                fontSize: "clamp(2rem, 5vw, 3.5rem)",
-                letterSpacing: "-0.025em",
+                fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
+                letterSpacing: "-0.04em",
+                lineHeight: 1.05,
               }}
             >
               Simple pricing.
@@ -1318,27 +1370,29 @@ export default function Home() {
       {/* ── SECTION 9: CLOSING CTA ──────────────────────────────────────── */}
       <section className="px-6 py-28 md:py-36 text-center">
         <Reveal>
+          <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-5" style={{ letterSpacing: "0.15em" }}>
+            Get Started
+          </p>
           <h2
-            className="font-bold text-black tracking-tight mb-8"
+            className="font-bold text-black mb-6"
             style={{
-              fontSize: "clamp(2.4rem, 6vw, 5rem)",
-              letterSpacing: "-0.03em",
+              fontSize: "clamp(2.8rem, 7vw, 5.5rem)",
+              letterSpacing: "-0.04em",
+              lineHeight: 1.02,
             }}
           >
             Let's build yours.
           </h2>
+          <p className="text-base md:text-lg mb-10 max-w-md mx-auto" style={{ color: "#6b7280" }}>
+            No upfront cost. Live in 14 days. Cancel anytime.
+          </p>
         </Reveal>
         <Reveal delay={120}>
           <Link href="/start">
-            <button className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black text-white text-base font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide">
+            <button className="inline-flex items-center gap-2 px-9 py-4 rounded-full bg-black text-white text-base font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide">
               Start Your Site →
             </button>
           </Link>
-        </Reveal>
-        <Reveal delay={240}>
-          <p className="mt-6 text-sm text-gray-400 tracking-wide">
-            No upfront cost. Live in 14 days. Cancel anytime.
-          </p>
         </Reveal>
       </section>
     </Layout>
