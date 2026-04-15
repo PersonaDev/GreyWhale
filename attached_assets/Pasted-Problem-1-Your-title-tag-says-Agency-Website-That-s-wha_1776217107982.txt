@@ -1,0 +1,14 @@
+Problem 1: Your title tag says "Agency Website." That's what shows as the big blue clickable text. Google says to avoid vague descriptors like "Home" for your home page Google — "Agency Website" is even worse. Your meta title is a direct ranking factor, and compelling meta tags increase CTR, which is also a ranking signal. Sink-or-swim-marketing
+Change your <title> tag to:
+<title>GreyWhale Web Design | Sacramento Web Design for Small Businesses</title>
+That's 60 characters, fits within the limit. Primary keyword "Sacramento Web Design" is in there. Your business name leads. Someone searching "web design Sacramento" sees exactly what they need.
+Problem 2: Your description is pulling garbage from your contact form. Google is scraping "interested in a. Essential plan. I'm a business owner looking for a new website located in. Sacramento interested in a. Essential plan." That's your form placeholder text. This happens when you either have no meta description tag or Google thinks your form text is more relevant.
+Add this to your <head>:
+<meta name="description" content="Sacramento web design for local small businesses. Custom-built, search-optimized websites starting at $49/mo. No upfront cost, no contracts. Your site goes live in 14 days.">
+That's about 155 characters. Hits your keywords, your price point, your differentiators.
+What it should look like after:
+GreyWhale Web Design | Sacramento Web Design for Small Businesses
+greywhale.dev
+Sacramento web design for local small businesses. Custom-built, search-optimized websites starting at $49/mo. No upfront cost, no contracts. Your site goes live in 14 days.
+How to do it: Find your index.html or whatever your root template is. In the <head> section, change the <title> tag and add or update the <meta name="description"> tag. Deploy. Then go to Google Search Console and request a re-index of your homepage. Google has to recrawl and reprocess the page to notice updates, which may take a few days to a few weeks. Google
+Also do this for every page on your site. Your portfolio page, pricing page, about page — each one needs its own unique title and description. Identical or similar descriptions on every page aren't helpful when individual pages appear in search results. Google

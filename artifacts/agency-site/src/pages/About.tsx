@@ -295,7 +295,10 @@ function ChangelogTerminal() {
 }
 
 export default function About() {
-  usePageTitle("About GreyWhale | Sacramento Web Designer");
+  usePageTitle(
+    "About GreyWhale | Sacramento Web Design Agency",
+    "GreyWhale is a Sacramento web design agency built for small businesses. Bespoke sites, real SEO, no templates. From first call to live site in 14 days."
+  );
   return (
     <Layout>
       <section className="pt-10 pb-20">

@@ -23,7 +23,10 @@ const PLAN_INFO: Record<string, { name: string; monthly: string; features: strin
 };
 
 export default function Checkout() {
-  usePageTitle("Get Started | GreyWhale");
+  usePageTitle(
+    "Get Started | GreyWhale Web Design Sacramento",
+    "Start your GreyWhale website today. No upfront cost, no contracts. Custom-built and live in 14 days."
+  );
   const search = useSearch();
   const [, navigate] = useLocation();
   const params = new URLSearchParams(search);

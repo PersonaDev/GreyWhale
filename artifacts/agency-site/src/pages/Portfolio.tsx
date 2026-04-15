@@ -432,7 +432,10 @@ function PeekCarousel({
 }
 
 export default function Portfolio() {
-  usePageTitle("Portfolio | GreyWhale Web Design Sacramento");
+  usePageTitle(
+    "Portfolio | GreyWhale Web Design Sacramento",
+    "See websites GreyWhale has built for Sacramento-area small businesses. Custom design, real results. New domain for EDH Landscaping hit top 3 on Google in 7 days."
+  );
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeIndex, setActiveIndex] = useState(0);
   const [desktopActiveIndex, setDesktopActiveIndex] = useState(0);

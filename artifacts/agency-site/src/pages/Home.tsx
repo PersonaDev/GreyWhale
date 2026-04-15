@@ -549,7 +549,10 @@ function Check({ yes }: { yes: boolean }) {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function Home() {
-  usePageTitle("GreyWhale | Sacramento Web Design for Small Businesses");
+  usePageTitle(
+    "GreyWhale Web Design | Sacramento Web Design for Small Businesses",
+    "Sacramento web design for local small businesses. Custom-built, search-optimized websites starting at $49/mo. No upfront cost, no contracts. Your site goes live in 14 days."
+  );
   const [heroReady, setHeroReady] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setHeroReady(true), 60);

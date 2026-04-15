@@ -168,7 +168,10 @@ function Chevron({ open }: { open: boolean }) {
 }
 
 export default function Pricing() {
-  usePageTitle("Pricing | Sacramento Web Design, GreyWhale");
+  usePageTitle(
+    "Pricing | GreyWhale Web Design Sacramento",
+    "GreyWhale web design plans start at $49/mo. No upfront cost, no contracts. Custom-built sites with SEO, hosting, and ongoing support included. Cancel anytime."
+  );
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   function scrollTo(id: string) {
