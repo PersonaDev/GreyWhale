@@ -638,9 +638,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right — stacked terminals */}
-            <div className="w-full md:w-[48%]" style={heroStyle(260)}>
-              <CodeWindowStack />
+            {/* Right — hero MacBook image */}
+            <div className="w-full md:w-[52%]" style={heroStyle(260)}>
+              <img
+                src="/hero-macbook.png"
+                alt="GreyWhale website on a MacBook"
+                className="w-full h-auto object-contain"
+                style={{ maxWidth: 600 }}
+              />
             </div>
           </div>
         </div>
