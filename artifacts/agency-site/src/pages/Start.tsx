@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Layout from "@/components/Layout";
 import Reveal from "@/components/Reveal";
 import SentenceBuilder from "@/components/SentenceBuilder";
@@ -7,6 +8,21 @@ export default function Start() {
     typeof window !== "undefined" ? window.location.search : "",
   );
   const initialRole = params.get("role") || "business owner";
+
+  useEffect(() => {
+    document.title = "Get Started | GreyWhale";
+    let noindex = document.querySelector('meta[name="robots"][data-start]');
+    if (!noindex) {
+      noindex = document.createElement("meta");
+      noindex.setAttribute("name", "robots");
+      noindex.setAttribute("data-start", "true");
+      document.head.appendChild(noindex);
+    }
+    noindex.setAttribute("content", "noindex, nofollow");
+    return () => {
+      noindex?.parentNode?.removeChild(noindex);
+    };
+  }, []);
 
   return (
     <Layout>
