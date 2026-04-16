@@ -17,17 +17,19 @@ export default function HeroSlideshow() {
   }, []);
 
   return (
-    <div style={{ position: "relative", width: "100%" }}>
+    <div style={{ position: "relative", width: "100%", aspectRatio: "4 / 3" }}>
       {SLIDES.map((src, i) => (
         <img
           key={src}
           src={src}
           alt="Client website showcase"
-          className="w-full h-auto object-contain"
           style={{
-            position: i === 0 ? "relative" : "absolute",
+            position: "absolute",
             top: 0,
             left: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
             display: i === current ? "block" : "none",
           }}
         />
