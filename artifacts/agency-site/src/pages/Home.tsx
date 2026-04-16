@@ -3,7 +3,6 @@ import { Link } from "wouter";
 import Layout from "@/components/Layout";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import Reveal from "@/components/Reveal";
-import HeroRankAnimation from "@/components/HeroRankAnimation";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -639,9 +638,13 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right — Google rank animation */}
-            <div className="w-full md:w-[48%] flex items-center justify-center" style={heroStyle(260)}>
-              <HeroRankAnimation />
+            {/* Right — hero monitor image */}
+            <div className="w-full md:w-[52%]" style={heroStyle(260)}>
+              <img
+                src="/hero-monitor.png"
+                alt="Custom website on a monitor"
+                className="w-full h-auto object-contain"
+              />
             </div>
           </div>
         </div>
