@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import Layout from "@/components/Layout";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import Reveal from "@/components/Reveal";
+import HeroSlideshow from "@/components/HeroSlideshow";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -638,13 +639,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right — hero monitor image */}
+            {/* Right — cycling client showcase */}
             <div className="w-full md:w-[52%]" style={heroStyle(260)}>
-              <img
-                src="/hero-monitor.png"
-                alt="Custom website on a monitor"
-                className="w-full h-auto object-contain"
-              />
+              <HeroSlideshow />
             </div>
           </div>
         </div>
