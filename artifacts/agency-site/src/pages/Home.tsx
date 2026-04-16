@@ -580,13 +580,13 @@ export default function Home() {
   return (
     <Layout>
       {/* ── SECTION 1: HERO ─────────────────────────────────────────────── */}
-      <section className="relative px-6 pt-12 pb-16 md:pt-18 md:pb-24 border-b border-gray-100 overflow-hidden">
+      <section className="relative px-6 pt-6 pb-10 md:pt-18 md:pb-24 border-b border-gray-100 overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center gap-10 md:gap-14">
-            {/* Left — text */}
-            <div className="w-full md:w-[52%] text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-14">
+            {/* Left — text (order-2 on mobile so image is first) */}
+            <div className="w-full md:w-[52%] text-left order-2 md:order-1">
               <div style={heroStyle(0)}>
-                <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-5" style={{ letterSpacing: "0.15em" }}>
+                <p className="hidden md:block text-xs font-semibold tracking-widest uppercase text-gray-400 mb-5" style={{ letterSpacing: "0.15em" }}>
                   Sacramento Web Design
                 </p>
                 <h1
@@ -601,7 +601,7 @@ export default function Home() {
                   <br />
                   is Googling you
                   <br />
-                  <span style={{ color: "#111" }}>right now.</span>
+                  <span className="text-[#1a8c5e] md:text-black">right now.</span>
                 </h1>
               </div>
 
@@ -615,7 +615,7 @@ export default function Home() {
 
               <div
                 style={heroStyle(360)}
-                className="mt-8 flex flex-col sm:flex-row items-center md:items-start gap-3 justify-center md:justify-start"
+                className="mt-8 hidden md:flex flex-col sm:flex-row items-center md:items-start gap-3 justify-center md:justify-start"
               >
                 <Link href="/start">
                   <button className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-black text-white text-sm font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide">
@@ -629,7 +629,7 @@ export default function Home() {
                 </Link>
               </div>
 
-              <div style={heroStyle(520)}>
+              <div style={heroStyle(520)} className="hidden md:block">
                 <p
                   className="mt-5 text-xs text-gray-400 tracking-widest"
                   style={{ letterSpacing: "0.1em" }}
@@ -639,8 +639,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right — cycling client showcase */}
-            <div className="w-full md:w-[52%]" style={heroStyle(260)}>
+            {/* Right — cycling client showcase (order-1 on mobile so it's on top) */}
+            <div className="w-full md:w-[52%] order-1 md:order-2" style={heroStyle(260)}>
               <HeroSlideshow />
             </div>
           </div>

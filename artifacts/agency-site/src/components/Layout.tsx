@@ -87,7 +87,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           boxShadow: scrolled ? "0 1px 0 rgba(0,0,0,0.06)" : "none",
         }}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-5 py-2.5 md:px-6 md:py-4">
           <Link href="/">
             <span className="font-bold text-xl text-black cursor-pointer" style={{ letterSpacing: "-0.02em" }}>GreyWhale</span>
           </Link>
@@ -125,9 +125,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} />}
 
-      <main className="flex-1 pt-[57px]">
+      <main className="flex-1 pt-[49px] md:pt-[57px] pb-[60px] md:pb-0">
         {children}
       </main>
+
+      {/* Mobile sticky bottom bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-200">
+        <div className="flex items-center justify-between px-4 py-3">
+          <span className="text-sm font-semibold text-black tracking-tight">Starting at $49/mo</span>
+          <div className="flex items-center gap-2">
+            <Link href="/portfolio">
+              <button className="px-4 py-2 rounded-full border border-gray-300 text-xs font-medium text-black active:scale-95 transition-transform cursor-pointer">
+                Our Work
+              </button>
+            </Link>
+            <Link href="/start">
+              <button className="px-4 py-2 rounded-full bg-black text-white text-xs font-medium active:scale-95 transition-transform cursor-pointer">
+                Get Started
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
 
       <footer className="border-t border-gray-100 px-6 py-10">
         <div className="max-w-6xl mx-auto">
