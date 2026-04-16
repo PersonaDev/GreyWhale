@@ -669,16 +669,15 @@ export default function Home() {
       </section>
 
       {/* ── SECTION 2: VISIBILITY FIRST ─────────────────────────────────── */}
-      <section className="px-6 py-24 md:py-32 border-b border-gray-100">
+      <section className="px-5 py-12 md:px-6 md:py-32 border-b border-gray-100">
         <div className="max-w-5xl mx-auto">
           <Reveal>
-            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+            <p className="text-center text-[10px] md:text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3 md:mb-4" style={{ letterSpacing: "0.15em" }}>
               Search Visibility
             </p>
             <h2
-              className="font-bold text-black text-center mb-5"
+              className="font-bold text-black text-center mb-4 md:mb-5 text-[1.55rem] md:text-[clamp(2.2rem,5vw,3.8rem)]"
               style={{
-                fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
                 letterSpacing: "-0.035em",
                 lineHeight: 1.08,
               }}
@@ -688,41 +687,32 @@ export default function Home() {
             </h2>
           </Reveal>
           <Reveal delay={100}>
-            <p className="text-center text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-16" style={{ color: "#6b7280" }}>
-              Other agencies hand you a pretty site and disappear. We build a
+            <p className="text-center text-sm md:text-lg max-w-2xl mx-auto leading-relaxed mb-8 md:mb-16" style={{ color: "#6b7280" }}>
+              <span className="md:hidden">We build sites that climb Google and send customers through your door.</span>
+              <span className="hidden md:inline">Other agencies hand you a pretty site and disappear. We build a
               machine that climbs Google, captures searches, and sends customers
-              through your door.
+              through your door.</span>
             </p>
           </Reveal>
 
-          {/* Stats — count-up on scroll */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 rounded-2xl overflow-hidden border border-gray-100 mb-16">
+          {/* Stats — bento grid on mobile */}
+          <div className="grid grid-cols-3 gap-0 rounded-2xl overflow-hidden border border-gray-100 mb-8 md:mb-16">
             {[
-              {
-                to: 97,
-                label:
-                  "of consumers search online before visiting a local business",
-              },
-              {
-                to: 75,
-                label: "of users never scroll past the first page of Google",
-              },
-              { to: 46, label: "of all Google searches have local intent" },
+              { to: 97, label: "search online before visiting local" },
+              { to: 75, label: "never scroll past page one" },
+              { to: 46, label: "of searches have local intent" },
             ].map((item, i) => (
               <Reveal key={item.to} delay={i * 80}>
                 <div
-                  className={`p-8 md:p-10 text-center ${i < 2 ? "border-b md:border-b-0 md:border-r border-gray-100" : ""}`}
+                  className={`p-4 md:p-10 text-center ${i < 2 ? "border-r border-gray-100" : ""}`}
                 >
                   <p
-                    className="font-bold text-black mb-3"
-                    style={{
-                      fontSize: "clamp(2.8rem, 6vw, 4rem)",
-                      letterSpacing: "-0.04em",
-                    }}
+                    className="font-bold text-black mb-1 md:mb-3 text-2xl md:text-[clamp(2.8rem,6vw,4rem)]"
+                    style={{ letterSpacing: "-0.04em" }}
                   >
                     <CountUp to={item.to} />
                   </p>
-                  <p className="text-sm text-gray-400 leading-relaxed">
+                  <p className="text-[10px] md:text-sm text-gray-400 leading-snug md:leading-relaxed">
                     {item.label}
                   </p>
                 </div>
@@ -730,53 +720,52 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Two columns */}
-          <div className="rounded-xl border border-gray-100 overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-100 items-start">
-              <Reveal>
-                <div className="bg-white p-8">
-                  <p className="font-bold text-black text-lg mb-4 tracking-tight">
-                    Local SEO Built Into Every Page
-                  </p>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    Structured data. Local schema. Google Business Profile
-                    optimization. City-targeted meta tags. XML sitemaps.
-                    Mobile-first indexing. All standard. All included. All built
-                    to get you found.
-                  </p>
-                </div>
-              </Reveal>
-              <Reveal delay={100}>
-                <div className="bg-white p-8">
-                  <p className="font-bold text-black text-lg mb-4 tracking-tight">
-                    Every new client makes your site rank higher.
-                  </p>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    When Google ranks sites, one of its biggest signals is how
-                    many other sites link to yours. Every GreyWhale client gets
-                    woven into a private link mesh. Invisible to visitors, but
-                    Google reads it clearly. Sign a new restaurant down the
-                    street and your dental practice climbs. Every new member
-                    lifts the whole network.
-                  </p>
-                </div>
-              </Reveal>
-            </div>
+          {/* Two columns — bento cards on mobile */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-0 md:rounded-xl md:border md:border-gray-100 md:overflow-hidden md:divide-x md:divide-gray-100">
+            <Reveal>
+              <div className="bg-white p-5 md:p-8 rounded-xl md:rounded-none border border-gray-100 md:border-0">
+                <p className="font-bold text-black text-sm md:text-lg mb-2 md:mb-4 tracking-tight">
+                  Local SEO built in.
+                </p>
+                <p className="text-xs md:text-sm text-gray-500 leading-relaxed">
+                  <span className="md:hidden">Schema, sitemaps, local meta tags, mobile-first indexing. All included.</span>
+                  <span className="hidden md:inline">Structured data. Local schema. Google Business Profile
+                  optimization. City-targeted meta tags. XML sitemaps.
+                  Mobile-first indexing. All standard. All included. All built
+                  to get you found.</span>
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="bg-white p-5 md:p-8 rounded-xl md:rounded-none border border-gray-100 md:border-0">
+                <p className="font-bold text-black text-sm md:text-lg mb-2 md:mb-4 tracking-tight">
+                  Every new client boosts your rank.
+                </p>
+                <p className="text-xs md:text-sm text-gray-500 leading-relaxed">
+                  <span className="md:hidden">Our private link mesh means every new GreyWhale client lifts the whole network.</span>
+                  <span className="hidden md:inline">When Google ranks sites, one of its biggest signals is how
+                  many other sites link to yours. Every GreyWhale client gets
+                  woven into a private link mesh. Invisible to visitors, but
+                  Google reads it clearly. Sign a new restaurant down the
+                  street and your dental practice climbs. Every new member
+                  lifts the whole network.</span>
+                </p>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* ── SECTION 3: BESPOKE ──────────────────────────────────────────── */}
-      <section className="px-6 py-24 md:py-32 border-b border-gray-100">
+      <section className="px-5 py-12 md:px-6 md:py-32 border-b border-gray-100">
         <div className="max-w-4xl mx-auto">
           <Reveal>
-            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+            <p className="text-center text-[10px] md:text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3 md:mb-4" style={{ letterSpacing: "0.15em" }}>
               Design
             </p>
             <h2
-              className="font-bold text-black text-center mb-5"
+              className="font-bold text-black text-center mb-3 md:mb-5 text-[1.55rem] md:text-[clamp(2.2rem,5vw,3.8rem)]"
               style={{
-                fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
                 letterSpacing: "-0.035em",
                 lineHeight: 1.08,
               }}
@@ -787,8 +776,8 @@ export default function Home() {
             </h2>
           </Reveal>
           <Reveal delay={80}>
-            <p className="text-center text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-12" style={{ color: "#6b7280" }}>
-              No templates. No themes. No page builders. Drag the slider.
+            <p className="text-center text-sm md:text-lg max-w-xl mx-auto leading-relaxed mb-8 md:mb-12" style={{ color: "#6b7280" }}>
+              No templates. No themes. Drag the slider.
             </p>
           </Reveal>
 
@@ -797,26 +786,26 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={200}>
-            <p className="mt-10 text-sm text-gray-500 leading-relaxed text-center max-w-2xl mx-auto">
-              Every site is designed from a blank canvas and built around YOUR
+            <p className="mt-6 md:mt-10 text-xs md:text-sm text-gray-500 leading-relaxed text-center max-w-2xl mx-auto">
+              <span className="md:hidden">Designed from scratch around your brand and goals.</span>
+              <span className="hidden md:inline">Every site is designed from a blank canvas and built around YOUR
               brand, YOUR customers, and YOUR goals. No templates. No themes. No
-              cookie-cutter layouts.
+              cookie-cutter layouts.</span>
             </p>
           </Reveal>
         </div>
       </section>
 
       {/* ── SECTION 4: MONTHLY MODEL JUSTIFICATION ──────────────────────── */}
-      <section className="px-6 py-24 md:py-32 border-b border-gray-100 bg-gray-50">
+      <section className="px-5 py-12 md:px-6 md:py-32 border-b border-gray-100 bg-gray-50">
         <div className="max-w-5xl mx-auto">
           <Reveal>
-            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+            <p className="text-center text-[10px] md:text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3 md:mb-4" style={{ letterSpacing: "0.15em" }}>
               The Model
             </p>
             <h2
-              className="font-bold text-black text-center mb-16"
+              className="font-bold text-black text-center mb-8 md:mb-16 text-[1.55rem] md:text-[clamp(2.2rem,5vw,3.8rem)]"
               style={{
-                fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
                 letterSpacing: "-0.035em",
                 lineHeight: 1.08,
               }}
@@ -827,10 +816,10 @@ export default function Home() {
             </h2>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 items-start">
             <Reveal>
               <div
-                className="bg-white p-8 md:p-10 rounded-xl border border-gray-200"
+                className="bg-white p-5 md:p-10 rounded-xl border border-gray-200"
                 style={{
                   transform: "rotate(-0.5deg)",
                   opacity: 0.72,
@@ -865,7 +854,7 @@ export default function Home() {
             </Reveal>
             <Reveal delay={120}>
               <div
-                className="bg-black p-8 md:p-10 rounded-xl"
+                className="bg-black p-5 md:p-10 rounded-xl"
                 style={{ boxShadow: "0 8px 40px rgba(0,0,0,0.35)" }}
               >
                 <p
@@ -910,16 +899,15 @@ export default function Home() {
       </section>
 
       {/* ── SECTION 5: SELECTED WORK ────────────────────────────────────── */}
-      <section className="px-6 py-24 md:py-32 border-b border-gray-100">
+      <section className="px-5 py-12 md:px-6 md:py-32 border-b border-gray-100">
         <div className="max-w-5xl mx-auto">
           <Reveal>
-            <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+            <p className="text-[10px] md:text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3 md:mb-4" style={{ letterSpacing: "0.15em" }}>
               Selected Work
             </p>
             <h2
-              className="font-bold text-black mb-3"
+              className="font-bold text-black mb-2 md:mb-3 text-[1.55rem] md:text-[clamp(2.4rem,5.5vw,4rem)]"
               style={{
-                fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
                 letterSpacing: "-0.04em",
                 lineHeight: 1.05,
               }}
@@ -927,8 +915,8 @@ export default function Home() {
               Results that speak
               <br className="hidden sm:block" /> for themselves.
             </h2>
-            <p className="text-base md:text-lg mb-14 mt-4" style={{ color: "#6b7280" }}>
-              Real businesses. Real rankings. No stock photos.
+            <p className="text-sm md:text-lg mb-8 md:mb-14 mt-2 md:mt-4" style={{ color: "#6b7280" }}>
+              Real businesses. Real rankings.
             </p>
           </Reveal>
 
@@ -966,16 +954,15 @@ export default function Home() {
       </section>
 
       {/* ── SECTION 6: COMPARISON ───────────────────────────────────────── */}
-      <section className="px-6 py-24 md:py-32 border-b border-gray-100">
+      <section className="px-5 py-12 md:px-6 md:py-32 border-b border-gray-100">
         <div className="max-w-4xl mx-auto">
           <Reveal>
-            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+            <p className="text-center text-[10px] md:text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3 md:mb-4" style={{ letterSpacing: "0.15em" }}>
               The Comparison
             </p>
             <h2
-              className="font-bold text-black text-center mb-14"
+              className="font-bold text-black text-center mb-8 md:mb-14 text-[1.55rem] md:text-[clamp(2.4rem,5.5vw,4rem)]"
               style={{
-                fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
                 letterSpacing: "-0.04em",
                 lineHeight: 1.05,
               }}
@@ -1163,16 +1150,15 @@ export default function Home() {
       </section>
 
       {/* ── SECTION 7: CLIENT ACQUISITION ───────────────────────────────── */}
-      <section className="px-6 py-24 md:py-32 border-b border-gray-100">
+      <section className="px-5 py-12 md:px-6 md:py-32 border-b border-gray-100">
         <div className="max-w-5xl mx-auto">
           <Reveal>
-            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+            <p className="text-center text-[10px] md:text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3 md:mb-4" style={{ letterSpacing: "0.15em" }}>
               How It Works
             </p>
             <h2
-              className="font-bold text-black text-center mb-14"
+              className="font-bold text-black text-center mb-8 md:mb-14 text-[1.55rem] md:text-[clamp(2.4rem,5.5vw,4rem)]"
               style={{
-                fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
                 letterSpacing: "-0.04em",
                 lineHeight: 1.05,
               }}
@@ -1182,41 +1168,44 @@ export default function Home() {
             </h2>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+          <div className="grid grid-cols-3 md:grid-cols-3 gap-2 md:gap-5 items-stretch">
             {[
               {
                 n: "01",
                 title: "Get Found",
                 body: "Your customers are already searching. 'Dentist near me.' 'Barbershop Sacramento.' We put you at the top of those results. First page. Every time.",
+                mobileBody: "We put you at the top of Google.",
               },
               {
                 n: "02",
                 title: "Get Chosen",
                 body: "Three seconds. That's how long someone takes to decide if your business is legit. A fast, clean, bespoke site makes you the obvious choice.",
+                mobileBody: "A clean, fast site makes you the obvious pick.",
               },
               {
                 n: "03",
                 title: "Get Booked",
                 body: "Click-to-call. Online booking. Forms that notify you instantly. Every site is built to turn a visitor into a paying customer.",
+                mobileBody: "Click-to-call. Online booking. Instant forms.",
               },
             ].map((card, i) => (
               <Reveal key={card.n} delay={i * 100} className="flex">
-                <div className="relative border border-gray-100 rounded-2xl p-8 flex flex-col gap-4 flex-1">
+                <div className="relative border border-gray-100 rounded-xl md:rounded-2xl p-4 md:p-8 flex flex-col gap-2 md:gap-4 flex-1">
                   <span
-                    className="font-black text-gray-100 select-none"
+                    className="font-black text-gray-100 select-none text-3xl md:text-[4.5rem]"
                     style={{
-                      fontSize: "4.5rem",
                       lineHeight: 1,
                       letterSpacing: "-0.05em",
                     }}
                   >
                     {card.n}
                   </span>
-                  <p className="font-bold text-black text-xl tracking-tight">
+                  <p className="font-bold text-black text-sm md:text-xl tracking-tight">
                     {card.title}
                   </p>
-                  <p className="text-sm text-gray-500 leading-relaxed flex-1">
-                    {card.body}
+                  <p className="text-[11px] md:text-sm text-gray-500 leading-relaxed flex-1">
+                    <span className="md:hidden">{card.mobileBody}</span>
+                    <span className="hidden md:inline">{card.body}</span>
                   </p>
                   {i < 2 && (
                     <div className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 shadow-sm items-center justify-center">
@@ -1249,16 +1238,15 @@ export default function Home() {
       </section>
 
       {/* ── SECTION 8: PRICING ──────────────────────────────────────────── */}
-      <section className="px-6 py-24 md:py-32 border-b border-gray-100 bg-gray-50">
+      <section className="px-5 py-12 md:px-6 md:py-32 border-b border-gray-100 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <Reveal>
-            <p className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4" style={{ letterSpacing: "0.15em" }}>
+            <p className="text-center text-[10px] md:text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3 md:mb-4" style={{ letterSpacing: "0.15em" }}>
               Pricing
             </p>
             <h2
-              className="font-bold text-black text-center mb-14"
+              className="font-bold text-black text-center mb-8 md:mb-14 text-[1.55rem] md:text-[clamp(2.4rem,5.5vw,4rem)]"
               style={{
-                fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
                 letterSpacing: "-0.04em",
                 lineHeight: 1.05,
               }}
@@ -1267,7 +1255,7 @@ export default function Home() {
             </h2>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5 items-start">
             {homeTiers.map((tier, i) => (
               <Reveal key={tier.id} delay={i * 100}>
                 <div
@@ -1372,28 +1360,27 @@ export default function Home() {
       </section>
 
       {/* ── SECTION 9: CLOSING CTA ──────────────────────────────────────── */}
-      <section className="px-6 py-28 md:py-36 text-center">
+      <section className="px-5 py-14 md:px-6 md:py-36 text-center">
         <Reveal>
-          <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-5" style={{ letterSpacing: "0.15em" }}>
+          <p className="text-[10px] md:text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3 md:mb-5" style={{ letterSpacing: "0.15em" }}>
             Get Started
           </p>
           <h2
-            className="font-bold text-black mb-6"
+            className="font-bold text-black mb-4 md:mb-6 text-[1.8rem] md:text-[clamp(2.8rem,7vw,5.5rem)]"
             style={{
-              fontSize: "clamp(2.8rem, 7vw, 5.5rem)",
               letterSpacing: "-0.04em",
               lineHeight: 1.02,
             }}
           >
             Let's build yours.
           </h2>
-          <p className="text-base md:text-lg mb-10 max-w-md mx-auto" style={{ color: "#6b7280" }}>
+          <p className="text-sm md:text-lg mb-8 md:mb-10 max-w-md mx-auto" style={{ color: "#6b7280" }}>
             No upfront cost. Live in 14 days. Cancel anytime.
           </p>
         </Reveal>
         <Reveal delay={120}>
           <Link href="/start">
-            <button className="inline-flex items-center gap-2 px-9 py-4 rounded-full bg-black text-white text-base font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide">
+            <button className="inline-flex items-center gap-2 px-7 md:px-9 py-3.5 md:py-4 rounded-full bg-black text-white text-sm md:text-base font-medium hover:bg-gray-800 active:scale-95 transition-all cursor-pointer tracking-wide">
               Start Your Site →
             </button>
           </Link>
